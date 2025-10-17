@@ -1,0 +1,295 @@
+/**
+ * SearchBar Component Styles
+ * Design Source: Figma Node IDs 9111:13207, 9111:13212, 9111:13216, 9111:13220
+ * Last Updated: 2025-10-17
+ */
+
+/* ===================================
+   Base Styles
+   =================================== */
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  border-radius: 8px;
+  gap: 8px;
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.searchIcon {
+  color: var(--color-gray-500);
+}
+
+.input {
+  flex: 1;
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: inherit;
+}
+
+.input::placeholder {
+  color: var(--color-gray-500);
+}
+
+/* ===================================
+   State Variants - Light Theme
+   =================================== */
+
+/* Default State: 포커스 없고 값도 없음 */
+.searchBar.state-default.theme-light {
+  background-color: var(--color-gray-50);
+  border: none;
+}
+
+.searchBar.state-default.theme-light .input {
+  color: var(--color-gray-900);
+  font-weight: 400;
+}
+
+.searchBar.state-default.theme-light .input::placeholder {
+  color: var(--color-gray-500);
+  font-weight: 400;
+}
+
+/* Selected State: 포커스된 상태 (값은 없음) */
+.searchBar.state-selected.theme-light {
+  background-color: var(--color-gray-w);
+  border: 1px solid var(--color-gray-b);
+}
+
+.searchBar.state-selected.theme-light .input {
+  color: var(--color-gray-900);
+  font-weight: 400;
+}
+
+.searchBar.state-selected.theme-light .input::placeholder {
+  color: var(--color-gray-500);
+  font-weight: 400;
+}
+
+/* Filled State: 값이 있는 상태 (포커스 없음) */
+.searchBar.state-filled.theme-light {
+  background-color: var(--color-gray-50);
+  border: none;
+}
+
+.searchBar.state-filled.theme-light .input {
+  color: var(--color-gray-b);
+  font-weight: 500;
+}
+
+.searchBar.state-filled.theme-light .input::placeholder {
+  color: var(--color-gray-b);
+  font-weight: 500;
+}
+
+/* Typing State: 포커스되고 값도 있는 상태 */
+.searchBar.state-typing.theme-light {
+  background-color: var(--color-gray-w);
+  border: 1px solid var(--color-gray-b);
+}
+
+.searchBar.state-typing.theme-light .input {
+  color: var(--color-gray-b);
+  font-weight: 500;
+}
+
+.searchBar.state-typing.theme-light .input::placeholder {
+  color: var(--color-gray-b);
+  font-weight: 500;
+}
+
+/* ===================================
+   State Variants - Dark Theme
+   =================================== */
+
+/* Default State */
+.searchBar.state-default.theme-dark {
+  background-color: var(--color-gray-800);
+  border: none;
+}
+
+.searchBar.state-default.theme-dark .input {
+  color: var(--color-gray-w);
+  font-weight: 400;
+}
+
+.searchBar.state-default.theme-dark .input::placeholder {
+  color: var(--color-gray-400);
+  font-weight: 400;
+}
+
+.searchBar.state-default.theme-dark .searchIcon {
+  color: var(--color-gray-400);
+}
+
+/* Selected State */
+.searchBar.state-selected.theme-dark {
+  background-color: var(--color-gray-900);
+  border: 1px solid var(--color-gray-w);
+}
+
+.searchBar.state-selected.theme-dark .input {
+  color: var(--color-gray-w);
+  font-weight: 400;
+}
+
+.searchBar.state-selected.theme-dark .input::placeholder {
+  color: var(--color-gray-400);
+  font-weight: 400;
+}
+
+.searchBar.state-selected.theme-dark .searchIcon {
+  color: var(--color-gray-400);
+}
+
+/* Filled State */
+.searchBar.state-filled.theme-dark {
+  background-color: var(--color-gray-800);
+  border: none;
+}
+
+.searchBar.state-filled.theme-dark .input {
+  color: var(--color-gray-w);
+  font-weight: 500;
+}
+
+.searchBar.state-filled.theme-dark .input::placeholder {
+  color: var(--color-gray-w);
+  font-weight: 500;
+}
+
+.searchBar.state-filled.theme-dark .searchIcon {
+  color: var(--color-gray-w);
+}
+
+/* Typing State */
+.searchBar.state-typing.theme-dark {
+  background-color: var(--color-gray-900);
+  border: 1px solid var(--color-gray-w);
+}
+
+.searchBar.state-typing.theme-dark .input {
+  color: var(--color-gray-w);
+  font-weight: 500;
+}
+
+.searchBar.state-typing.theme-dark .input::placeholder {
+  color: var(--color-gray-w);
+  font-weight: 500;
+}
+
+.searchBar.state-typing.theme-dark .searchIcon {
+  color: var(--color-gray-w);
+}
+
+/* ===================================
+   Size Variants
+   =================================== */
+
+/* Small Size */
+.searchBar.size-small {
+  height: 36px;
+  padding: 0 12px;
+}
+
+.searchBar.size-small .searchIcon {
+  width: 20px;
+  height: 20px;
+}
+
+.searchBar.size-small .input {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+/* Medium Size */
+.searchBar.size-medium {
+  height: 42px;
+  padding: 0 14px;
+}
+
+.searchBar.size-medium .searchIcon {
+  width: 22px;
+  height: 22px;
+}
+
+.searchBar.size-medium .input {
+  font-size: 15px;
+  line-height: 22px;
+}
+
+/* Large Size */
+.searchBar.size-large {
+  height: 48px;
+  padding: 0 16px;
+}
+
+.searchBar.size-large .searchIcon {
+  width: 24px;
+  height: 24px;
+}
+
+.searchBar.size-large .input {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+/* ===================================
+   Disabled State
+   =================================== */
+
+.searchBar:disabled,
+.searchBar.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.searchBar:disabled .input,
+.searchBar.disabled .input {
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ===================================
+   Responsive Design
+   =================================== */
+
+@media (max-width: 768px) {
+  .searchBar.size-large {
+    height: 42px;
+  }
+  
+  .searchBar.size-large .input {
+    font-size: 15px;
+    line-height: 22px;
+  }
+  
+  .searchBar.size-medium {
+    height: 38px;
+  }
+  
+  .searchBar.size-medium .input {
+    font-size: 14px;
+    line-height: 20px;
+  }
+  
+  .searchBar.size-small {
+    height: 34px;
+  }
+  
+  .searchBar.size-small .input {
+    font-size: 13px;
+    line-height: 18px;
+  }
+}
+

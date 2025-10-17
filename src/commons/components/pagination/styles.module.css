@@ -4,424 +4,306 @@
  *   - Primary: 9108:12975
  *   - Secondary: 9108:13141
  *   - Tertiary: 9108:13157
- * Last Updated: 2025-10-17
+ * Last Updated: 2025-10-17 (theme/variant 구조 개선)
  */
 
 /* ========================================
    Base Styles
    ======================================== */
 
-.pagination {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-/* ========================================
-   Arrow Buttons (Previous/Next)
-   ======================================== */
-
-.arrowButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  padding: 0;
-  border-radius: 8px;
-}
-
-.arrowButton:hover:not(.disabled) {
-  background-color: var(--color-gray-100);
-}
-
-.arrowButton:active:not(.disabled) {
-  background-color: var(--color-gray-200);
-}
-
-.arrowButton.disabled {
-  cursor: not-allowed;
-  opacity: 0.3;
-}
-
-.arrowButton svg {
-  color: var(--color-gray-600);
-}
-
-.arrowButton.disabled svg {
-  color: var(--color-gray-400);
-}
-
-/* ========================================
-   Page Numbers Container
-   ======================================== */
-
-.pageNumbers {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-/* ========================================
-   Page Buttons
-   ======================================== */
-
-.pageButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border-radius: 8px;
-  font-family: var(--typo-font-family-ko);
-  font-weight: 400;
-  color: var(--color-gray-600);
-}
-
-.pageButton:hover:not(.selected) {
-  background-color: var(--color-gray-100);
-  color: var(--color-gray-800);
-}
-
-.pageButton:active:not(.selected) {
-  background-color: var(--color-gray-200);
-}
-
-.pageButton.selected {
-  background-color: var(--color-gray-50);
-  color: var(--color-gray-b);
-  font-weight: 500;
-  cursor: default;
-}
-
-/* ========================================
-   Size Variants
-   ======================================== */
-
-/* Small Size */
-.size-small .arrowButton {
-  width: 20px;
-  height: 20px;
-}
-
-.size-small .arrowButton svg {
-  width: 20px;
-  height: 20px;
-}
-
-.size-small .pageButton {
-  min-width: 24px;
-  height: 24px;
-  padding: 0 6px;
-  font-size: 12px;
-  line-height: 16px;
-}
-
-.size-small .pageNumbers {
-  gap: 8px;
-}
-
-/* Medium Size (Default) */
-.size-medium .arrowButton {
-  width: 24px;
-  height: 24px;
-}
-
-.size-medium .arrowButton svg {
-  width: 24px;
-  height: 24px;
-}
-
-.size-medium .pageButton {
-  min-width: 32px;
-  height: 32px;
-  padding: 0 8px;
-  font-size: 16px;
-  line-height: 24px;
-}
-
-.size-medium .pageNumbers {
-  gap: 16px;
-}
-
-/* Large Size */
-.size-large .arrowButton {
-  width: 32px;
-  height: 32px;
-}
-
-.size-large .arrowButton svg {
-  width: 28px;
-  height: 28px;
-}
-
-.size-large .pageButton {
-  min-width: 40px;
-  height: 40px;
-  padding: 0 12px;
-  font-size: 18px;
-  line-height: 28px;
-}
-
-.size-large .pageNumbers {
-  gap: 20px;
-}
-
-/* ========================================
-   Variant Styles
-   ======================================== */
-
-/* Primary Variant (Default) */
-.variant-primary .pageButton.selected {
-  background-color: var(--color-gray-50);
-  color: var(--color-gray-b);
-}
-
-.variant-primary .pageButton.selected:hover {
-  background-color: var(--color-gray-100);
-  color: var(--color-gray-b);
-}
-
-.variant-primary .arrowButton:hover:not(.disabled) {
-  background-color: var(--color-gray-100);
-}
-
-.variant-primary .arrowButton:hover:not(.disabled) svg {
-  color: var(--color-gray-600);
-}
-
-/* Secondary Variant */
-.variant-secondary .pageButton.selected {
-  background-color: var(--color-gray-800);
-  color: var(--color-gray-w);
-}
-
-.variant-secondary .pageButton.selected:hover {
-  background-color: var(--color-gray-700);
-  color: var(--color-gray-w);
-}
-
-.variant-secondary .arrowButton:hover:not(.disabled) {
-  background-color: var(--color-gray-100);
-}
-
-.variant-secondary .arrowButton:hover:not(.disabled) svg {
-  color: var(--color-gray-600);
-}
-
-/* Tertiary Variant */
-.variant-tertiary .pageButton.selected {
-  background-color: var(--color-blue-50);
-  color: var(--color-blue-500);
-}
-
-.variant-tertiary .pageButton.selected:hover {
-  background-color: var(--color-blue-100);
-  color: var(--color-blue-500);
-}
-
-.variant-tertiary .arrowButton:hover:not(.disabled) {
-  background-color: var(--color-gray-100);
-}
-
-.variant-tertiary .arrowButton:hover:not(.disabled) svg {
-  color: var(--color-gray-600);
-}
-
-/* ========================================
-   Theme Variants
-   ======================================== */
-
-/* Light Theme (Default) */
-.theme-light .pageButton {
-  color: var(--color-gray-600);
-}
-
-.theme-light .pageButton.selected {
-  background-color: var(--color-gray-50);
-  color: var(--color-gray-b);
-}
-
-.theme-light .pageButton:hover:not(.selected) {
-  background-color: var(--color-gray-100);
-  color: var(--color-gray-800);
-}
-
-.theme-light .arrowButton svg {
-  color: var(--color-gray-600);
-}
-
-.theme-light .arrowButton:hover:not(.disabled) {
-  background-color: var(--color-gray-100);
-}
-
-/* Dark Theme */
-.theme-dark {
-  background-color: var(--color-gray-900);
-}
-
-.theme-dark .pageButton {
-  color: var(--color-gray-400);
-}
-
-.theme-dark .pageButton.selected {
-  background-color: var(--color-gray-700);
-  color: var(--color-gray-w);
-}
-
-.theme-dark .pageButton:hover:not(.selected) {
-  background-color: var(--color-gray-800);
-  color: var(--color-gray-200);
-}
-
-.theme-dark .arrowButton svg {
-  color: var(--color-gray-400);
-}
-
-.theme-dark .arrowButton:hover:not(.disabled) {
-  background-color: var(--color-gray-800);
-}
-
-.theme-dark .arrowButton:hover:not(.disabled) svg {
-  color: var(--color-gray-200);
-}
-
-.theme-dark .arrowButton.disabled svg {
-  color: var(--color-gray-700);
-}
-
-/* ========================================
-   Combined Variants (Theme + Variant)
-   ======================================== */
-
-/* Dark Theme + Primary Variant */
-.theme-dark.variant-primary .pageButton.selected {
-  background-color: var(--color-gray-700);
-  color: var(--color-gray-w);
-}
-
-.theme-dark.variant-primary .pageButton.selected:hover {
-  background-color: var(--color-gray-600);
-  color: var(--color-gray-w);
-}
-
-.theme-dark.variant-primary .arrowButton:hover:not(.disabled) {
-  background-color: var(--color-gray-800);
-}
-
-.theme-dark.variant-primary .arrowButton:hover:not(.disabled) svg {
-  color: var(--color-gray-200);
-}
-
-/* Dark Theme + Secondary Variant */
-.theme-dark.variant-secondary .pageButton.selected {
-  background-color: var(--color-gray-200);
-  color: var(--color-gray-b);
-}
-
-.theme-dark.variant-secondary .pageButton.selected:hover {
-  background-color: var(--color-gray-300);
-  color: var(--color-gray-b);
-}
-
-.theme-dark.variant-secondary .arrowButton:hover:not(.disabled) {
-  background-color: var(--color-gray-800);
-}
-
-.theme-dark.variant-secondary .arrowButton:hover:not(.disabled) svg {
-  color: var(--color-gray-200);
-}
-
-/* Dark Theme + Tertiary Variant */
-.theme-dark.variant-tertiary .pageButton.selected {
-  background-color: var(--color-blue-900);
-  color: var(--color-blue-300);
-}
-
-.theme-dark.variant-tertiary .pageButton.selected:hover {
-  background-color: var(--color-blue-800);
-  color: var(--color-blue-300);
-}
-
-.theme-dark.variant-tertiary .arrowButton:hover:not(.disabled) {
-  background-color: var(--color-gray-800);
-}
-
-.theme-dark.variant-tertiary .arrowButton:hover:not(.disabled) svg {
-  color: var(--color-gray-200);
-}
-
-/* ========================================
-   State Variants
-   ======================================== */
-
-/* Disabled State - 전체 페이지네이션 */
-.pagination.disabled {
-  pointer-events: none;
-  opacity: 0.5;
-}
-
-/* Focus States (Accessibility) */
-.pageButton:focus-visible,
-.arrowButton:focus-visible {
-  outline: 2px solid var(--color-blue-500);
-  outline-offset: 2px;
-}
-
-.theme-dark .pageButton:focus-visible,
-.theme-dark .arrowButton:focus-visible {
-  outline-color: var(--color-blue-300);
-}
-
-/* Active States */
-.pageButton:active:not(.selected):not(.disabled) {
-  transform: scale(0.95);
-}
-
-.arrowButton:active:not(.disabled) {
-  transform: scale(0.95);
-}
-
-/* ========================================
-   Responsive Adjustments
-   ======================================== */
-
-@media (max-width: 768px) {
-  .pageNumbers {
-    gap: 12px !important;
+   .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
   }
   
-  .pagination {
-    gap: 4px;
+  /* ========================================
+     Arrow Buttons (Previous/Next)
+     ======================================== */
+  
+  .pagination .arrowButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0;
+    border-radius: 8px;
   }
   
-  /* Medium 사이즈를 모바일에서 Small처럼 표시 */
-  .size-medium .pageButton {
-    min-width: 28px;
-    height: 28px;
-    font-size: 14px;
+  .pagination .arrowButton:hover:not(.disabled) {
+    background-color: var(--color-gray-100);
   }
   
-  .size-large .pageButton {
+  .pagination .arrowButton:active:not(.disabled) {
+    background-color: var(--color-gray-200);
+  }
+  
+  .pagination .arrowButton.disabled {
+    cursor: not-allowed;
+    opacity: 0.3;
+  }
+  
+  .pagination .arrowButton svg {
+    color: var(--color-gray-600);
+  }
+  
+  .pagination .arrowButton.disabled svg {
+    color: var(--color-gray-400);
+  }
+  
+  /* ========================================
+     Page Numbers Container
+     ======================================== */
+  
+  .pagination .pageNumbers {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  /* ========================================
+     Page Buttons
+     ======================================== */
+  
+  .pagination .pageButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border-radius: 8px;
+    font-family: var(--typo-font-family-ko);
+    font-weight: 400;
+    color: var(--color-gray-600);
+  }
+  
+  .pagination .pageButton:hover:not(.selected) {
+    background-color: var(--color-gray-100);
+    color: var(--color-gray-800);
+  }
+  
+  .pagination .pageButton:active:not(.selected) {
+    background-color: var(--color-gray-200);
+  }
+  
+  .pagination .pageButton.selected {
+    font-weight: 500;
+    cursor: default;
+  }
+  
+  /* ========================================
+     Size Variants
+     ======================================== */
+  
+  .pagination.size-small .arrowButton {
+    width: 20px;
+    height: 20px;
+  }
+  .pagination.size-small .arrowButton svg {
+    width: 20px;
+    height: 20px;
+  }
+  .pagination.size-small .pageButton {
+    min-width: 24px;
+    height: 24px;
+    padding: 0 6px;
+    font-size: 12px;
+    line-height: 16px;
+  }
+  .pagination.size-small .pageNumbers {
+    gap: 8px;
+  }
+  
+  .pagination.size-medium .arrowButton {
+    width: 24px;
+    height: 24px;
+  }
+  .pagination.size-medium .arrowButton svg {
+    width: 24px;
+    height: 24px;
+  }
+  .pagination.size-medium .pageButton {
     min-width: 32px;
     height: 32px;
+    padding: 0 8px;
     font-size: 16px;
+    line-height: 24px;
   }
-}
-
-@media (max-width: 480px) {
-  .pageNumbers {
-    gap: 8px !important;
+  .pagination.size-medium .pageNumbers {
+    gap: 16px;
   }
   
-  /* 매우 작은 화면에서는 페이지 번호 간격을 더 좁게 */
-  .size-large .pageNumbers {
-    gap: 12px !important;
+  .pagination.size-large .arrowButton {
+    width: 32px;
+    height: 32px;
   }
-}
-
+  .pagination.size-large .arrowButton svg {
+    width: 28px;
+    height: 28px;
+  }
+  .pagination.size-large .pageButton {
+    min-width: 40px;
+    height: 40px;
+    padding: 0 12px;
+    font-size: 18px;
+    line-height: 28px;
+  }
+  .pagination.size-large .pageNumbers {
+    gap: 20px;
+  }
+  
+  /* ========================================
+     THEME + VARIANT COMBINATIONS
+     ======================================== */
+  
+  /* ---------- LIGHT THEME ---------- */
+  
+  /* Primary */
+  .pagination.theme-light.variant-primary .pageButton.selected {
+    background-color: var(--color-gray-50);
+    color: var(--color-gray-b);
+  }
+  .pagination.theme-light.variant-primary .pageButton:hover:not(.selected) {
+    background-color: var(--color-gray-100);
+    color: var(--color-gray-800);
+  }
+  
+  /* Secondary */
+  .pagination.theme-light.variant-secondary .pageButton.selected {
+    background-color: var(--color-gray-800);
+    color: var(--color-gray-w);
+  }
+  .pagination.theme-light.variant-secondary .pageButton:hover:not(.selected) {
+    background-color: var(--color-gray-100);
+    color: var(--color-gray-800);
+  }
+  
+  /* Tertiary */
+  .pagination.theme-light.variant-tertiary .pageButton.selected {
+    background-color: var(--color-blue-50);
+    color: var(--color-blue-500);
+  }
+  .pagination.theme-light.variant-tertiary .pageButton:hover:not(.selected) {
+    background-color: var(--color-blue-100);
+    color: var(--color-blue-500);
+  }
+  
+  /* ---------- DARK THEME ---------- */
+  
+  .pagination.theme-dark {
+    background-color: var(--color-gray-900);
+  }
+  
+  /* Primary */
+  .pagination.theme-dark.variant-primary .pageButton.selected {
+    background-color: var(--color-gray-700);
+    color: var(--color-gray-w);
+  }
+  .pagination.theme-dark.variant-primary .pageButton:hover:not(.selected){
+    background-color: var(--color-gray-800);
+    color: var(--color-gray-w);
+  }
+  
+  /* Secondary */
+  .pagination.theme-dark.variant-secondary .pageButton.selected {
+    background-color: var(--color-gray-200);
+    color: var(--color-gray-b);
+  }
+  .pagination.theme-dark.variant-secondary .pageButton:hover:not(.selected) {
+    background-color: var(--color-gray-400);
+    color: var(--color-gray-b);
+  }
+  
+  /* Tertiary */
+  .pagination.theme-dark.variant-tertiary .pageButton.selected {
+    background-color: var(--color-blue-700);
+    color: var(--color-blue-50);
+  }
+  .pagination.theme-dark.variant-tertiary .pageButton:hover:not(.selected) {
+    background-color: var(--color-blue-800);
+    color: var(--color-blue-50);
+  }
+  
+  /* ---------- Arrow Buttons (per theme) ---------- */
+  .pagination.theme-light .arrowButton svg {
+    color: var(--color-gray-600);
+  }
+  .pagination.theme-light .arrowButton:hover:not(.disabled) {
+    background-color: var(--color-gray-100);
+  }
+  .pagination.theme-dark .arrowButton svg {
+    color: var(--color-gray-400);
+  }
+  .pagination.theme-dark .arrowButton:hover:not(.disabled) {
+    background-color: var(--color-gray-800);
+  }
+  .pagination.theme-dark .arrowButton:hover:not(.disabled) svg {
+    color: var(--color-gray-200);
+  }
+  .pagination.theme-dark .arrowButton.disabled svg {
+    color: var(--color-gray-700);
+  }
+  
+  /* ========================================
+     State Variants
+     ======================================== */
+  
+  .pagination.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+  
+  .pagination .pageButton:focus-visible,
+  .pagination .arrowButton:focus-visible {
+    outline: 2px solid var(--color-blue-500);
+    outline-offset: 2px;
+  }
+  
+  .pagination.theme-dark .pageButton:focus-visible,
+  .pagination.theme-dark .arrowButton:focus-visible {
+    outline-color: var(--color-blue-300);
+  }
+  
+  .pagination .pageButton:active:not(.selected):not(.disabled),
+  .pagination .arrowButton:active:not(.disabled) {
+    transform: scale(0.95);
+  }
+  
+  /* ========================================
+     Responsive Adjustments
+     ======================================== */
+  
+  @media (max-width: 768px) {
+    .pagination {
+      gap: 4px;
+    }
+    .pagination .pageNumbers {
+      gap: 12px !important;
+    }
+    .pagination.size-medium .pageButton {
+      min-width: 28px;
+      height: 28px;
+      font-size: 14px;
+    }
+    .pagination.size-large .pageButton {
+      min-width: 32px;
+      height: 32px;
+      font-size: 16px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .pagination .pageNumbers {
+      gap: 8px !important;
+    }
+    .pagination.size-large .pageNumbers {
+      gap: 12px !important;
+    }
+  }
+  
