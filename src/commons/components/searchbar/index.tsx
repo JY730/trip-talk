@@ -154,7 +154,7 @@ export const SearchBar = React.forwardRef<HTMLInputElement, SearchBarProps>(
         {showIcon && (
           <div className={styles.iconWrapper}>
             <img
-              src="/icons/search.svg"
+              src={theme === 'dark' ? '/icons/search_w.svg' : '/icons/search.svg'}
               alt="search"
               className={styles.searchIcon}
             />
