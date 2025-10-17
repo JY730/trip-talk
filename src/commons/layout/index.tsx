@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Banner from './banner';
+import Button from '@/commons/components/button';
 import styles from './styles.module.css';
 
 interface LayoutProps {
@@ -60,8 +61,23 @@ export default function Layout({ children }: LayoutProps) {
           </div>
           
           {!isLoggedIn && (
-            <Link href="/login" className={styles.loginButton}>
-              로그인
+            <Link href="/login" className={styles.loginButtonLink}>
+              <Button
+                variant="tertiary"
+                styleType="filled"
+                size="small"
+                theme="dark"
+                shape="rounded"
+                rightIcon={
+                  <img 
+                    src="/icons/right_arrow.svg" 
+                    alt="" 
+                    className={styles.arrowIcon}
+                  />
+                }
+              >
+                로그인
+              </Button>
             </Link>
           )}
         </div>

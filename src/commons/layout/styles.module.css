@@ -87,26 +87,16 @@
   color: var(--color-gray-b);
 }
 
-.loginButton {
+.loginButtonLink {
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 93px;
-  height: 40px;
-  background-color: var(--color-gray-b);
-  color: var(--color-gray-w);
-  border-radius: 100px;
-  font-size: var(--typo-title-t3-font-size);
-  line-height: var(--typo-title-t3-line-height);
-  font-weight: var(--typo-title-t3-font-weight);
-  letter-spacing: var(--typo-title-t3-letter-spacing);
   text-decoration: none;
-  cursor: pointer;
-  transition: opacity 0.2s ease;
 }
 
-.loginButton:hover {
-  opacity: 0.85;
+.arrowIcon {
+  width: 24px;
+  height: 24px;
+  filter: brightness(0) invert(1); /* 흰색으로 변환 */
 }
 
 .banner {
