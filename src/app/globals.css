@@ -21,6 +21,109 @@
   --color-main: #2974e5;
   --color-red: #f66a6a;
 
+  /* Typography - Font Family */
+  --typo-font-family-ko: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  --typo-font-family-en: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+
+  /* Typography - Headline */
+  --typo-headline-h1-font-size: 28px;
+  --typo-headline-h1-line-height: 36px;
+  --typo-headline-h1-font-weight: 700;
+  --typo-headline-h1-letter-spacing: 0;
+
+  --typo-headline-h2-font-size: 24px;
+  --typo-headline-h2-line-height: 32px;
+  --typo-headline-h2-font-weight: 700;
+  --typo-headline-h2-letter-spacing: 0;
+
+  --typo-headline-h3-font-size: 20px;
+  --typo-headline-h3-line-height: 28px;
+  --typo-headline-h3-font-weight: 700;
+  --typo-headline-h3-letter-spacing: 0;
+
+  --typo-headline-h4-font-size: 18px;
+  --typo-headline-h4-line-height: 24px;
+  --typo-headline-h4-font-weight: 600;
+  --typo-headline-h4-letter-spacing: 0;
+
+  /* Typography - Body */
+  --typo-body-b1-font-size: 20px;
+  --typo-body-b1-line-height: 24px;
+  --typo-body-b1-font-weight: 500;
+  --typo-body-b1-letter-spacing: 0;
+
+  --typo-body-b2-font-size: 16px;
+  --typo-body-b2-line-height: 24px;
+  --typo-body-b2-font-weight: 500;
+  --typo-body-b2-letter-spacing: 0;
+
+  --typo-body-b3-font-size: 14px;
+  --typo-body-b3-line-height: 20px;
+  --typo-body-b3-font-weight: 500;
+  --typo-body-b3-letter-spacing: 0;
+
+  --typo-body-b4-font-size: 16px;
+  --typo-body-b4-line-height: 24px;
+  --typo-body-b4-font-weight: 400;
+  --typo-body-b4-letter-spacing: 0;
+
+  --typo-body-b5-font-size: 14px;
+  --typo-body-b5-line-height: 20px;
+  --typo-body-b5-font-weight: 400;
+  --typo-body-b5-letter-spacing: 0;
+
+  --typo-body-b6-font-size: 12px;
+  --typo-body-b6-line-height: 20px;
+  --typo-body-b6-font-weight: 400;
+  --typo-body-b6-letter-spacing: 0;
+
+  /* Typography - Title */
+  --typo-title-t1-font-size: 16px;
+  --typo-title-t1-line-height: 24px;
+  --typo-title-t1-font-weight: 700;
+  --typo-title-t1-letter-spacing: 0;
+
+  --typo-title-t2-font-size: 16px;
+  --typo-title-t2-line-height: 24px;
+  --typo-title-t2-font-weight: 600;
+  --typo-title-t2-letter-spacing: 0;
+
+  --typo-title-t3-font-size: 14px;
+  --typo-title-t3-line-height: 20px;
+  --typo-title-t3-font-weight: 600;
+  --typo-title-t3-letter-spacing: 0;
+
+  --typo-title-t4-font-size: 14px;
+  --typo-title-t4-line-height: 20px;
+  --typo-title-t4-font-weight: 700;
+  --typo-title-t4-letter-spacing: 0;
+
+  /* Typography - Caption */
+  --typo-caption-c1-font-size: 11px;
+  --typo-caption-c1-line-height: 12px;
+  --typo-caption-c1-font-weight: 500;
+  --typo-caption-c1-letter-spacing: 0;
+
+  --typo-caption-c2-font-size: 11px;
+  --typo-caption-c2-line-height: 12px;
+  --typo-caption-c2-font-weight: 400;
+  --typo-caption-c2-letter-spacing: 0;
+
+  --typo-caption-c3-font-size: 14px;
+  --typo-caption-c3-line-height: 20px;
+  --typo-caption-c3-font-weight: 300;
+  --typo-caption-c3-letter-spacing: 0;
+
+  --typo-caption-c4-font-size: 12px;
+  --typo-caption-c4-line-height: 20px;
+  --typo-caption-c4-font-weight: 500;
+  --typo-caption-c4-letter-spacing: 0;
+
+  --typo-caption-c5-font-size: 12px;
+  --typo-caption-c5-line-height: 20px;
+  --typo-caption-c5-font-weight: 400;
+  --typo-caption-c5-letter-spacing: 0;
+
   /* Legacy Variables */
   --background: #ffffff;
   --foreground: #171717;
@@ -55,7 +158,7 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--typo-font-family-ko);
 }
 
 @layer utilities {
