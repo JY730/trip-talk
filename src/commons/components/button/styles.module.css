@@ -16,7 +16,6 @@
   gap: 8px;
   
   border: none;
-  border-radius: 8px;
   
   font-family: var(--typo-font-family-ko);
   cursor: pointer;
@@ -46,6 +45,20 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* ========================================
+   Shape Variants
+   ======================================== */
+
+/* Rectangle: 약간 둥근 모서리 */
+.shape-rectangle {
+  border-radius: 8px;
+}
+
+/* Rounded: 완전히 둥근 형태 */
+.shape-rounded {
+  border-radius: 100px;
 }
 
 /* ========================================

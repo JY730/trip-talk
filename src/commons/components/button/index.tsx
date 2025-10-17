@@ -29,6 +29,11 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
   theme?: 'light' | 'dark';
   
   /**
+   * 버튼의 형태 (모서리 스타일)
+   */
+  shape?: 'rectangle' | 'rounded';
+  
+  /**
    * 왼쪽 아이콘 (선택적)
    */
   leftIcon?: React.ReactNode;
@@ -72,6 +77,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       styleType = 'filled',
       size = 'large',
       theme = 'light',
+      shape = 'rounded',
       leftIcon,
       rightIcon,
       children,
@@ -88,6 +94,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       styles[`style-${styleType}`],
       styles[`size-${size}`],
       styles[`theme-${theme}`],
+      styles[`shape-${shape}`],
       disabled && styles.disabled,
       className,
     ]

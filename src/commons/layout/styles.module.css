@@ -7,21 +7,115 @@
 }
 
 .header {
-  width: 1168px;
+  width: 100%;
   height: 80px;
-  background-color: #f2f2f2;
+  background-color: var(--color-gray-w);
+  border-bottom: 1px solid var(--color-gray-100);
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.banner {
-  width: 1168px;
-  height: 516px;
-  background-color: #e4e4e4;
+.headerInner {
+  width: 1280px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+}
+
+.leftSection {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.logo:hover {
+  opacity: 0.8;
+}
+
+.logoImage {
+  width: 56px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.navLink {
+  position: relative;
+  font-size: var(--typo-body-b2-font-size);
+  line-height: var(--typo-body-b2-line-height);
+  font-weight: var(--typo-body-b2-font-weight);
+  letter-spacing: var(--typo-body-b2-letter-spacing);
+  color: var(--color-gray-800);
+  text-decoration: none;
+  transition: color 0.2s ease;
+  cursor: pointer;
+  padding: 8px 8px;
+  display: flex;
+  align-items: center;
+  height: 40px;
+}
+
+.navLink:hover {
+  color: var(--color-gray-b);
+}
+
+.navLinkActive {
+  font-size: var(--typo-title-t1-font-size);
+  line-height: var(--typo-title-t1-line-height);
+  font-weight: var(--typo-title-t1-font-weight);
+  letter-spacing: var(--typo-title-t1-letter-spacing);
+  color: var(--color-gray-b);
+  border-bottom: 2px solid var(--color-gray-b);
+}
+
+.navLinkActive:hover {
+  color: var(--color-gray-b);
+}
+
+.loginButton {
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 93px;
+  height: 40px;
+  background-color: var(--color-gray-b);
+  color: var(--color-gray-w);
+  border-radius: 100px;
+  font-size: var(--typo-title-t3-font-size);
+  line-height: var(--typo-title-t3-line-height);
+  font-weight: var(--typo-title-t3-font-weight);
+  letter-spacing: var(--typo-title-t3-letter-spacing);
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.loginButton:hover {
+  opacity: 0.85;
+}
+
+.banner {
+  width: 100vw;
+  height: 516px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
 }
 
 .gap {

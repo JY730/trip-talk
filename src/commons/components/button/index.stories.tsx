@@ -73,6 +73,11 @@ const meta = {
       options: ['light', 'dark'],
       description: '버튼의 테마',
     },
+    shape: {
+      control: 'select',
+      options: ['rectangle', 'rounded'],
+      description: '버튼의 형태 (모서리 스타일)',
+    },
     disabled: {
       control: 'boolean',
       description: '버튼 비활성화 여부',
