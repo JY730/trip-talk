@@ -1,0 +1,398 @@
+/**
+ * Selectbox Component Styles
+ * Design Source: Figma Node ID 285:40457
+ * Last Updated: 2025-10-17
+ */
+
+/* ========================================
+   Base Selectbox Styles
+   ======================================== */
+
+.selectbox {
+  position: relative;
+  width: 100%;
+  font-family: var(--typo-font-family-ko);
+  box-sizing: border-box;
+}
+
+/* ========================================
+   Select Button (Main Trigger)
+   ======================================== */
+
+.selectButton {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  
+  border-radius: 8px;
+  border: 1px solid;
+  
+  font-family: var(--typo-font-family-ko);
+  cursor: pointer;
+  
+  box-sizing: border-box;
+  background: transparent;
+  transition: all 0.2s ease;
+}
+
+.selectButton:focus {
+  outline: none;
+}
+
+.selectButton:disabled {
+  cursor: not-allowed;
+}
+
+.selectLabel {
+  flex: 1;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.arrowIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  transition: transform 0.2s ease;
+}
+
+/* ========================================
+   Dropdown List
+   ======================================== */
+
+.dropdownList {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  
+  background-color: var(--color-gray-w);
+  border: 1px solid;
+  border-radius: 8px;
+  
+  /* maxHeight가 지정되면 스크롤 가능, 없으면 자동으로 모든 항목 표시 */
+  overflow-y: auto;
+  
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  
+  animation: dropdownSlideIn 0.2s ease;
+}
+
+@keyframes dropdownSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ========================================
+   Dropdown Option
+   ======================================== */
+
+.dropdownOption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  
+  border: none;
+  background: transparent;
+  
+  font-family: var(--typo-font-family-ko);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  
+  box-sizing: border-box;
+}
+
+.dropdownOption:hover {
+  background-color: var(--color-gray-50);
+}
+
+.optionLabel {
+  flex: 1;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.checkIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+}
+
+/* ========================================
+   Size Variants
+   ======================================== */
+
+/* Large: 48px height */
+.size-large .selectButton {
+  height: 48px;
+  padding: 12px 16px;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.size-large .dropdownOption {
+  height: 48px;
+  padding: 12px 16px;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+/* Medium: 40px height */
+.size-medium .selectButton {
+  height: 40px;
+  padding: 10px 12px;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.size-medium .dropdownOption {
+  height: 40px;
+  padding: 10px 12px;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+/* Small: 32px height */
+.size-small .selectButton {
+  height: 32px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.size-small .dropdownOption {
+  height: 32px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+/* ========================================
+   State × Theme Combinations
+   ======================================== */
+
+/* Default State - Light Theme */
+.selectbox.state-default.theme-light .selectButton {
+  background-color: var(--color-gray-w);
+  border-color: var(--color-gray-300);
+  color: var(--color-gray-500);
+}
+
+.selectbox.state-default.theme-light .selectButton:hover:not(:disabled) {
+  border-color: var(--color-gray-400);
+}
+
+.selectbox.state-default.theme-light .selectButton:active:not(:disabled) {
+  border-color: var(--color-gray-500);
+}
+
+.selectbox.state-default.theme-light .arrowIcon {
+  color: var(--color-gray-500);
+}
+
+/* Filled State - Light Theme */
+.selectbox.state-filled.theme-light .selectButton {
+  background-color: var(--color-gray-w);
+  border-color: var(--color-gray-300);
+  color: var(--color-gray-800);
+}
+
+.selectbox.state-filled.theme-light .selectButton:hover:not(:disabled) {
+  border-color: var(--color-gray-400);
+}
+
+.selectbox.state-filled.theme-light .selectButton:active:not(:disabled) {
+  border-color: var(--color-gray-500);
+}
+
+.selectbox.state-filled.theme-light .arrowIcon {
+  color: var(--color-gray-800);
+}
+
+/* Selected (Open) State - Light Theme */
+.selectbox.state-selected.theme-light .selectButton {
+  background-color: var(--color-gray-w);
+  border-color: var(--color-main);
+  color: var(--color-gray-800);
+  box-shadow: 0 0 0 3px var(--color-main-alpha-10);
+}
+
+.selectbox.state-selected.theme-light .arrowIcon {
+  color: var(--color-main);
+}
+
+/* Default State - Dark Theme */
+.selectbox.state-default.theme-dark .selectButton {
+  background-color: var(--color-gray-900);
+  border-color: var(--color-gray-700);
+  color: var(--color-gray-400);
+}
+
+.selectbox.state-default.theme-dark .selectButton:hover:not(:disabled) {
+  border-color: var(--color-gray-600);
+}
+
+.selectbox.state-default.theme-dark .selectButton:active:not(:disabled) {
+  border-color: var(--color-gray-500);
+}
+
+.selectbox.state-default.theme-dark .arrowIcon {
+  color: var(--color-gray-400);
+}
+
+/* Filled State - Dark Theme */
+.selectbox.state-filled.theme-dark .selectButton {
+  background-color: var(--color-gray-900);
+  border-color: var(--color-gray-700);
+  color: var(--color-gray-50);
+}
+
+.selectbox.state-filled.theme-dark .selectButton:hover:not(:disabled) {
+  border-color: var(--color-gray-600);
+}
+
+.selectbox.state-filled.theme-dark .selectButton:active:not(:disabled) {
+  border-color: var(--color-gray-500);
+}
+
+.selectbox.state-filled.theme-dark .arrowIcon {
+  color: var(--color-gray-50);
+}
+
+/* Selected (Open) State - Dark Theme */
+.selectbox.state-selected.theme-dark .selectButton {
+  background-color: var(--color-gray-900);
+  border-color: var(--color-main);
+  color: var(--color-gray-50);
+  box-shadow: 0 0 0 3px var(--color-main-alpha-30);
+}
+
+.selectbox.state-selected.theme-dark .arrowIcon {
+  color: var(--color-main);
+}
+
+/* ========================================
+   Dropdown List Theme
+   ======================================== */
+
+/* Light Theme Dropdown */
+.selectbox.theme-light .dropdownList {
+  background-color: var(--color-gray-w);
+  border-color: var(--color-gray-800);
+}
+
+.selectbox.theme-light .dropdownOption {
+  color: var(--color-gray-600);
+}
+
+.selectbox.theme-light .dropdownOption:hover {
+  background-color: var(--color-gray-50);
+}
+
+.selectbox.theme-light .dropdownOption.selected {
+  background-color: rgba(41, 116, 229, 0.05);
+  color: var(--color-main);
+  font-weight: 700;
+}
+
+.selectbox.theme-light .checkIcon {
+  color: var(--color-main);
+}
+
+/* Dark Theme Dropdown */
+.selectbox.theme-dark .dropdownList {
+  background-color: var(--color-gray-800);
+  border-color: var(--color-gray-600);
+}
+
+.selectbox.theme-dark .dropdownOption {
+  color: var(--color-gray-200);
+}
+
+.selectbox.theme-dark .dropdownOption:hover {
+  background-color: var(--color-gray-700);
+}
+
+.selectbox.theme-dark .dropdownOption.selected {
+  background-color: rgba(41, 116, 229, 0.15);
+  color: var(--color-main);
+  font-weight: 700;
+}
+
+.selectbox.theme-dark .checkIcon {
+  color: var(--color-main);
+}
+
+/* ========================================
+   Disabled State
+   ======================================== */
+
+.selectbox.disabled .selectButton {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.selectbox.disabled .selectButton:hover {
+  border-color: inherit;
+}
+
+/* ========================================
+   Scrollbar Styling
+   ======================================== */
+
+.dropdownList::-webkit-scrollbar {
+  width: 8px;
+}
+
+.dropdownList::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.dropdownList::-webkit-scrollbar-thumb {
+  background: var(--color-gray-300);
+  border-radius: 4px;
+}
+
+.dropdownList::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gray-400);
+}
+
+.selectbox.theme-dark .dropdownList::-webkit-scrollbar-thumb {
+  background: var(--color-gray-600);
+}
+
+.selectbox.theme-dark .dropdownList::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gray-500);
+}
+
