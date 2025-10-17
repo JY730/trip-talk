@@ -54,11 +54,45 @@ const meta = {
       control: 'boolean',
       description: '다음 버튼 비활성화',
     },
+    onPageChange: {
+      control: false,
+      description: '페이지 변경 핸들러',
+    },
+    className: {
+      control: 'text',
+      description: '추가 클래스명',
+    },
   },
 } satisfies Meta<typeof Pagination>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
+
+/* ========================================
+   Playground
+   ======================================== */
+
+/**
+ * Playground
+ * 모든 속성을 자유롭게 조합해볼 수 있는 대화형 스토리
+ */
+export const Playground: Story = {
+  args: {
+    variant: 'primary',
+    size: 'medium',
+    theme: 'light',
+    currentPage: 3,
+    totalPages: 10,
+    maxPageButtons: 5,
+    onPageChange: (page: number) => console.log('Page changed to:', page),
+    disablePrevious: false,
+    disableNext: false,
+  },
+};
+
+/* ========================================
+   Basic Variants
+   ======================================== */
 
 /**
  * Primary Pagination (Medium)
@@ -140,6 +174,10 @@ export const TertiaryMedium: Story = {
   },
 };
 
+/* ========================================
+   Size Variants
+   ======================================== */
+
 /**
  * Small Size Pagination
  * 작은 크기의 페이지네이션
@@ -171,6 +209,10 @@ export const LargeSize: Story = {
     onPageChange: (page: number) => console.log('Page changed to:', page),
   },
 };
+
+/* ========================================
+   Theme Variants
+   ======================================== */
 
 /**
  * Dark Theme Pagination
@@ -229,6 +271,10 @@ export const DarkThemeTertiary: Story = {
   },
 };
 
+/* ========================================
+   Page Count Variants
+   ======================================== */
+
 /**
  * Many Pages Pagination
  * 많은 페이지를 가진 페이지네이션 (7개 버튼)
@@ -277,6 +323,10 @@ export const SinglePage: Story = {
   },
 };
 
+/* ========================================
+   Disabled States
+   ======================================== */
+
 /**
  * Disabled Previous Button
  * 이전 버튼이 비활성화된 상태
@@ -310,6 +360,10 @@ export const DisabledNext: Story = {
     onPageChange: (page: number) => console.log('Page changed to:', page),
   },
 };
+
+/* ========================================
+   Interactive & Comparison Stories
+   ======================================== */
 
 /**
  * Interactive Pagination
