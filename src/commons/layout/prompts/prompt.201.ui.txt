@@ -64,5 +64,5 @@
 
 핵심요구사항) children 영역에는 임시로 공통컴포넌트의 All Variants Matrix를 가져와서 공통컴포넌트 ui가 나열돼서 보이게 할 것.
 
-
+핵심요구사항) button 공통컴포넌트 외에도 input, pagination, searchbar, selectbox 공통컴포넌트 ui 요소를 나열해서 보여줄 것
 

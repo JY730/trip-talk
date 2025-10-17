@@ -240,9 +240,9 @@ export default function Home() {
             }}>
               Dark Theme
             </h3>
-            <div style={{ backgroundColor: 'var(--color-gray-800)', padding: '20px', borderRadius: '8px' }}>
+            <div style={{  width: '100%' }}>
               <SearchBar
-                size="large"
+                size="medium"
                 theme="dark"
                 placeholder="제목을 검색해 주세요."
               />

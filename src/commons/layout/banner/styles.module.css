@@ -23,7 +23,6 @@
 
 .bannerImage {
   object-fit: cover;
-  object-position: bottom;
 }
 
 /* 이미지 오버레이 (Figma 디자인 기준: opacity 0.25) */
