@@ -6,6 +6,7 @@
 
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import { Button } from './index';
+import React from 'react';
 
 // Mock Icon Components for demonstration
 const BookmarkIcon = () => (
@@ -25,6 +26,24 @@ const PlusIcon = () => (
     <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
   </svg>
 );
+
+// Icon Position Type
+type IconPosition = 'none' | 'left' | 'right' | 'both';
+
+// Helper function to get icons based on position
+const getIconsByPosition = (position: IconPosition) => {
+  switch (position) {
+    case 'left':
+      return { leftIcon: <PlusIcon />, rightIcon: undefined };
+    case 'right':
+      return { leftIcon: undefined, rightIcon: <ArrowRightIcon /> };
+    case 'both':
+      return { leftIcon: <BookmarkIcon />, rightIcon: <ArrowRightIcon /> };
+    case 'none':
+    default:
+      return { leftIcon: undefined, rightIcon: undefined };
+  }
+};
 
 const meta = {
   title: 'Commons/Button',
@@ -438,7 +457,7 @@ export const DarkWithIcon: Story = {
 };
 
 /* ========================================
-   Interactive Playground
+   Interactive Playground & Matrix Views
    ======================================== */
 
 /**
@@ -453,6 +472,349 @@ export const Playground: Story = {
     theme: 'light',
     children: '버튼 텍스트',
     disabled: false,
+  },
+};
+
+/**
+ * All Variants Matrix
+ * 모든 Variant × StyleType 조합을 한눈에 볼 수 있는 매트릭스
+ */
+export const AllVariantsMatrix: Story = {
+  args: {
+    children: 'Button',
+  },
+  parameters: {
+    layout: 'padded',
+  },
+  render: () => {
+    const variants: Array<'primary' | 'secondary' | 'tertiary'> = ['primary', 'secondary', 'tertiary'];
+    const styleTypes: Array<'filled' | 'outline' | 'transparent'> = ['filled', 'outline', 'transparent'];
+    
+    return (
+      <div style={{ padding: '20px' }}>
+        <h2 style={{ marginBottom: '20px', fontSize: '24px', fontWeight: 'bold' }}>
+          모든 Variant × StyleType 조합
+        </h2>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
+          {variants.map((variant) => (
+            <div key={variant}>
+              <h3 style={{ 
+                marginBottom: '15px', 
+                fontSize: '18px', 
+                fontWeight: '600',
+                textTransform: 'capitalize'
+              }}>
+                {variant}
+              </h3>
+              <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                {styleTypes.map((styleType) => (
+                  <Button
+                    key={`${variant}-${styleType}`}
+                    variant={variant}
+                    styleType={styleType}
+                    size="large"
+                  >
+                    {styleType}
+                  </Button>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  },
+};
+
+/**
+ * All Sizes Matrix
+ * 모든 Size 조합을 한눈에 볼 수 있는 매트릭스
+ */
+export const AllSizesMatrix: Story = {
+  args: {
+    children: 'Button',
+  },
+  parameters: {
+    layout: 'padded',
+  },
+  render: () => {
+    const variants: Array<'primary' | 'secondary' | 'tertiary'> = ['primary', 'secondary', 'tertiary'];
+    const sizes: Array<'small' | 'medium' | 'large'> = ['small', 'medium', 'large'];
+    
+    return (
+      <div style={{ padding: '20px' }}>
+        <h2 style={{ marginBottom: '20px', fontSize: '24px', fontWeight: 'bold' }}>
+          모든 Variant × Size 조합
+        </h2>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '30px' }}>
+          {variants.map((variant) => (
+            <div key={variant}>
+              <h3 style={{ 
+                marginBottom: '15px', 
+                fontSize: '18px', 
+                fontWeight: '600',
+                textTransform: 'capitalize'
+              }}>
+                {variant}
+              </h3>
+              <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
+                {sizes.map((size) => (
+                  <Button
+                    key={`${variant}-${size}`}
+                    variant={variant}
+                    styleType="filled"
+                    size={size}
+                  >
+                    {size}
+                  </Button>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  },
+};
+
+/**
+ * Complete Matrix
+ * 모든 조합 (Variant × StyleType × Size)을 한눈에 볼 수 있는 완전한 매트릭스
+ */
+export const CompleteMatrix: Story = {
+  args: {
+    children: 'Button',
+  },
+  parameters: {
+    layout: 'padded',
+  },
+  render: () => {
+    const variants: Array<'primary' | 'secondary' | 'tertiary'> = ['primary', 'secondary', 'tertiary'];
+    const styleTypes: Array<'filled' | 'outline' | 'transparent'> = ['filled', 'outline', 'transparent'];
+    const sizes: Array<'small' | 'medium' | 'large'> = ['small', 'medium', 'large'];
+    
+    return (
+      <div style={{ padding: '20px' }}>
+        <h2 style={{ marginBottom: '30px', fontSize: '24px', fontWeight: 'bold' }}>
+          완전한 버튼 매트릭스 (Variant × StyleType × Size)
+        </h2>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '40px' }}>
+          {variants.map((variant) => (
+            <div key={variant}>
+              <h3 style={{ 
+                marginBottom: '20px', 
+                fontSize: '20px', 
+                fontWeight: '600',
+                textTransform: 'capitalize',
+                borderBottom: '2px solid #e5e7eb',
+                paddingBottom: '10px'
+              }}>
+                {variant}
+              </h3>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '25px' }}>
+                {styleTypes.map((styleType) => (
+                  <div key={`${variant}-${styleType}`}>
+                    <h4 style={{ 
+                      marginBottom: '12px', 
+                      fontSize: '14px', 
+                      fontWeight: '500',
+                      color: '#6b7280',
+                      textTransform: 'capitalize'
+                    }}>
+                      {styleType}
+                    </h4>
+                    <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
+                      {sizes.map((size) => (
+                        <Button
+                          key={`${variant}-${styleType}-${size}`}
+                          variant={variant}
+                          styleType={styleType}
+                          size={size}
+                        >
+                          {size}
+                        </Button>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  },
+};
+
+/**
+ * Theme Comparison
+ * Light와 Dark 테마를 나란히 비교할 수 있는 스토리
+ */
+export const ThemeComparison: Story = {
+  args: {
+    children: 'Button',
+  },
+  parameters: {
+    layout: 'padded',
+  },
+  render: () => {
+    const variants: Array<'primary' | 'secondary' | 'tertiary'> = ['primary', 'secondary', 'tertiary'];
+    const styleTypes: Array<'filled' | 'outline' | 'transparent'> = ['filled', 'outline', 'transparent'];
+    
+    return (
+      <div style={{ padding: '20px' }}>
+        <h2 style={{ marginBottom: '30px', fontSize: '24px', fontWeight: 'bold' }}>
+          테마 비교 (Light vs Dark)
+        </h2>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '30px' }}>
+          {/* Light Theme */}
+          <div>
+            <h3 style={{ 
+              marginBottom: '20px', 
+              fontSize: '18px', 
+              fontWeight: '600',
+              padding: '10px',
+              backgroundColor: '#f9fafb',
+              borderRadius: '8px'
+            }}>
+              Light Theme
+            </h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              {variants.map((variant) => (
+                <div key={variant}>
+                  <h4 style={{ 
+                    marginBottom: '10px', 
+                    fontSize: '14px', 
+                    fontWeight: '500',
+                    textTransform: 'capitalize'
+                  }}>
+                    {variant}
+                  </h4>
+                  <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                    {styleTypes.map((styleType) => (
+                      <Button
+                        key={`light-${variant}-${styleType}`}
+                        variant={variant}
+                        styleType={styleType}
+                        size="medium"
+                        theme="light"
+                      >
+                        {styleType}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          
+          {/* Dark Theme */}
+          <div style={{ backgroundColor: '#1f2937', padding: '20px', borderRadius: '12px' }}>
+            <h3 style={{ 
+              marginBottom: '20px', 
+              fontSize: '18px', 
+              fontWeight: '600',
+              padding: '10px',
+              backgroundColor: '#374151',
+              borderRadius: '8px',
+              color: 'white'
+            }}>
+              Dark Theme
+            </h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              {variants.map((variant) => (
+                <div key={variant}>
+                  <h4 style={{ 
+                    marginBottom: '10px', 
+                    fontSize: '14px', 
+                    fontWeight: '500',
+                    textTransform: 'capitalize',
+                    color: 'white'
+                  }}>
+                    {variant}
+                  </h4>
+                  <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                    {styleTypes.map((styleType) => (
+                      <Button
+                        key={`dark-${variant}-${styleType}`}
+                        variant={variant}
+                        styleType={styleType}
+                        size="medium"
+                        theme="dark"
+                      >
+                        {styleType}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  },
+};
+
+/**
+ * Icon Position Comparison
+ * 아이콘 위치에 따른 버튼 비교
+ */
+export const IconPositionComparison: Story = {
+  args: {
+    variant: 'primary',
+    styleType: 'filled',
+    size: 'large',
+    theme: 'light',
+    children: '버튼 텍스트',
+    disabled: false,
+  },
+  parameters: {
+    layout: 'padded',
+  },
+  render: (args) => {
+    const iconPositions: IconPosition[] = ['none', 'left', 'right', 'both'];
+    
+    return (
+      <div style={{ padding: '20px' }}>
+        <h2 style={{ marginBottom: '20px', fontSize: '24px', fontWeight: 'bold' }}>
+          아이콘 위치 비교
+        </h2>
+        <p style={{ marginBottom: '30px', color: '#6b7280' }}>
+          아이콘 위치에 따른 버튼 스타일을 비교해보세요.
+        </p>
+        
+        {/* All Icon Positions */}
+        <div>
+          <h3 style={{ marginBottom: '15px', fontSize: '16px', fontWeight: '600' }}>
+            모든 아이콘 위치 조합
+          </h3>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px' }}>
+            {iconPositions.map((position) => (
+              <div key={position} style={{ 
+                display: 'flex', 
+                flexDirection: 'column', 
+                gap: '10px',
+                padding: '15px',
+                border: '1px solid #e5e7eb',
+                borderRadius: '8px',
+                backgroundColor: 'white'
+              }}>
+                <span style={{ 
+                  fontSize: '12px', 
+                  fontWeight: '600', 
+                  color: '#6b7280',
+                  textTransform: 'uppercase'
+                }}>
+                  {position}
+                </span>
+                <Button {...args} {...getIconsByPosition(position)} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
   },
 };
 
