@@ -24,7 +24,7 @@
 }
 
 .searchIcon {
-  color: var(--color-gray-500);
+  display: block;
 }
 
 .input {
@@ -128,10 +128,6 @@
   font-weight: 400;
 }
 
-.searchBar.state-default.theme-dark .searchIcon {
-  color: var(--color-gray-400);
-}
-
 /* Selected State */
 .searchBar.state-selected.theme-dark {
   background-color: var(--color-gray-900);
@@ -146,10 +142,6 @@
 .searchBar.state-selected.theme-dark .input::placeholder {
   color: var(--color-gray-400);
   font-weight: 400;
-}
-
-.searchBar.state-selected.theme-dark .searchIcon {
-  color: var(--color-gray-400);
 }
 
 /* Filled State */
@@ -168,10 +160,6 @@
   font-weight: 500;
 }
 
-.searchBar.state-filled.theme-dark .searchIcon {
-  color: var(--color-gray-w);
-}
-
 /* Typing State */
 .searchBar.state-typing.theme-dark {
   background-color: var(--color-gray-900);
@@ -186,10 +174,6 @@
 .searchBar.state-typing.theme-dark .input::placeholder {
   color: var(--color-gray-w);
   font-weight: 500;
-}
-
-.searchBar.state-typing.theme-dark .searchIcon {
-  color: var(--color-gray-w);
 }
 
 /* ===================================
