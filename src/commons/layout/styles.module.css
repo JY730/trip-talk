@@ -1,0 +1,37 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.header {
+  width: 1168px;
+  height: 80px;
+  background-color: #f2f2f2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.banner {
+  width: 1168px;
+  height: 516px;
+  background-color: #e4e4e4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gap {
+  width: 1168px;
+  height: 40px;
+}
+
+.children {
+  width: 1168px;
+  min-height: auto;
+  flex: 1;
+}
+
