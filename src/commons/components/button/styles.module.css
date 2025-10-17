@@ -1,0 +1,331 @@
+/**
+ * Button Component Styles
+ * Design Source: Figma Node IDs 285:32278, 285:32417, 285:32418, 285:32025, 285:33448
+ * Last Updated: 2025-10-17
+ */
+
+/* ========================================
+   Base Button Styles
+   ======================================== */
+
+.button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  
+  border: none;
+  border-radius: 8px;
+  
+  font-family: var(--typo-font-family-ko);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  box-sizing: border-box;
+  white-space: nowrap;
+}
+
+.button:focus {
+  outline: none;
+}
+
+/* ========================================
+   Icon Styles
+   ======================================== */
+
+.leftIcon,
+.rightIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ========================================
+   Size Variants
+   ======================================== */
+
+/* Large: 48px height */
+.size-large {
+  height: 48px;
+  padding: 12px 16px;
+  font-size: 18px;
+  line-height: 24px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+/* Medium: 40px height */
+.size-medium {
+  height: 40px;
+  padding: 8px 16px;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+/* Small: 32px height */
+.size-small {
+  height: 32px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+/* ========================================
+   Variant × Style Type Combinations
+   ======================================== */
+
+/* Primary + Filled */
+.variant-primary.style-filled {
+  background-color: var(--color-main);
+  color: var(--color-gray-w);
+}
+
+.variant-primary.style-filled:hover:not(.disabled) {
+  background-color: #1f5cb8;
+}
+
+.variant-primary.style-filled:active:not(.disabled) {
+  background-color: #1a4d9c;
+}
+
+.variant-primary.style-filled:focus:not(.disabled) {
+  box-shadow: 0 0 0 3px rgba(41, 116, 229, 0.3);
+}
+
+/* Primary + Outline */
+.variant-primary.style-outline {
+  background-color: transparent;
+  border: 1px solid var(--color-main);
+  color: var(--color-main);
+}
+
+.variant-primary.style-outline:hover:not(.disabled) {
+  background-color: rgba(41, 116, 229, 0.05);
+}
+
+.variant-primary.style-outline:active:not(.disabled) {
+  background-color: rgba(41, 116, 229, 0.1);
+}
+
+.variant-primary.style-outline:focus:not(.disabled) {
+  box-shadow: 0 0 0 3px rgba(41, 116, 229, 0.3);
+}
+
+/* Primary + Transparent */
+.variant-primary.style-transparent {
+  background-color: rgba(41, 116, 229, 0.4);
+  color: var(--color-gray-w);
+}
+
+.variant-primary.style-transparent:hover:not(.disabled) {
+  background-color: rgba(41, 116, 229, 0.5);
+}
+
+.variant-primary.style-transparent:active:not(.disabled) {
+  background-color: rgba(41, 116, 229, 0.6);
+}
+
+.variant-primary.style-transparent:focus:not(.disabled) {
+  box-shadow: 0 0 0 3px rgba(41, 116, 229, 0.3);
+}
+
+/* Secondary + Filled */
+.variant-secondary.style-filled {
+  background-color: var(--color-gray-b);
+  color: var(--color-gray-w);
+}
+
+.variant-secondary.style-filled:hover:not(.disabled) {
+  background-color: var(--color-gray-800);
+}
+
+.variant-secondary.style-filled:active:not(.disabled) {
+  background-color: var(--color-gray-700);
+}
+
+.variant-secondary.style-filled:focus:not(.disabled) {
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.3);
+}
+
+/* Secondary + Outline */
+.variant-secondary.style-outline {
+  background-color: var(--color-gray-w);
+  border: 1px solid var(--color-gray-b);
+  color: var(--color-gray-b);
+}
+
+.variant-secondary.style-outline:hover:not(.disabled) {
+  background-color: var(--color-gray-50);
+}
+
+.variant-secondary.style-outline:active:not(.disabled) {
+  background-color: var(--color-gray-100);
+}
+
+.variant-secondary.style-outline:focus:not(.disabled) {
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Secondary + Transparent */
+.variant-secondary.style-transparent {
+  background-color: rgba(0, 0, 0, 0.4);
+  color: var(--color-gray-w);
+}
+
+.variant-secondary.style-transparent:hover:not(.disabled) {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.variant-secondary.style-transparent:active:not(.disabled) {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.variant-secondary.style-transparent:focus:not(.disabled) {
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Tertiary + Filled */
+.variant-tertiary.style-filled {
+  background-color: var(--color-gray-50);
+  color: var(--color-gray-800);
+}
+
+.variant-tertiary.style-filled:hover:not(.disabled) {
+  background-color: var(--color-gray-100);
+}
+
+.variant-tertiary.style-filled:active:not(.disabled) {
+  background-color: var(--color-gray-200);
+}
+
+.variant-tertiary.style-filled:focus:not(.disabled) {
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Tertiary + Outline */
+.variant-tertiary.style-outline {
+  background-color: transparent;
+  border: 1px solid var(--color-gray-300);
+  color: var(--color-gray-800);
+}
+
+.variant-tertiary.style-outline:hover:not(.disabled) {
+  background-color: var(--color-gray-50);
+  border-color: var(--color-gray-400);
+}
+
+.variant-tertiary.style-outline:active:not(.disabled) {
+  background-color: var(--color-gray-100);
+  border-color: var(--color-gray-500);
+}
+
+.variant-tertiary.style-outline:focus:not(.disabled) {
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Tertiary + Transparent */
+.variant-tertiary.style-transparent {
+  background-color: rgba(255, 255, 255, 0.4);
+  color: var(--color-gray-800);
+}
+
+.variant-tertiary.style-transparent:hover:not(.disabled) {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.variant-tertiary.style-transparent:active:not(.disabled) {
+  background-color: rgba(255, 255, 255, 0.6);
+}
+
+.variant-tertiary.style-transparent:focus:not(.disabled) {
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.1);
+}
+
+/* ========================================
+   Disabled State
+   ======================================== */
+
+.button.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.variant-primary.style-filled.disabled,
+.variant-secondary.style-filled.disabled,
+.variant-tertiary.style-filled.disabled {
+  background-color: var(--color-gray-300);
+  color: var(--color-gray-100);
+}
+
+.variant-primary.style-outline.disabled,
+.variant-secondary.style-outline.disabled,
+.variant-tertiary.style-outline.disabled {
+  border-color: var(--color-gray-300);
+  color: var(--color-gray-300);
+}
+
+.variant-primary.style-transparent.disabled,
+.variant-secondary.style-transparent.disabled,
+.variant-tertiary.style-transparent.disabled {
+  background-color: rgba(0, 0, 0, 0.1);
+  color: var(--color-gray-400);
+}
+
+/* ========================================
+   Theme Variants
+   ======================================== */
+
+/* Dark Theme Adjustments */
+.button.theme-dark.variant-secondary.style-filled {
+  background-color: var(--color-gray-w);
+  color: var(--color-gray-b);
+}
+
+.button.theme-dark.variant-secondary.style-filled:hover:not(.disabled) {
+  background-color: var(--color-gray-50);
+}
+
+.button.theme-dark.variant-secondary.style-filled:active:not(.disabled) {
+  background-color: var(--color-gray-100);
+}
+
+.button.theme-dark.variant-secondary.style-outline {
+  background-color: transparent;
+  border-color: var(--color-gray-w);
+  color: var(--color-gray-w);
+}
+
+.button.theme-dark.variant-secondary.style-outline:hover:not(.disabled) {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.button.theme-dark.variant-secondary.style-outline:active:not(.disabled) {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.button.theme-dark.variant-tertiary.style-filled {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: var(--color-gray-w);
+}
+
+.button.theme-dark.variant-tertiary.style-filled:hover:not(.disabled) {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.button.theme-dark.variant-tertiary.style-filled:active:not(.disabled) {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
