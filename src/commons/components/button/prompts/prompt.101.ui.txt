@@ -27,7 +27,7 @@
 
 핵심요구사항) 다음 조건을 모두 만족하는 완전한 variant 시스템을 구현할 것.
             - variant: 'primary' | 'secondary' | 'tertiary'
-            - style: 'filed' | 'outline' | 'transparent'
+            - style: 'filled' | 'outline' | 'transparent'
             - size: 'small' | 'medium' | 'large'
             - state: 'default' | 'hover' | 'press' | 'disabled' | 'focus'
             - theme: 'light' | 'dark'

@@ -17,6 +17,30 @@
   --color-gray-900: #1c1c1c;
   --color-gray-b: #000000;
 
+  /* Blue Palette */
+  --color-blue-50: #eaf1fc;
+  --color-blue-100: #bdd4f7;
+  --color-blue-200: #9dbff3;
+  --color-blue-300: #70a2ee;
+  --color-blue-400: #5490ea;
+  --color-blue-500: #2974e5;
+  --color-blue-600: #256ad0;
+  --color-blue-700: #1d52a3;
+  --color-blue-800: #17407e;
+  --color-blue-900: #113160;
+
+  /* Red Palette */
+  --color-red-50: #fef0f0;
+  --color-red-100: #fcd1d1;
+  --color-red-200: #fbbaba;
+  --color-red-300: #f99b9b;
+  --color-red-400: #f88888;
+  --color-red-500: #f66a6a;
+  --color-red-600: #e06060;
+  --color-red-700: #af4b4b;
+  --color-red-800: #873a3a;
+  --color-red-900: #672d2d;
+
   /* Brand Colors */
   --color-main: #2974e5;
   --color-red: #f66a6a;
@@ -144,6 +168,30 @@
     --color-gray-800: #e4e4e4;
     --color-gray-900: #f2f2f2;
     --color-gray-b: #ffffff;
+
+    /* Blue Palette (다크모드에서도 동일 유지) */
+    --color-blue-50: #eaf1fc;
+    --color-blue-100: #bdd4f7;
+    --color-blue-200: #9dbff3;
+    --color-blue-300: #70a2ee;
+    --color-blue-400: #5490ea;
+    --color-blue-500: #2974e5;
+    --color-blue-600: #256ad0;
+    --color-blue-700: #1d52a3;
+    --color-blue-800: #17407e;
+    --color-blue-900: #113160;
+
+    /* Red Palette (다크모드에서도 동일 유지) */
+    --color-red-50: #fef0f0;
+    --color-red-100: #fcd1d1;
+    --color-red-200: #fbbaba;
+    --color-red-300: #f99b9b;
+    --color-red-400: #f88888;
+    --color-red-500: #f66a6a;
+    --color-red-600: #e06060;
+    --color-red-700: #af4b4b;
+    --color-red-800: #873a3a;
+    --color-red-900: #672d2d;
 
     /* Brand Colors (다크모드에서도 동일 유지) */
     --color-main: #2974e5;
