@@ -1,0 +1,325 @@
+/**
+ * Input Component Styles
+ * Design Source: Figma Node IDs 285:31852, 285:31825
+ * Last Updated: 2025-10-17
+ */
+
+/* ========================================
+   Container & Layout
+   ======================================== */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+/* ========================================
+   Label Area
+   ======================================== */
+
+.labelArea {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 24px;
+}
+
+.label {
+  font-family: var(--typo-font-family-ko);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0;
+  color: var(--color-gray-800);
+}
+
+.required {
+  font-family: var(--typo-font-family-ko);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0;
+  color: var(--color-red-500);
+}
+
+/* ========================================
+   Input Wrapper (Input + Button)
+   ======================================== */
+
+.inputWrapper {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  align-items: stretch;
+}
+
+.inputArea {
+  flex: 1;
+  min-width: 0;
+}
+
+.buttonArea {
+  flex-shrink: 0;
+}
+
+/* ========================================
+   Base Input Styles
+   ======================================== */
+
+.input {
+  width: 100%;
+  border-radius: 8px;
+  
+  font-family: var(--typo-font-family-ko);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0;
+  
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.input::placeholder {
+  color: var(--color-gray-400);
+  font-weight: 400;
+}
+
+.input:focus {
+  outline: none;
+}
+
+/* ========================================
+   Size Variants
+   ======================================== */
+
+/* Large: 48px height */
+.size-large {
+  height: 48px;
+  padding: 12px 16px;
+}
+
+.size-large.hasButton {
+  padding-right: 16px;
+}
+
+/* Medium: 40px height */
+.size-medium {
+  height: 40px;
+  padding: 10px 16px;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.size-medium.hasButton {
+  padding-right: 16px;
+}
+
+/* Small: 32px height */
+.size-small {
+  height: 32px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.size-small.hasButton {
+  padding-right: 12px;
+}
+
+/* ========================================
+   Variant × Theme Combinations (Default State)
+   ======================================== */
+
+/* Primary + Light */
+.variant-primary.theme-light {
+  background-color: var(--color-gray-w);
+  border: 1px solid var(--color-gray-200);
+  color: var(--color-gray-800);
+}
+
+.variant-primary.theme-light:hover:not(.disabled):not(.error) {
+  border-color: var(--color-gray-300);
+}
+
+.variant-primary.theme-light:focus:not(.disabled):not(.error) {
+  border-color: var(--color-main);
+  box-shadow: 0 0 0 3px var(--color-main-alpha-10);
+}
+
+.variant-primary.theme-light:active:not(.disabled):not(.error) {
+  border-color: var(--color-blue-600);
+}
+
+/* Primary + Dark */
+.variant-primary.theme-dark {
+  background-color: var(--color-gray-900);
+  border: 1px solid var(--color-gray-700);
+  color: var(--color-gray-50);
+}
+
+.variant-primary.theme-dark:hover:not(.disabled):not(.error) {
+  border-color: var(--color-gray-600);
+}
+
+.variant-primary.theme-dark:focus:not(.disabled):not(.error) {
+  border-color: var(--color-main);
+  box-shadow: 0 0 0 3px var(--color-main-alpha-30);
+}
+
+.variant-primary.theme-dark:active:not(.disabled):not(.error) {
+  border-color: var(--color-blue-500);
+}
+
+/* Secondary + Light */
+.variant-secondary.theme-light {
+  background-color: var(--color-gray-50);
+  border: 1px solid var(--color-gray-300);
+  color: var(--color-gray-800);
+}
+
+.variant-secondary.theme-light:hover:not(.disabled):not(.error) {
+  border-color: var(--color-gray-400);
+  background-color: var(--color-gray-w);
+}
+
+.variant-secondary.theme-light:focus:not(.disabled):not(.error) {
+  border-color: var(--color-gray-800);
+  background-color: var(--color-gray-w);
+  box-shadow: 0 0 0 3px var(--color-black-alpha-10);
+}
+
+.variant-secondary.theme-light:active:not(.disabled):not(.error) {
+  border-color: var(--color-gray-b);
+}
+
+/* Secondary + Dark */
+.variant-secondary.theme-dark {
+  background-color: var(--color-gray-800);
+  border: 1px solid var(--color-gray-600);
+  color: var(--color-gray-50);
+}
+
+.variant-secondary.theme-dark:hover:not(.disabled):not(.error) {
+  border-color: var(--color-gray-500);
+  background-color: var(--color-gray-900);
+}
+
+.variant-secondary.theme-dark:focus:not(.disabled):not(.error) {
+  border-color: var(--color-gray-w);
+  background-color: var(--color-gray-900);
+  box-shadow: 0 0 0 3px var(--color-white-alpha-20);
+}
+
+.variant-secondary.theme-dark:active:not(.disabled):not(.error) {
+  border-color: var(--color-gray-50);
+}
+
+/* Tertiary + Light */
+.variant-tertiary.theme-light {
+  background-color: var(--color-gray-w);
+  border: 1px solid var(--color-gray-100);
+  color: var(--color-gray-800);
+}
+
+.variant-tertiary.theme-light:hover:not(.disabled):not(.error) {
+  border-color: var(--color-gray-200);
+}
+
+.variant-tertiary.theme-light:focus:not(.disabled):not(.error) {
+  border-color: var(--color-gray-400);
+  box-shadow: 0 0 0 3px var(--color-black-alpha-10);
+}
+
+.variant-tertiary.theme-light:active:not(.disabled):not(.error) {
+  border-color: var(--color-gray-500);
+}
+
+/* Tertiary + Dark */
+.variant-tertiary.theme-dark {
+  background-color: var(--color-gray-900);
+  border: 1px solid var(--color-gray-800);
+  color: var(--color-gray-50);
+}
+
+.variant-tertiary.theme-dark:hover:not(.disabled):not(.error) {
+  border-color: var(--color-gray-700);
+}
+
+.variant-tertiary.theme-dark:focus:not(.disabled):not(.error) {
+  border-color: var(--color-gray-500);
+  box-shadow: 0 0 0 3px var(--color-white-alpha-10);
+}
+
+.variant-tertiary.theme-dark:active:not(.disabled):not(.error) {
+  border-color: var(--color-gray-400);
+}
+
+/* ========================================
+   Error State
+   ======================================== */
+
+.input.error {
+  border-color: var(--color-red-500);
+}
+
+.input.error:hover:not(.disabled) {
+  border-color: var(--color-red-600);
+}
+
+.input.error:focus:not(.disabled) {
+  border-color: var(--color-red-500);
+  box-shadow: 0 0 0 3px rgba(246, 106, 106, 0.1);
+}
+
+.input.error:active:not(.disabled) {
+  border-color: var(--color-red-700);
+}
+
+.errorMessage {
+  font-family: var(--typo-font-family-ko);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0;
+  color: var(--color-red-500);
+  margin-top: 4px;
+}
+
+/* ========================================
+   Disabled State
+   ======================================== */
+
+.input.disabled {
+  background-color: var(--color-gray-100);
+  border-color: var(--color-gray-200);
+  color: var(--color-gray-500);
+  cursor: not-allowed;
+}
+
+.input.disabled::placeholder {
+  color: var(--color-gray-500);
+}
+
+/* Dark theme disabled */
+.theme-dark.disabled {
+  background-color: var(--color-gray-800);
+  border-color: var(--color-gray-700);
+  color: var(--color-gray-400);
+}
+
+.theme-dark.disabled::placeholder {
+  color: var(--color-gray-400);
+}
+
+/* ========================================
+   Label Theme Adjustments
+   ======================================== */
+
+.theme-dark .label {
+  color: var(--color-gray-50);
+}
+

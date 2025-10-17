@@ -10,8 +10,9 @@
 
 ==============================================
 
-조건-피그마) 활용할MCP: CursorTalkToFigmaMCP(채널명: jab5zwyt)
-조건-피그마) 참고할 공통컴포넌트 노드ID: 3:1153
+조건-피그마) 활용할MCP: CursorTalkToFigmaMCP(채널명: ttrp5ymm)
+조건-피그마) 참고할 공통컴포넌트 노드ID: 285:31852
+조건-피그마) 참고할 공통컴포넌트 노드ID: 285:31825
 
 조건-파일경로) 구현될 TSX 파일경로: src/commons/components/input/index.tsx
 조건-파일경로) 구현될 CSS 파일경로: src/commons/components/input/styles.module.css
@@ -24,3 +25,4 @@
             - variant: 'primary' | 'secondary' | 'tertiary'
             - size: 'small' | 'medium' | 'large'
             - theme: 'light' | 'dark'
+            - state: 'default' | 'hover' | 'press' | 'error' | 'disabled'
