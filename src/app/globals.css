@@ -45,6 +45,30 @@
   --color-main: #2974e5;
   --color-red: #f66a6a;
 
+  /* Alpha Colors - Main (Blue) */
+  --color-main-alpha-5: rgba(41, 116, 229, 0.05);
+  --color-main-alpha-10: rgba(41, 116, 229, 0.1);
+  --color-main-alpha-30: rgba(41, 116, 229, 0.3);
+  --color-main-alpha-40: rgba(41, 116, 229, 0.4);
+  --color-main-alpha-50: rgba(41, 116, 229, 0.5);
+  --color-main-alpha-60: rgba(41, 116, 229, 0.6);
+
+  /* Alpha Colors - Black */
+  --color-black-alpha-10: rgba(0, 0, 0, 0.1);
+  --color-black-alpha-20: rgba(0, 0, 0, 0.2);
+  --color-black-alpha-30: rgba(0, 0, 0, 0.3);
+  --color-black-alpha-40: rgba(0, 0, 0, 0.4);
+  --color-black-alpha-50: rgba(0, 0, 0, 0.5);
+  --color-black-alpha-60: rgba(0, 0, 0, 0.6);
+
+  /* Alpha Colors - White */
+  --color-white-alpha-10: rgba(255, 255, 255, 0.1);
+  --color-white-alpha-20: rgba(255, 255, 255, 0.2);
+  --color-white-alpha-30: rgba(255, 255, 255, 0.3);
+  --color-white-alpha-40: rgba(255, 255, 255, 0.4);
+  --color-white-alpha-50: rgba(255, 255, 255, 0.5);
+  --color-white-alpha-60: rgba(255, 255, 255, 0.6);
+
   /* Typography - Font Family */
   --typo-font-family-ko: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   --typo-font-family-en: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
@@ -196,6 +220,30 @@
     /* Brand Colors (다크모드에서도 동일 유지) */
     --color-main: #2974e5;
     --color-red: #f66a6a;
+
+    /* Alpha Colors - Main (Blue) (다크모드에서도 동일 유지) */
+    --color-main-alpha-5: rgba(41, 116, 229, 0.05);
+    --color-main-alpha-10: rgba(41, 116, 229, 0.1);
+    --color-main-alpha-30: rgba(41, 116, 229, 0.3);
+    --color-main-alpha-40: rgba(41, 116, 229, 0.4);
+    --color-main-alpha-50: rgba(41, 116, 229, 0.5);
+    --color-main-alpha-60: rgba(41, 116, 229, 0.6);
+
+    /* Alpha Colors - Black (다크모드에서도 동일 유지) */
+    --color-black-alpha-10: rgba(0, 0, 0, 0.1);
+    --color-black-alpha-20: rgba(0, 0, 0, 0.2);
+    --color-black-alpha-30: rgba(0, 0, 0, 0.3);
+    --color-black-alpha-40: rgba(0, 0, 0, 0.4);
+    --color-black-alpha-50: rgba(0, 0, 0, 0.5);
+    --color-black-alpha-60: rgba(0, 0, 0, 0.6);
+
+    /* Alpha Colors - White (다크모드에서도 동일 유지) */
+    --color-white-alpha-10: rgba(255, 255, 255, 0.1);
+    --color-white-alpha-20: rgba(255, 255, 255, 0.2);
+    --color-white-alpha-30: rgba(255, 255, 255, 0.3);
+    --color-white-alpha-40: rgba(255, 255, 255, 0.4);
+    --color-white-alpha-50: rgba(255, 255, 255, 0.5);
+    --color-white-alpha-60: rgba(255, 255, 255, 0.6);
 
     /* Legacy Variables */
     --background: #0a0a0a;
