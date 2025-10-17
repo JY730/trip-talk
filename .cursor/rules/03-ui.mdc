@@ -20,3 +20,7 @@ alwaysApply: false
 
 2. icons/images 조건
     - 아이콘과 이미지는, * [상수경로]에 제공된 [아이콘]과 [이미지]를 활용할 것.
+
+
+3. color 조건
+    - color는 최대한 하드코딩하지말고 globals.css의 변수 색상을 가져와서 활용할 것.

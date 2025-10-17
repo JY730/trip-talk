@@ -328,3 +328,19 @@
   background-color: var(--color-white-alpha-40);
 }
 
+.button.theme-dark.variant-tertiary.style-outline {
+  background-color: transparent;
+  border: 1px solid var(--color-gray-400);
+  color: var(--color-gray-50);
+}
+
+.button.theme-dark.variant-tertiary.style-outline:hover:not(.disabled) {
+  background-color: var(--color-white-alpha-10);
+  border-color: var(--color-gray-400);
+}
+
+.button.theme-dark.variant-tertiary.style-outline:active:not(.disabled) {
+  background-color: var(--color-white-alpha-20);
+  border-color: var(--color-gray-500);
+}
+
