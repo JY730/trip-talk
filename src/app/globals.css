@@ -3,12 +3,50 @@
 @tailwind utilities;
 
 :root {
+  /* Gray Scale */
+  --color-gray-w: #ffffff;
+  --color-gray-50: #f2f2f2;
+  --color-gray-100: #e4e4e4;
+  --color-gray-200: #d4d3d3;
+  --color-gray-300: #c7c7c7;
+  --color-gray-400: #ababab;
+  --color-gray-500: #919191;
+  --color-gray-600: #777777;
+  --color-gray-700: #5f5f5f;
+  --color-gray-800: #333333;
+  --color-gray-900: #1c1c1c;
+  --color-gray-b: #000000;
+
+  /* Brand Colors */
+  --color-main: #2974e5;
+  --color-red: #f66a6a;
+
+  /* Legacy Variables */
   --background: #ffffff;
   --foreground: #171717;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
+    /* Dark Mode - Gray Scale (반전) */
+    --color-gray-w: #000000;
+    --color-gray-50: #1c1c1c;
+    --color-gray-100: #333333;
+    --color-gray-200: #5f5f5f;
+    --color-gray-300: #777777;
+    --color-gray-400: #919191;
+    --color-gray-500: #ababab;
+    --color-gray-600: #c7c7c7;
+    --color-gray-700: #d4d3d3;
+    --color-gray-800: #e4e4e4;
+    --color-gray-900: #f2f2f2;
+    --color-gray-b: #ffffff;
+
+    /* Brand Colors (다크모드에서도 동일 유지) */
+    --color-main: #2974e5;
+    --color-red: #f66a6a;
+
+    /* Legacy Variables */
     --background: #0a0a0a;
     --foreground: #ededed;
   }
