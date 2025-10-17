@@ -63,10 +63,10 @@ export default function Layout({ children }: LayoutProps) {
           {!isLoggedIn && (
             <Link href="/login" className={styles.loginButtonLink}>
               <Button
-                variant="tertiary"
+                variant="secondary"
                 styleType="filled"
-                size="small"
-                theme="dark"
+                size="medium"
+                theme="light"
                 shape="rounded"
                 rightIcon={
                   <img 
