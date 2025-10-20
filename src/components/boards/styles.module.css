@@ -1,0 +1,216 @@
+/**
+ * Boards Component Styles
+ * Design Source: Wireframe
+ * Last Updated: 2025-10-20
+ */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 1168px;
+  margin: 0 auto;
+  margin-bottom: 40px;
+  gap: 24px;
+}
+
+.titleSection {
+  position: relative;
+  height: 36px;
+  padding: 8px 0px;
+  display: flex;
+  align-items: center;
+}
+
+.title {
+  font-size: var(--typo-headline-h1-font-size);
+  line-height: var(--typo-headline-h1-line-height);
+  font-weight: var(--typo-headline-h1-font-weight);
+  letter-spacing: var(--typo-headline-h1-letter-spacing);
+  color: var(--color-gray-b);
+  margin: 0;
+}
+
+
+.searchContainer {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.searchRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  height: 48px;
+}
+
+.searchBox {
+  flex: 1;
+  min-width: 400px;
+  max-width: 640px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.datePickerBox {
+  flex-shrink: 0;
+  min-width: 160px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.searchButtonBox {
+  flex-shrink: 0;
+  min-width: 80px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.writeButton {
+  align-self: flex-end;
+  height: 48px;
+  display: flex;
+  align-items: center;
+}
+
+/* 컴포넌트별 스타일 */
+.searchBarContainer {
+  width: 100%;
+}
+
+/* datePicker 공통 스타일 */
+.datePicker {
+  width: 300px;
+  height: 48px;
+  border-radius: 8px;
+  background-color: var(--color-gray-50);
+  border: none !important;
+  outline: none;
+  padding-left: 44px;
+  font-size: 14px;
+  color: var(--color-gray-900);
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+/* input 내부 (ant 내부 클래스 override) */
+.datePicker :global(.ant-picker-input > input) {
+  font-family: "Pretendard", sans-serif;
+  font-size: 16px;
+  color: var(--color-gray-900);
+}
+
+/* placeholder 색상 */
+.datePicker :global(.ant-picker-input > input::placeholder) {
+  color: #999;
+}
+
+/* 아이콘 색상
+.datePicker :global(.ant-picker-suffix) {
+  color: #777;
+  margin-right: 4px;
+} */
+
+/* hover 시 테두리 유지 */
+.datePicker :global(.ant-picker-focused),
+.datePicker:hover {
+  border: 1px solid var(--color-gray-b) !important;
+  box-shadow: none !important;
+  /* background-color: var(--color-gray-w); */
+}
+
+/* 비활성화된 clear 버튼 제거 */
+.datePicker :global(.ant-picker-clear) {
+  display: none !important;
+}
+
+.calendarIcon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  pointer-events: none; /* 클릭 방해하지 않게 */
+  z-index: 10; /* ← 추가 */
+}
+
+
+.searchButton {
+  width: 64px;
+}
+
+.writeButtonComponent {
+  width: 100%;
+}
+
+.contentSection {
+  width: 100%;
+  background-color: var(--color-main-alpha-5);
+  border: 2px solid var(--color-main-alpha-30);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.contentContainer {
+  min-height: 696px;
+  background-color: var(--color-gray-50);
+  border: 1px solid var(--color-gray-200);
+  border-radius: 4px;
+  padding: 16px;
+}
+
+.boardList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-height: 200px;
+  align-items: center;
+  justify-content: center;
+}
+
+.sectionLabel {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: var(--typo-caption-c1-font-size);
+  font-weight: var(--typo-caption-c1-font-weight);
+  color: var(--color-gray-600);
+  background-color: var(--color-gray-w);
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--color-gray-300);
+}
+
+.placeholderText {
+  font-size: var(--typo-body-b3-font-size);
+  color: var(--color-gray-500);
+  font-style: italic;
+}
+
+
+@media (max-width: 781px) {
+  .searchRow {
+    flex-direction: column;
+    height: auto;
+    gap: 12px;
+  }
+  
+  .searchBox,
+  .datePickerBox,
+  .searchButtonBox {
+    width: 100%;
+  }
+  
+  .writeButton {
+    align-self: stretch;
+    width: 100%;
+  }
+}
+

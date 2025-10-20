@@ -71,21 +71,10 @@
 }
 
 /* 반응형 디자인 */
-@media (max-width: 1440px) {
-  .bannerContainer {
-    height: 450px;
-  }
-}
 
-@media (max-width: 1024px) {
+@media (max-width: 781px) {
   .bannerContainer {
-    height: 380px;
-  }
-}
-
-@media (max-width: 768px) {
-  .bannerContainer {
-    height: 300px;
+    height: 516px;
   }
   
   .bannerContainer :global(.swiper-pagination) {
@@ -93,9 +82,9 @@
   }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 360px) {
   .bannerContainer {
-    height: 220px;
+    height: 200px;
   }
   
   .bannerContainer :global(.swiper-pagination) {
