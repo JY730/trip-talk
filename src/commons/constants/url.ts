@@ -57,6 +57,13 @@ export const urls = {
     list: (): string => '/boards',
     
     /**
+     * 트립토크 등록 페이지
+     * @path /boards/new
+     * @access 누구나
+     */
+    new: (): string => '/boards/new',
+    
+    /**
      * 게시글 상세 페이지
      * @path /boards/[id]
      * @access 회원전용
@@ -75,6 +82,13 @@ export const urls = {
      * @access 누구나
      */
     list: (): string => '/products',
+    
+    /**
+     * 숙박권 판매 등록 페이지
+     * @path /products/new
+     * @access 누구나
+     */
+    new: (): string => '/products/new',
     
     /**
      * 숙박권 상세 페이지
@@ -124,6 +138,13 @@ export const urlMeta: Record<string, UrlMeta> = {
     showBanner: true,
     description: '트립토크 게시판 목록',
   },
+  '/boards/new': {
+    path: '/boards/new',
+    access: 'public',
+    showHeader: true,
+    showBanner: false,
+    description: '트립토크 등록 페이지',
+  },
   '/boards/[id]': {
     path: '/boards/[id]',
     access: 'member-only',
@@ -137,6 +158,13 @@ export const urlMeta: Record<string, UrlMeta> = {
     showHeader: true,
     showBanner: true,
     description: '숙박권 구매 목록',
+  },
+  '/products/new': {
+    path: '/products/new',
+    access: 'public',
+    showHeader: true,
+    showBanner: false,
+    description: '숙박권 판매 등록 페이지',
   },
   '/products/[id]': {
     path: '/products/[id]',
