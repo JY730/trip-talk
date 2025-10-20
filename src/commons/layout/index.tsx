@@ -2,9 +2,10 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import Banner from './banner';
 import Button from '@/commons/components/button';
+import { urls } from '@/commons/constants/url';
+import { useNavigationRouting } from './hooks/index.link.routing.hook';
 import styles from './styles.module.css';
 
 interface LayoutProps {
@@ -12,25 +13,15 @@ interface LayoutProps {
 }
 
 export default function Layout({ children }: LayoutProps) {
-  const pathname = usePathname();
   const [isLoggedIn] = useState(false); // 로그인 상태 관리 (추후 연동)
-  
-  // 현재 경로에 따라 activeTab 결정
-  const getActiveTab = () => {
-    if (pathname?.startsWith('/triptalk')) return 'triptalk';
-    if (pathname?.startsWith('/purchase')) return 'purchase';
-    if (pathname?.startsWith('/mypage')) return 'mypage';
-    return 'triptalk'; // 기본값
-  };
-  
-  const activeTab = getActiveTab();
+  const { activeTab } = useNavigationRouting();
   
   return (
-    <div className={styles.container}>
-      <header className={styles.header}>
+    <div className={styles.container} data-testid="layout-container">
+      <header className={styles.header} data-testid="layout-header">
         <div className={styles.headerInner}>
           <div className={styles.leftSection}>
-            <Link href="/" className={styles.logo}>
+            <Link href={urls.boards.list()} className={styles.logo} data-testid="logo-link">
               <img 
                 src="/images/logo.svg" 
                 alt="TripTalk Logo" 
@@ -38,22 +29,25 @@ export default function Layout({ children }: LayoutProps) {
               />
             </Link>
             
-            <nav className={styles.navigation}>
+            <nav className={styles.navigation} data-testid="navigation">
               <Link 
-                href="/triptalk" 
-                className={`${styles.navLink} ${activeTab === 'triptalk' ? styles.navLinkActive : ''}`}
+                href={urls.boards.list()} 
+                className={`${styles.navLink} ${activeTab === 'boards' ? styles.navLinkActive : ''}`}
+                data-testid="nav-boards"
               >
                 트립토크
               </Link>
               <Link 
-                href="/purchase" 
-                className={`${styles.navLink} ${activeTab === 'purchase' ? styles.navLinkActive : ''}`}
+                href={urls.products.list()} 
+                className={`${styles.navLink} ${activeTab === 'products' ? styles.navLinkActive : ''}`}
+                data-testid="nav-products"
               >
                 숙박권 구매
               </Link>
               <Link 
-                href="/mypage" 
+                href={urls.mypage.main()} 
                 className={`${styles.navLink} ${activeTab === 'mypage' ? styles.navLinkActive : ''}`}
+                data-testid="nav-mypage"
               >
                 마이 페이지
               </Link>
@@ -61,7 +55,7 @@ export default function Layout({ children }: LayoutProps) {
           </div>
           
           {!isLoggedIn && (
-            <Link href="/login" className={styles.loginButtonLink}>
+            <Link href={urls.auth.login()} className={styles.loginButtonLink} data-testid="login-link">
               <Button
                 variant="secondary"
                 styleType="filled"
@@ -91,7 +85,7 @@ export default function Layout({ children }: LayoutProps) {
         {/* Gap 영역 (빈 공간) */}
       </div>
       
-      <main className={styles.children}>
+      <main className={styles.children} data-testid="main-content">
         {children}
       </main>
     </div>

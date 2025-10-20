@@ -8,7 +8,11 @@
     "start": "next start",
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:report": "playwright show-report"
   },
   "dependencies": {
     "@tanstack/react-query": "^5.90.5",
@@ -21,6 +25,7 @@
   },
   "devDependencies": {
     "@chromatic-com/storybook": "^4.1.1",
+    "@playwright/test": "^1.44.0",
     "@storybook/addon-a11y": "^9.1.12",
     "@storybook/addon-docs": "^9.1.12",
     "@storybook/addon-vitest": "^9.1.12",
@@ -31,6 +36,7 @@
     "eslint": "^8",
     "eslint-config-next": "14.2.32",
     "eslint-plugin-storybook": "^9.1.12",
+    "playwright": "^1.44.0",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
