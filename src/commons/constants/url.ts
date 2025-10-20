@@ -117,6 +117,13 @@ export const urls = {
  * - 각 URL의 접근 권한, header/banner 노출 여부 등 메타 정보
  */
 export const urlMeta: Record<string, UrlMeta> = {
+  '/': {
+    path: '/',
+    access: 'public',
+    showHeader: true,
+    showBanner: true,
+    description: '홈페이지',
+  },
   '/auth/login': {
     path: '/auth/login',
     access: 'public',
