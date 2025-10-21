@@ -6,14 +6,9 @@ import { ThemeProvider } from "@/commons/providers/next-themes/next-themes.provi
 import { ReactQueryProvider } from "@/commons/providers/react-query/react-query.provider";
 import Layout from "@/commons/layout";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
+const pretendard = localFont({
+  src: "./fonts/PretendardVariable.woff2",
+  variable: "--font-pretendard",
   weight: "100 900",
 });
 
@@ -28,9 +23,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="ko" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${pretendard.variable} antialiased`}
       >
         <ReactQueryProvider>
           <ThemeProvider>
