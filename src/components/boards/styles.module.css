@@ -1,8 +1,12 @@
 /**
  * Boards Component Styles
- * Design Source: Wireframe
- * Last Updated: 2025-10-20
+ * Design Source: Figma Node ID 285:33344
+ * Last Updated: 2025-10-21
  */
+
+/* ========================================
+   Container & Layout
+   ======================================== */
 
 .container {
   display: flex;
@@ -31,6 +35,9 @@
   margin: 0;
 }
 
+/* ========================================
+   Search Area
+   ======================================== */
 
 .searchContainer {
   display: flex;
@@ -48,7 +55,7 @@
 
 .searchBox {
   flex: 1;
-  min-width: 400px;
+  min-width: 480px;
   max-width: 640px;
   height: 100%;
   display: flex;
@@ -78,12 +85,19 @@
   align-items: center;
 }
 
-/* 컴포넌트별 스타일 */
+.writeButton > button {
+  width: 100%;
+}
+
+/* ========================================
+   Common Component Overrides
+   ======================================== */
+
 .searchBarContainer {
   width: 100%;
 }
 
-/* datePicker 공통 스타일 */
+/* DatePicker 스타일 */
 .datePicker {
   width: 300px;
   height: 48px;
@@ -99,37 +113,31 @@
   position: relative;
 }
 
-/* input 내부 (ant 내부 클래스 override) */
+/* DatePicker - Input 스타일 */
 .datePicker :global(.ant-picker-input > input) {
   font-family: var(--typo-font-family-ko);
   font-size: 16px;
   color: var(--color-gray-900);
 }
 
-/* placeholder 색상 */
+/* DatePicker - Placeholder */
 .datePicker :global(.ant-picker-input > input::placeholder) {
-  color: #999;
+  color: var(--color-gray-500);
 }
 
-/* 아이콘 색상
-.datePicker :global(.ant-picker-suffix) {
-  color: #777;
-  margin-right: 4px;
-} */
-
-/* hover 시 테두리 유지 */
+/* DatePicker - Focus & Hover */
 .datePicker :global(.ant-picker-focused),
 .datePicker:hover {
   border: 1px solid var(--color-gray-b) !important;
   box-shadow: none !important;
-  /* background-color: var(--color-gray-w); */
 }
 
-/* 비활성화된 clear 버튼 제거 */
+/* DatePicker - Clear 버튼 제거 */
 .datePicker :global(.ant-picker-clear) {
   display: none !important;
 }
 
+/* DatePicker - Calendar 아이콘 */
 .calendarIcon {
   position: absolute;
   left: 12px;
@@ -137,63 +145,160 @@
   transform: translateY(-50%);
   width: 24px;
   height: 24px;
-  pointer-events: none; /* 클릭 방해하지 않게 */
-  z-index: 10; /* ← 추가 */
+  pointer-events: none;
+  z-index: 10;
 }
 
-
-.searchButton {
+/* Button 스타일 - 검색 버튼 */
+.searchButtonBox > button {
   width: 64px;
 }
 
-.writeButtonComponent {
+/* ========================================
+   Main Section - Board List
+   ======================================== */
+
+.mainSection {
   width: 100%;
-}
-
-.contentSection {
-  width: 100%;
-  background-color: var(--color-main-alpha-5);
-  border: 2px solid var(--color-main-alpha-30);
-  border-radius: 8px;
-  padding: 16px;
-}
-
-.contentContainer {
-  min-height: 696px;
-  background-color: var(--color-gray-50);
-  border: 1px solid var(--color-gray-200);
-  border-radius: 4px;
-  padding: 16px;
-}
-
-.boardList {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  min-height: 200px;
-  align-items: center;
-  justify-content: center;
-}
-
-.sectionLabel {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  font-size: var(--typo-caption-c1-font-size);
-  font-weight: var(--typo-caption-c1-font-weight);
-  color: var(--color-gray-600);
+  gap: 0;
   background-color: var(--color-gray-w);
-  padding: 4px 8px;
-  border-radius: 4px;
-  border: 1px solid var(--color-gray-300);
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
 }
 
-.placeholderText {
-  font-size: var(--typo-body-b3-font-size);
+/* Board Header */
+.boardHeaderContainer {
+  padding: 24px 48px 8px 48px;
+}
+
+.boardHeader {
+  display: flex;
+  align-items: center;
+  padding: 16px 24px;
+}
+
+.headerNumber {
+  width: 64px;
+  text-align: center;
+  font-family: var(--typo-font-family-ko);
+  font-size: var(--typo-body-b2-font-size);
+  font-weight: var(--typo-body-b2-font-weight);
+  line-height: var(--typo-body-b2-line-height);
+  color: var(--color-gray-900);
+}
+
+.headerTitle {
+  flex: 1;
+  text-align: left;
+  font-family: var(--typo-font-family-ko);
+  font-size: var(--typo-body-b2-font-size);
+  font-weight: var(--typo-body-b2-font-weight);
+  line-height: var(--typo-body-b2-line-height);
+  color: var(--color-gray-900);
+}
+
+.headerAuthor {
+  width: 100px;
+  text-align: center;
+  font-family: var(--typo-font-family-ko);
+  font-size: var(--typo-body-b2-font-size);
+  font-weight: var(--typo-body-b2-font-weight);
+  line-height: var(--typo-body-b2-line-height);
+  color: var(--color-gray-900);
+}
+
+.headerDate {
+  width: 100px;
+  text-align: center;
+  font-family: var(--typo-font-family-ko);
+  font-size: var(--typo-body-b2-font-size);
+  font-weight: var(--typo-body-b2-font-weight);
+  line-height: var(--typo-body-b2-line-height);
+  color: var(--color-gray-900);
+}
+
+/* Board List Container */
+.boardListContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 0px 48px;
+  min-height: 548px;
+}
+
+/* Board Item */
+.boardItem {
+  display: flex;
+  align-items: center;
+  height: 44px;
+  padding: 12px 24px;
+  background-color: var(--color-gray-w);
+  border: 1px solid var(--color-gray-50);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.boardItem:hover {
+  background-color: var(--color-gray-50);
+}
+
+.boardNumber {
+  width: 64px;
+  text-align: center;
+  font-family: var(--typo-font-family-ko);
+  font-size: var(--typo-caption-c3-font-size);
+  font-weight: var(--typo-caption-c3-font-weight);
+  line-height: var(--typo-caption-c3-line-height);
   color: var(--color-gray-500);
-  font-style: italic;
 }
 
+.boardTitle {
+  flex: 1;
+  text-align: left;
+  font-family: var(--typo-font-family-ko);
+  font-size: var(--typo-body-b3-font-size);
+  font-weight: var(--typo-body-b3-font-weight);
+  line-height: var(--typo-body-b3-line-height);
+  color: var(--color-gray-900);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.boardAuthor {
+  width: 100px;
+  text-align: center;
+  font-family: var(--typo-font-family-ko);
+  font-size: var(--typo-caption-c3-font-size);
+  font-weight: var(--typo-caption-c3-font-weight);
+  line-height: var(--typo-caption-c3-line-height);
+  color: var(--color-gray-800);
+}
+
+.boardDate {
+  width: 100px;
+  text-align: center;
+  font-family: var(--typo-font-family-ko);
+  font-size: var(--typo-caption-c3-font-size);
+  font-weight: var(--typo-caption-c3-font-weight);
+  line-height: var(--typo-caption-c3-line-height);
+  color: var(--color-gray-500);
+}
+
+/* Pagination Container */
+.paginationContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+}
+
+/* ========================================
+   Responsive Design
+   ======================================== */
 
 @media (max-width: 781px) {
   .searchRow {
@@ -211,6 +316,37 @@
   .writeButton {
     align-self: stretch;
     width: 100%;
+  }
+  
+  /* Board 반응형 */
+  .boardHeader {
+    display: none;
+  }
+  
+  .boardItem {
+    flex-direction: column;
+    height: auto;
+    padding: 16px;
+    gap: 8px;
+    align-items: flex-start;
+  }
+  
+  .boardNumber,
+  .boardTitle,
+  .boardAuthor,
+  .boardDate {
+    width: 100%;
+    text-align: left;
+  }
+  
+  .boardTitle {
+    font-weight: 600;
+    white-space: normal;
+  }
+  
+  .boardAuthor,
+  .boardDate {
+    font-size: var(--typo-caption-c5-font-size);
   }
 }
 
