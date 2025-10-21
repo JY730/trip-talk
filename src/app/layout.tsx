@@ -7,9 +7,34 @@ import { ReactQueryProvider } from "@/commons/providers/react-query/react-query.
 import Layout from "@/commons/layout";
 
 const pretendard = localFont({
-  src: "./fonts/PretendardVariable.woff2",
+  src: [
+    {
+      path: "./fonts/Pretendard-Light.otf",
+      weight: "300",
+      style: "normal",
+    },
+    {
+      path: "./fonts/Pretendard-Regular.otf",
+      weight: "400",
+      style: "normal",
+    },
+    {
+      path: "./fonts/Pretendard-Medium.otf",
+      weight: "500",
+      style: "normal",
+    },
+    {
+      path: "./fonts/Pretendard-SemiBold.otf",
+      weight: "600",
+      style: "normal",
+    },
+    {
+      path: "./fonts/Pretendard-Bold.otf",
+      weight: "700",
+      style: "normal",
+    },
+  ],
   variable: "--font-pretendard",
-  weight: "100 900",
 });
 
 export const metadata: Metadata = {
