@@ -101,7 +101,7 @@
 
 /* input 내부 (ant 내부 클래스 override) */
 .datePicker :global(.ant-picker-input > input) {
-  font-family: "Pretendard", sans-serif;
+  font-family: var(--typo-font-family-ko);
   font-size: 16px;
   color: var(--color-gray-900);
 }
