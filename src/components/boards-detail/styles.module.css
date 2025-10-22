@@ -4,13 +4,20 @@
  * Last Updated: 2025-10-22
  */
 
-/* 컨테이너: flexbox 기반 수직 레이아웃 */
+/* ========================================
+   Container & Layout
+   ======================================== */
+
 .container {
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
 }
+
+/* ========================================
+   Gap Elements
+   ======================================== */
 
 /* Gap 40px */
 .gap40 {
@@ -25,6 +32,10 @@
   height: 24px;
   background-color: #f0f0f0;
 }
+
+/* ========================================
+   Header Section
+   ======================================== */
 
 /* Detail Title: 1168 * 72 */
 .detailTitle {
@@ -49,6 +60,10 @@
   font-size: 16px;
   font-weight: 600;
 }
+
+/* ========================================
+   Content Section
+   ======================================== */
 
 /* Detail Content Image: 1168 * auto */
 .detailContentImage {
@@ -86,6 +101,10 @@
   font-weight: 600;
 }
 
+/* ========================================
+   Interaction Section
+   ======================================== */
+
 /* Detail Content Like or Dislike: 1168 * 48 */
 .detailContentLikeOrDislike {
   width: 1168px;
@@ -109,6 +128,10 @@
   font-size: 16px;
   font-weight: 600;
 }
+
+/* ========================================
+   Retrospect Section
+   ======================================== */
 
 /* Retrospect Input: 1168 * 304 */
 .retrospectInput {
