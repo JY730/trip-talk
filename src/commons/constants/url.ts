@@ -156,7 +156,7 @@ export const urlMeta: Record<string, UrlMeta> = {
     path: '/boards/[id]',
     access: 'member-only',
     showHeader: true,
-    showBanner: false,
+    showBanner: true,
     description: '게시글 상세 페이지',
   },
   '/products': {
@@ -177,7 +177,7 @@ export const urlMeta: Record<string, UrlMeta> = {
     path: '/products/[id]',
     access: 'public',
     showHeader: true,
-    showBanner: false,
+    showBanner: true,
     description: '숙박권 상세 페이지',
   },
   '/mypage': {
