@@ -297,6 +297,13 @@ body {
   font-family: var(--typo-font-family-ko);
 }
 
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden; /* 가로 스크롤 숨기기 */
+  overflow-y: auto;   /* 세로 스크롤 자동 */
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
