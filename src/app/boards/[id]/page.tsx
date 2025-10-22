@@ -1,8 +1,6 @@
+import BoardsDetail from '@/components/boards-detail';
+
 export default function BoardDetailPage() {
-  return (
-    <div>
-      <h1>게시글 상세</h1>
-    </div>
-  );
+  return <BoardsDetail />;
 }
 

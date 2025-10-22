@@ -1,0 +1,136 @@
+/**
+ * BoardsDetail Component Styles (Wireframe)
+ * Design Source: Wireframe prompt.101
+ * Last Updated: 2025-10-22
+ */
+
+/* 컨테이너: flexbox 기반 수직 레이아웃 */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/* Gap 40px */
+.gap40 {
+  width: 1168px;
+  height: 40px;
+  background-color: #f0f0f0;
+}
+
+/* Gap 24px */
+.gap24 {
+  width: 1168px;
+  height: 24px;
+  background-color: #f0f0f0;
+}
+
+/* Detail Title: 1168 * 72 */
+.detailTitle {
+  width: 1168px;
+  height: 72px;
+  background-color: #ffcccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Meta Data: 1168 * 80 */
+.metaData {
+  width: 1168px;
+  height: 80px;
+  background-color: #ccffcc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Detail Content Image: 1168 * auto */
+.detailContentImage {
+  width: 1168px;
+  min-height: 100px;
+  background-color: #ccccff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Detail Content Text: 1168 * auto */
+.detailContentText {
+  width: 1168px;
+  min-height: 100px;
+  background-color: #ffffcc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Detail Content Youtube Preview: 1168 * 512 */
+.detailContentYoutubePreview {
+  width: 1168px;
+  height: 512px;
+  background-color: #ffccff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Detail Content Like or Dislike: 1168 * 48 */
+.detailContentLikeOrDislike {
+  width: 1168px;
+  height: 48px;
+  background-color: #ccffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Detail Content Button: 1168 * 40 */
+.detailContentButton {
+  width: 1168px;
+  height: 40px;
+  background-color: #ffd9cc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Retrospect Input: 1168 * 304 */
+.retrospectInput {
+  width: 1168px;
+  height: 304px;
+  background-color: #d9ccff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Retrospect List: 1168 * 392 */
+.retrospectList {
+  width: 1168px;
+  height: 392px;
+  background-color: #cce6ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 600;
+}
+
