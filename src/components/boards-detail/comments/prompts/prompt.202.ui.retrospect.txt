@@ -1,0 +1,64 @@
+아래의 조건을 모두 적용하여, 아래의 요구사항을 모두 구현할 것.
+구현 결과를 체크리스트로 반환할 것.
+
+==============================================
+
+조건-커서룰) 아래의 커서룰을 적용하여 작업하고, 이 작업이 끝나면 해당 rules 적용 결과를 체크리스트로 반환할 것.
+            - @01-common.mdc
+            - @02-wireframe.mdc
+            - @03-ui.mdc
+
+==============================================
+
+조건-피그마) 활용할MCP: CursorTalkToFigmaMCP(채널명: wnif1qkm)
+조건-피그마) 구현될 컴포넌트 노드ID(retrospect-input 영역): 285:32630
+조건-피그마) 구현될 컴포넌트 노드ID(retrospect-list 영역): 285:32460
+
+조건-파일경로) 구현될 TSX 파일경로: src/components/boards-detail/comments/index.tsx
+조건-파일경로) 구현될 CSS 파일경로: src/components/boards-detail/comments/styles.module.css
+
+==============================================
+
+조건-공통목록) 사용할 공통컴포넌트 목록
+            - <Input />, <Button />
+
+조건-공통목록) 사용할 색상 목록(global.css에 명시된 변수 토큰 활용)
+            - 비슷한 토큰 선택하여 사용(하드코딩 금지)
+
+조건-공통목록) 사용할 타이포그래피 목록(global.css에 명시된 변수 토큰 활용)
+            - 비슷한 토큰 선택하여 사용(하드코딩 금지)
+
+==============================================
+
+기존히스토리-참고만) MCP를 연동하여 피그마의 디자인을 이미 만들어져있는 와이어프레임의 retrospect-input, retrospect-list 영역에 그대로 구현할 것.
+
+기존히스토리-참고만) 댓글 타이틀의 댓글 아이콘은 public/icons/chat.svg 를 사용할 것.
+
+기존히스토리-참고만)restrospect 영역을 호버했을 때, 수정아이콘과 삭제아이콘이 보이게 할 것.
+                - 수정아이콘 : public/icons/edit.svg
+                - 삭제아이콘 : public/icons/close.svg
+                - 프로필 이미지는 public/images/profile05.svg, public/images/profile04.svg 사용할 것.
+
+기존히스토리-참고만) 별점은 antd Rate 라이브러리를 활용해서 최대한 피그마 디자인과 유사하게 구현할 것.
+                Rate 참고 노드ID: 1462:13730
+
+기존히스토리-참고만) 공통컴포넌트는 다음의 규칙을 지켜 step-by-step 으로 구현하고, 적용 결과를 체크리스트로 반환할 것.
+            1. 공통컴포넌트 원본을 수정하지 말고, 아래의 props만 활용할 것.
+                - variant: primary, secondary를 확인하여 구현할 것.
+                - theme: light 모드만 사용할 것.
+                - size: 피그마와 일치할 것.
+                - className 전달: width만 허용할 것.
+
+            2. 적용될 공통컴포넌트 목록을 구현할 것.
+                1) retrospect-input
+                    - 회고입력창: <Input />
+                    - 입력버튼: <Button />
+
+                2) retrospect-list
+                    - 회고텍스트: 공통컴포넌트없음
+                    - 회고작성일텍스트: 공통컴포넌트없음                    
+
+
+==============================================
+
+핵심요구사항) profileSection과 starRating를 그룹핑하고 해당그룹과 actionButtons영역을 space-between할 것.

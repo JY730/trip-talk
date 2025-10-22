@@ -1,0 +1,368 @@
+/**
+ * Comments Component Styles
+ * Design Source: Figma Node IDs 285:32630, 285:32460
+ * Last Updated: 2025-01-17
+ */
+
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* 댓글 입력 영역 */
+.inputSection {
+  margin-bottom: 32px;
+}
+
+.titleSection {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;  
+  margin-bottom: 24px;
+}
+
+.titleWithIcon {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.chatIcon {
+  width: 24px;
+  height: 24px;
+}
+
+.title {
+  font-family: var(--typo-font-family-ko);
+  font-size: var(--typo-title-t1-font-size);
+  font-weight: var(--typo-title-t1-font-weight);
+  line-height: var(--typo-title-t1-line-height);
+  color: var(--color-gray-900);
+}
+
+.starRating {
+  display: flex;
+  align-items: center;
+}
+
+.rate {
+  font-size: 24px;
+}
+
+.rate :global(.ant-rate-star) {
+  margin-right: 8px;
+}
+
+.rate :global(.ant-rate-star:last-child) {
+  margin-right: 0;
+}
+
+.inputContainer {
+  position: relative;
+}
+
+.commentInput {
+  width: 100%;
+  min-height: 144px;
+  padding: 16px;
+  border: 1px solid var(--color-gray-200);
+  border-radius: 8px;
+  vertical-align: top;
+  font-family: var(--typo-font-family-ko);
+  font-size: var(--typo-body-b2-font-size);
+  font-weight: var(--typo-body-b2-font-weight);
+  line-height: var(--typo-body-b2-line-height);
+  color: var(--color-gray-900);
+  background-color: var(--color-gray-w);
+  resize: vertical;
+}
+
+.commentInput::placeholder {
+  color: var(--color-gray-400);
+}
+
+.inputFooter {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+.characterCount {
+  font-family: var(--typo-font-family-ko);
+  font-size: var(--typo-body-b2-font-size);
+  font-weight: var(--typo-body-b2-font-weight);
+  line-height: var(--typo-body-b2-line-height);
+  color: var(--color-gray-400);
+}
+
+.submitButton {
+  min-width: 99px;
+  height: 48px;
+  border-radius: 8px;
+  font-family: var(--typo-font-family-ko);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 24px;
+}
+
+/* 댓글 목록 */
+.commentsList {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.commentItem {
+  position: relative;
+  padding-bottom: 40px;
+}
+
+.commentItem::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background-color: var(--color-gray-100);
+}
+
+.commentItem:last-child {
+  border-bottom: none;
+}
+
+/* 편집 모드 */
+.editMode {
+  border-radius: 8px;
+}
+
+.editHeader {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 16px;
+}
+
+.editStarRating {
+  display: flex;
+  align-items: center;
+}
+
+.editInputContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.editInput {
+  width: 100%;
+  min-height: 80px;
+  padding: 12px;
+  border: 1px solid var(--color-gray-200);
+  border-radius: 8px;
+  font-family: var(--typo-font-family-ko);
+  font-size: var(--typo-body-b2-font-size);
+  font-weight: var(--typo-body-b2-font-weight);
+  line-height: var(--typo-body-b2-line-height);
+  color: var(--color-gray-900);
+  background-color: var(--color-gray-w);
+  resize: vertical;
+}
+
+.editActions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.cancelButton,
+.saveButton {
+  min-width: 60px;
+  height: 40px;
+  border-radius: 8px;
+  font-family: var(--typo-font-family-ko);
+  font-size: var(--typo-body-b3-font-size);
+  font-weight: var(--typo-body-b3-font-weight);
+  line-height: var(--typo-body-b3-line-height);
+}
+
+/* 일반 모드 */
+.commentContent {
+  position: relative;
+}
+
+.commentHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.profileAndRatingGroup {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.profileSection {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.profileImage {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.authorName {
+  font-family: var(--typo-font-family-ko);
+  font-size: var(--typo-caption-c3-font-size);
+  font-weight: var(--typo-caption-c3-font-weight);
+  line-height: var(--typo-caption-c3-line-height);
+  color: var(--color-gray-600);
+}
+
+.actionButtons {
+  display: flex;
+  gap: 8px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.commentItem:hover .actionButtons {
+  opacity: 1;
+}
+
+.actionButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  transition: opacity 0.2s ease;
+}
+
+.actionButton:hover {
+  opacity: 0.7;
+}
+
+.actionButton img {
+  width: 16px;
+  height: 16px;
+}
+
+.commentText {
+  font-family: var(--typo-font-family-ko);
+  font-size: var(--typo-body-b2-font-size);
+  font-weight: var(--typo-body-b2-font-weight);
+  line-height: var(--typo-body-b2-line-height);
+  color: var(--color-gray-800);
+  margin-bottom: 8px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.commentDate {
+  font-family: var(--typo-font-family-ko);
+  font-size: var(--typo-caption-c3-font-size);
+  font-weight: var(--typo-caption-c3-font-weight);
+  line-height: var(--typo-caption-c3-line-height);
+  color: var(--color-gray-500);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 16px;
+  }
+  
+  .titleSection {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .inputFooter {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+  
+  .submitButton {
+    width: 100%;
+  }
+  
+  .commentHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .profileAndRatingGroup {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .actionButtons {
+    opacity: 1;
+    align-self: flex-end;
+  }
+  
+  .editActions {
+    flex-direction: column;
+  }
+  
+  .cancelButton,
+  .saveButton {
+    width: 100%;
+  }
+}
+
+/* 다크 모드 지원 */
+@media (prefers-color-scheme: dark) {
+  .title {
+    color: var(--color-gray-900);
+  }
+  
+  .commentInput {
+    background-color: var(--color-gray-50);
+    border-color: var(--color-gray-200);
+    color: var(--color-gray-900);
+  }
+  
+  .commentInput::placeholder {
+    color: var(--color-gray-400);
+  }
+  
+  .characterCount {
+    color: var(--color-gray-400);
+  }
+  
+  .commentText {
+    color: var(--color-gray-800);
+  }
+  
+  .commentDate {
+    color: var(--color-gray-500);
+  }
+  
+  .editMode {
+    background-color: var(--color-gray-100);
+  }
+  
+  .editInput {
+    background-color: var(--color-gray-w);
+    border-color: var(--color-gray-200);
+    color: var(--color-gray-900);
+  }
+}

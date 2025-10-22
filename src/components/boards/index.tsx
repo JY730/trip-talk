@@ -101,7 +101,7 @@ export default function Boards() {
     <div className={styles.container}>
       {/* 타이틀 영역 */}
       <div className={styles.titleSection}>
-        <h1 className={styles.title}>트립토크</h1>
+        <h1 className={styles.title}>트립토크 게시판</h1>
       </div>
 
       {/* 검색 영역 */}

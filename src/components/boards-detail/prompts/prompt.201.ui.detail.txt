@@ -42,45 +42,57 @@
 
 ==============================================
 
-핵심요구사항) styles_titleSection의 height는 auto로 할 것.
+기존히스토리-참고만) styles_titleSection의 height는 auto로 할 것.
 
-핵심요구사항) sytles_metadataProfile의 프로필 이미지는 public/images/profile_fault.svg를 사용할 것.
+기존히스토리-참고만) sytles_metadataProfile의 프로필 이미지는 public/images/profile_fault.svg를 사용할 것.
             - 링크 아이콘은 public/icons/link.svg를 사용할 것.
             - 위치 아이콘은 public/icons/location.svg를 사용할 것.
             - 프로필 영역과 아이콘영역 사이에 divider-line(border)을 1px solid gray-100으로 넣을 것.
 
-핵심요구사항) styles_detailFooter는 height를 56px로 설정하고, border-bottom을 1px solid gray-100으로 추가할 것.
+기존히스토리-참고만) styles_detailFooter는 height를 56px로 설정하고, border-bottom을 1px solid gray-100으로 추가할 것.
 
 
-핵심요구사항) 게시글 상세는 아래의 조건으로 Mock 데이터를 만들어 적용할 것.            
-            1. 아래의 지시를 반영하여 구현할 것.
-                1) detail-title
-                    - 제목텍스트: 피그마와 동일하게 구현할 것.
+기존히스토리-참고만) 게시글 상세는 아래의 조건으로 Mock 데이터를 만들어 적용할 것.            
+                1. 아래의 지시를 반영하여 구현할 것.
+                    1) detail-title
+                        - 제목텍스트: 피그마와 동일하게 구현할 것.
 
-                2) detail-content-image
-                    - public/images/detail_image.png를 사용할 것.
+                    2) detail-content-image
+                        - public/images/detail_image.png를 사용할 것.
 
-                3) detail-content-text
-                    - 내용텍스트: 피그마와 동일하게 구현할 것.
+                    3) detail-content-text
+                        - 내용텍스트: 피그마와 동일하게 구현할 것.
 
-                4) youtube-preview
-                    - public/images/youtube_preview.png를 사용할 것.
+                    4) youtube-preview
+                        - public/images/youtube_preview.png를 사용할 것.
 
-                5) like-or-dislike
-                    - line 아이콘이 디폴트로 보이고, 아이콘을 눌렀을 때, fill 아이콘으로 보이게 할 것.
-                    - like 아이콘 이미지: public/icons/thumb-up-line.svg (비활성)  public/icons/thumb-up-fill.svg (활성)
-                    - dislike 아이콘 이미지:  public/icons/thumb-down-line.svg (비활성) public/icons/thumb-down-fill.svg (활성) 
+                    5) like-or-dislike
+                        - line 아이콘이 디폴트로 보이고, 아이콘을 눌렀을 때, fill 아이콘으로 보이게 할 것.
+                        - like 아이콘 이미지: public/icons/thumb-up-line.svg (비활성)  public/icons/thumb-up-fill.svg (활성)
+                        - dislike 아이콘 이미지:  public/icons/thumb-down-line.svg (비활성) public/icons/thumb-down-fill.svg (활성) 
 
                     
 
-핵심요구사항) 공통컴포넌트는 다음의 규칙을 지켜 step-by-step 으로 구현하고, 적용 결과를 체크리스트로 반환할 것.
-            1. 공통컴포넌트 원본을 수정하지 말고, 아래의 props만 활용할 것.
-                - variant: primary, secondary를 확인하여 구현할 것.
-                - theme: light 모드만 사용할 것.
-                - size: 피그마와 일치할 것.
-                - className 전달: width만 허용할 것.
+기존히스토리-참고만) 공통컴포넌트는 다음의 규칙을 지켜 step-by-step 으로 구현하고, 적용 결과를 체크리스트로 반환할 것.
+                1. 공통컴포넌트 원본을 수정하지 말고, 아래의 props만 활용할 것.
+                    - variant: primary, secondary를 확인하여 구현할 것.
+                    - theme: light 모드만 사용할 것.
+                    - size: 피그마와 일치할 것.
+                    - className 전달: width만 허용할 것.
 
-            2. 적용될 공통컴포넌트 목록을 구현할 것.
-                1) detail-footer는 <Button />를 활용해 구현할 것.
-                    - 목록버튼 아이콘: public/icons/menu.svg
-                    - 수정버튼 아이콘: public/icons/edit.svg
+                2. 적용될 공통컴포넌트 목록을 구현할 것.
+                    1) detail-footer는 <Button />를 활용해 구현할 것.
+                        - 목록버튼 아이콘: public/icons/menu.svg
+                        - 수정버튼 아이콘: public/icons/edit.svg
+
+
+==============================================
+
+기존히스토리-참고만)retrospect영역은 boards-detail/comments에서 구현한 댓글 컴포넌트를 가져올 것.
+
+
+==============================================
+
+핵심요구사항) 페이지에서 가로 스크롤을 없애줘
+
+

@@ -9,6 +9,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { Button } from '@/commons/components/button';
+import { Comments, Comment } from './comments';
 import styles from './styles.module.css';
 
 /**
@@ -18,6 +19,26 @@ import styles from './styles.module.css';
 export default function BoardsDetail() {
   const [isLiked, setIsLiked] = useState(false);
   const [isDisliked, setIsDisliked] = useState(false);
+  const [comments, setComments] = useState<Comment[]>([
+    {
+      id: '1',
+      author: '홍길동',
+      profileImage: '/images/profile05.svg',
+      rating: 5,
+      content: '살겠노라 살겠노라. 청산에 살겠노라.\n머루랑 다래를 먹고 청산에 살겠노라.\n얄리얄리 얄랑셩 얄라리 얄라',
+      date: '2024.11.11',
+      isOwner: true
+    },
+    {
+      id: '2',
+      author: '애슐리',
+      profileImage: '/images/profile04.svg',
+      rating: 4,
+      content: '살겠노라 살겠노라. 청산에 살겠노라.\n머루랑 다래를 먹고 청산에 살겠노라.\n얄리얄리 얄랑셩 얄라리 얄라',
+      date: '2024.11.11',
+      isOwner: false
+    }
+  ]);
 
   const handleLike = () => {
     setIsLiked(!isLiked);
@@ -27,6 +48,33 @@ export default function BoardsDetail() {
   const handleDislike = () => {
     setIsDisliked(!isDisliked);
     if (isLiked) setIsLiked(false);
+  };
+
+  const handleCommentSubmit = (content: string, rating: number) => {
+    const newComment: Comment = {
+      id: Date.now().toString(),
+      author: '새로운 사용자',
+      profileImage: '/images/profile_default.svg',
+      rating,
+      content,
+      date: new Date().toLocaleDateString('ko-KR', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+      }).replace(/\./g, '.').replace(/\s/g, ''),
+      isOwner: true
+    };
+    setComments(prev => [newComment, ...prev]);
+  };
+
+  const handleCommentEdit = (id: string, content: string, rating: number) => {
+    setComments(prev => prev.map(comment => 
+      comment.id === id ? { ...comment, content, rating } : comment
+    ));
+  };
+
+  const handleCommentDelete = (id: string) => {
+    setComments(prev => prev.filter(comment => comment.id !== id));
   };
 
   return (
@@ -199,14 +247,13 @@ export default function BoardsDetail() {
       {/* Gap: 1168 * 40 */}
       <div className={styles.gap40}></div>
 
-      {/* Retrospect Input: 1168 * 304 */}
-      <div className={styles.retrospectInput}>Retrospect Input</div>
-
-      {/* Gap: 1168 * 40 */}
-      <div className={styles.gap40}></div>
-
-      {/* Retrospect List: 1168 * 392 */}
-      <div className={styles.retrospectList}>Retrospect List</div>
+      {/* Comments Section */}
+      <Comments
+        comments={comments}
+        onSubmit={handleCommentSubmit}
+        onEdit={handleCommentEdit}
+        onDelete={handleCommentDelete}
+      />
     </div>
   );
 }
