@@ -110,6 +110,7 @@
 /* 작성자 및 비밀번호 입력 영역 */
 .authorPasswordSection {
   margin-bottom: 16px;
+  width: 640px;
 }
 
 .authorPasswordRow {

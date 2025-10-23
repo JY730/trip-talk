@@ -24,8 +24,6 @@ export interface Comment {
 export interface CommentsProps {
   comments?: Comment[];
   onSubmit?: (content: string, rating: number) => void;
-  onEdit?: (id: string, content: string, rating: number) => void;
-  onDelete?: (id: string) => void;
   className?: string;
 }
 
@@ -44,8 +42,6 @@ export const Comments = React.forwardRef<HTMLDivElement, CommentsProps>(
     {
       comments = [],
       onSubmit,
-      onEdit,
-      onDelete,
       className = '',
     },
     ref
@@ -54,9 +50,6 @@ export const Comments = React.forwardRef<HTMLDivElement, CommentsProps>(
   const [rating, setRating] = useState(0);
   const [author, setAuthor] = useState('');
   const [password, setPassword] = useState('');
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const [editContent, setEditContent] = useState('');
-  const [editRating, setEditRating] = useState(0);
 
     const handleSubmit = () => {
       if (newComment.trim() && rating > 0 && author.trim() && password.trim() && onSubmit) {
@@ -68,31 +61,12 @@ export const Comments = React.forwardRef<HTMLDivElement, CommentsProps>(
       }
     };
 
-    const handleEdit = (comment: Comment) => {
-      setEditingId(comment.id);
-      setEditContent(comment.content);
-      setEditRating(comment.rating);
+    const handleEdit = () => {
+      // 기능 비활성화
     };
 
-    const handleSaveEdit = () => {
-      if (editContent.trim() && editRating > 0 && onEdit && editingId) {
-        onEdit(editingId, editContent.trim(), editRating);
-        setEditingId(null);
-        setEditContent('');
-        setEditRating(0);
-      }
-    };
-
-    const handleCancelEdit = () => {
-      setEditingId(null);
-      setEditContent('');
-      setEditRating(0);
-    };
-
-    const handleDelete = (id: string) => {
-      if (onDelete) {
-        onDelete(id);
-      }
+    const handleDelete = () => {
+      // 기능 비활성화
     };
 
     return (
@@ -123,11 +97,12 @@ export const Comments = React.forwardRef<HTMLDivElement, CommentsProps>(
               <div className={styles.authorInput}>
                 <Input
                   variant="primary"
-                  size="medium"
+                  size="large"
                   theme="light"
                   label="작성자"
                   placeholder="작성자를 입력해 주세요."
                   value={author}
+                  required={true}
                   onChange={(e) => setAuthor(e.target.value)}
                   className={styles.authorPasswordInput}
                 />
@@ -135,12 +110,13 @@ export const Comments = React.forwardRef<HTMLDivElement, CommentsProps>(
               <div className={styles.passwordInput}>
                 <Input
                   variant="primary"
-                  size="medium"
+                  size="large"
                   theme="light"
                   label="비밀번호"
                   type="password"
                   placeholder="비밀번호를 입력해 주세요."
                   value={password}
+                  required={true}
                   onChange={(e) => setPassword(e.target.value)}
                   className={styles.authorPasswordInput}
                 />
@@ -178,113 +154,55 @@ export const Comments = React.forwardRef<HTMLDivElement, CommentsProps>(
            {comments.map((comment) => (
             <div key={comment.id} className={styles.commentWrapper}>
               <div className={styles.commentItem}>
-                {editingId === comment.id ? (
-                  // 편집 모드
-                  <div className={styles.editMode}>
-                    <div className={styles.editHeader}>
-                      <div className={styles.profileAndRatingGroup}>
-                        <div className={styles.profileSection}>
-                          <img 
-                            src={comment.profileImage} 
-                            alt={comment.author}
-                            className={styles.profileImage}
-                          />
-                          <span className={styles.authorName}>{comment.author}</span>
-                        </div>
-                        <div className={styles.editStarRating}>
-                          <Rate 
-                            value={editRating} 
-                            onChange={setEditRating}
-                            className={styles.rate}
-                          />
-                        </div>
+                <div className={styles.commentContent}>
+                  <div className={styles.commentHeader}>
+                    <div className={styles.profileAndRatingGroup}>
+                      <div className={styles.profileSection}>
+                        <img 
+                          src={comment.profileImage} 
+                          alt={comment.author}
+                          className={styles.profileImage}
+                        />
+                        <span className={styles.authorName}>{comment.author}</span>
+                      </div>
+                      <div className={styles.starRating}>
+                        <Rate 
+                          value={comment.rating} 
+                          disabled
+                          className={styles.rate}
+                        />
                       </div>
                     </div>
-                    <div className={styles.editInputContainer}>
-                      <Textarea
-                        value={editContent}
-                        onChange={(e) => setEditContent(e.target.value)}
-                        className={styles.editInput}
-                      />
-                      <div className={styles.editActions}>
-                        <Button
-                          variant="secondary"
-                          styleType="outline"
-                          size="medium"
-                          theme="light"
-                          shape="rounded"
-                          onClick={handleCancelEdit}
-                          className={styles.cancelButton}
+                    {comment.isOwner && (
+                      <div className={styles.actionButtons}>
+                        <button 
+                          className={styles.actionButton}
+                          onClick={handleEdit}
+                          title="수정"
                         >
-                          취소
-                        </Button>
-                        <Button
-                          variant="secondary"
-                          styleType="filled"
-                          size="medium"
-                          theme="light"
-                          shape="rounded"
-                          onClick={handleSaveEdit}
-                          disabled={!editContent.trim() || editRating === 0}
-                          className={styles.saveButton}
+                          <img src="/icons/edit.svg" alt="수정" />
+                        </button>
+                        <button 
+                          className={styles.actionButton}
+                          onClick={handleDelete}
+                          title="삭제"
                         >
-                          수정하기
-                        </Button>
+                          <img src="/icons/close.svg" alt="삭제" />
+                        </button>
                       </div>
-                    </div>
+                    )}
                   </div>
-                ) : (
-                  // 일반 모드
-                  <div className={styles.commentContent}>
-                    <div className={styles.commentHeader}>
-                      <div className={styles.profileAndRatingGroup}>
-                        <div className={styles.profileSection}>
-                          <img 
-                            src={comment.profileImage} 
-                            alt={comment.author}
-                            className={styles.profileImage}
-                          />
-                          <span className={styles.authorName}>{comment.author}</span>
-                        </div>
-                        <div className={styles.starRating}>
-                          <Rate 
-                            value={comment.rating} 
-                            disabled
-                            className={styles.rate}
-                          />
-                        </div>
-                      </div>
-                      {comment.isOwner && (
-                        <div className={styles.actionButtons}>
-                          <button 
-                            className={styles.actionButton}
-                            onClick={() => handleEdit(comment)}
-                            title="수정"
-                          >
-                            <img src="/icons/edit.svg" alt="수정" />
-                          </button>
-                          <button 
-                            className={styles.actionButton}
-                            onClick={() => handleDelete(comment.id)}
-                            title="삭제"
-                          >
-                            <img src="/icons/close.svg" alt="삭제" />
-                          </button>
-                        </div>
-                      )}
-                    </div>
 
-                    <div className={styles.commentText}>
-                      {comment.content}
-                    </div>
-                    <div className={styles.commentDate}>
-                      {comment.date}
-                    </div>
+                  <div className={styles.commentText}>
+                    {comment.content}
                   </div>
-                )}
+                  <div className={styles.commentDate}>
+                    {comment.date}
+                  </div>
+                </div>
               </div>
             </div>
-          ))}
+           ))}
         </div>
 
 

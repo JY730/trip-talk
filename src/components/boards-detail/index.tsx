@@ -67,15 +67,6 @@ export default function BoardsDetail() {
     setComments(prev => [newComment, ...prev]);
   };
 
-  const handleCommentEdit = (id: string, content: string, rating: number) => {
-    setComments(prev => prev.map(comment => 
-      comment.id === id ? { ...comment, content, rating } : comment
-    ));
-  };
-
-  const handleCommentDelete = (id: string) => {
-    setComments(prev => prev.filter(comment => comment.id !== id));
-  };
 
   return (
     <div className={styles.container}>
@@ -251,8 +242,6 @@ export default function BoardsDetail() {
       <Comments
         comments={comments}
         onSubmit={handleCommentSubmit}
-        onEdit={handleCommentEdit}
-        onDelete={handleCommentDelete}
       />
     </div>
   );
