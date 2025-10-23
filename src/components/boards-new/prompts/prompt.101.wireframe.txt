@@ -35,7 +35,7 @@
             - input-address: 1168 * 192  
             - {gap}: 1168 * 40
             - divider: 1168 * 1
-            - {gap}: 1168 * 40
+            - {gap}: 1168 * 40 
             - input-youtube-url: 1168 * 80  
             - {gap}: 1168 * 40
             - divider: 1168 * 1
