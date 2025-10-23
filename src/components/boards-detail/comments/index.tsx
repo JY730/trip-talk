@@ -173,24 +173,22 @@ export const Comments = React.forwardRef<HTMLDivElement, CommentsProps>(
                         />
                       </div>
                     </div>
-                    {comment.isOwner && (
-                      <div className={styles.actionButtons}>
-                        <button 
-                          className={styles.actionButton}
-                          onClick={handleEdit}
-                          title="수정"
-                        >
-                          <img src="/icons/edit.svg" alt="수정" />
-                        </button>
-                        <button 
-                          className={styles.actionButton}
-                          onClick={handleDelete}
-                          title="삭제"
-                        >
-                          <img src="/icons/close.svg" alt="삭제" />
-                        </button>
-                      </div>
-                    )}
+                    <div className={styles.actionButtons}>
+                      <button 
+                        className={styles.actionButton}
+                        onClick={handleEdit}
+                        title="수정"
+                      >
+                        <img src="/icons/edit.svg" alt="수정" />
+                      </button>
+                      <button 
+                        className={styles.actionButton}
+                        onClick={handleDelete}
+                        title="삭제"
+                      >
+                        <img src="/icons/close.svg" alt="삭제" />
+                      </button>
+                    </div>
                   </div>
 
                   <div className={styles.commentText}>
