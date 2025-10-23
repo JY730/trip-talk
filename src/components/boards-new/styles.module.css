@@ -1,0 +1,94 @@
+.container {
+  width: 1168px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.gap {
+  height: 40px;
+  background-color: #f0f0f0;
+}
+
+.detailTitle {
+  width: 1168px;
+  height: 28px;
+  background-color: #e0e0e0;
+  display: flex;
+  align-items: center;
+}
+
+.detailTitle h1 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.inputUser {
+  width: 1168px;
+  height: 80px;
+  background-color: #f8f8f8;
+  display: flex;
+  align-items: center;
+}
+
+
+.divider {
+  width: 1168px;
+  height: 1px;
+  background-color: #ccc;
+}
+
+.inputTitle {
+  width: 1168px;
+  height: 80px;
+  background-color: #f8f8f8;
+  display: flex;
+  align-items: center;
+}
+
+
+.inputContent {
+  width: 1168px;
+  height: 368px;
+  background-color: #f8f8f8;
+  display: flex;
+  align-items: flex-start;
+}
+
+
+.inputAddress {
+  width: 1168px;
+  height: 192px;
+  background-color: #f8f8f8;
+  display: flex;
+  align-items: center;
+}
+
+
+.inputYoutubeUrl {
+  width: 1168px;
+  height: 80px;
+  background-color: #f8f8f8;
+  display: flex;
+  align-items: center;
+}
+
+
+.addImageButton {
+  width: 1168px;
+  height: 192px;
+  background-color: #f8f8f8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button {
+  width: 1168px;
+  height: 48px;
+  background-color: #f8f8f8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
