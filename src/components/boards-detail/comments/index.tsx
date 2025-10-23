@@ -49,17 +49,21 @@ export const Comments = React.forwardRef<HTMLDivElement, CommentsProps>(
     },
     ref
   ) => {
-    const [newComment, setNewComment] = useState('');
-    const [rating, setRating] = useState(0);
-    const [editingId, setEditingId] = useState<string | null>(null);
-    const [editContent, setEditContent] = useState('');
-    const [editRating, setEditRating] = useState(0);
+  const [newComment, setNewComment] = useState('');
+  const [rating, setRating] = useState(0);
+  const [author, setAuthor] = useState('');
+  const [password, setPassword] = useState('');
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editContent, setEditContent] = useState('');
+  const [editRating, setEditRating] = useState(0);
 
     const handleSubmit = () => {
-      if (newComment.trim() && rating > 0 && onSubmit) {
+      if (newComment.trim() && rating > 0 && author.trim() && password.trim() && onSubmit) {
         onSubmit(newComment.trim(), rating);
         setNewComment('');
         setRating(0);
+        setAuthor('');
+        setPassword('');
       }
     };
 
@@ -112,6 +116,32 @@ export const Comments = React.forwardRef<HTMLDivElement, CommentsProps>(
             </div>
           </div>
           
+          {/* 작성자 및 비밀번호 입력 영역 */}
+          <div className={styles.authorPasswordSection}>
+            <div className={styles.authorPasswordRow}>
+              <div className={styles.authorInput}>
+                <label className={styles.inputLabel}>작성자</label>
+                <input
+                  type="text"
+                  placeholder="작성자를 입력해 주세요."
+                  value={author}
+                  onChange={(e) => setAuthor(e.target.value)}
+                  className={styles.authorPasswordInput}
+                />
+              </div>
+              <div className={styles.passwordInput}>
+                <label className={styles.inputLabel}>비밀번호</label>
+                <input
+                  type="password"
+                  placeholder="비밀번호를 입력해 주세요."
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className={styles.authorPasswordInput}
+                />
+              </div>
+            </div>
+          </div>
+          
           <div className={styles.inputContainer}>
             <Textarea
               placeholder="댓글을 입력해 주세요."
@@ -127,7 +157,7 @@ export const Comments = React.forwardRef<HTMLDivElement, CommentsProps>(
                 theme="light"
                 shape="rounded"
                 onClick={handleSubmit}
-                disabled={!newComment.trim() || rating === 0}
+                disabled={!newComment.trim() || rating === 0 || !author.trim() || !password.trim()}
                 className={styles.submitButton}
               >
                 댓글 등록
