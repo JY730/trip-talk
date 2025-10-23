@@ -18,9 +18,9 @@
 .submitTitle h1 {
   margin: 0;
   font-family: var(--typo-font-family-ko);
-  font-size: var(--typo-headline-h2-font-size);
-  font-weight: var(--typo-headline-h2-font-weight);
-  line-height: var(--typo-headline-h2-line-height);
+  font-size: var(--typo-headline-h3-font-size);
+  font-weight: var(--typo-headline-h3-font-weight);
+  line-height: var(--typo-headline-h3-line-height);
   color: var(--color-gray-800);
 }
 
