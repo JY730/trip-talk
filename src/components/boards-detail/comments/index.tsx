@@ -7,6 +7,7 @@
 import React, { useState } from 'react';
 import { Rate } from 'antd';
 import { Button } from '@/commons/components/button';
+import { Input } from '@/commons/components/input';
 import styles from './styles.module.css';
 import Textarea from '@/commons/components/textarea';
 
@@ -120,9 +121,11 @@ export const Comments = React.forwardRef<HTMLDivElement, CommentsProps>(
           <div className={styles.authorPasswordSection}>
             <div className={styles.authorPasswordRow}>
               <div className={styles.authorInput}>
-                <label className={styles.inputLabel}>작성자</label>
-                <input
-                  type="text"
+                <Input
+                  variant="primary"
+                  size="medium"
+                  theme="light"
+                  label="작성자"
                   placeholder="작성자를 입력해 주세요."
                   value={author}
                   onChange={(e) => setAuthor(e.target.value)}
@@ -130,8 +133,11 @@ export const Comments = React.forwardRef<HTMLDivElement, CommentsProps>(
                 />
               </div>
               <div className={styles.passwordInput}>
-                <label className={styles.inputLabel}>비밀번호</label>
-                <input
+                <Input
+                  variant="primary"
+                  size="medium"
+                  theme="light"
+                  label="비밀번호"
                   type="password"
                   placeholder="비밀번호를 입력해 주세요."
                   value={password}

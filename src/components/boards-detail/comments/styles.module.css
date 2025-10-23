@@ -107,6 +107,25 @@
   line-height: 24px;
 }
 
+/* 작성자 및 비밀번호 입력 영역 */
+.authorPasswordSection {
+  margin-bottom: 16px;
+}
+
+.authorPasswordRow {
+  display: flex;
+  gap: 16px;
+}
+
+.authorInput,
+.passwordInput {
+  flex: 1;
+}
+
+.authorPasswordInput {
+  width: 100%;
+}
+
 /* 댓글 목록 */
 .commentsList {
   display: flex;
@@ -329,7 +348,7 @@
 }
 
 /* 다크 모드 지원 */
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   .title {
     color: var(--color-gray-900);
   }
@@ -365,4 +384,4 @@
     border-color: var(--color-gray-200);
     color: var(--color-gray-900);
   }
-}
+} */
