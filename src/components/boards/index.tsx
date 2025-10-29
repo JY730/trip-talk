@@ -125,7 +125,6 @@ export default function Boards() {
               onChange={handleRangeChange}
               placeholder={['YYYY-MM-DD', 'YYYY-MM-DD']}
               format={dateFormat}
-              className={styles.datePicker}
               allowClear={false}
               suffixIcon={<img src="/icons/calendar.svg" alt="calendar icon" className={styles.calendarIcon} />}
             />

@@ -97,45 +97,6 @@
   width: 100%;
 }
 
-/* DatePicker 스타일 */
-.datePicker {
-  width: 300px;
-  height: 48px;
-  border-radius: 8px;
-  background-color: var(--color-gray-50);
-  border: none !important;
-  outline: none;
-  padding-left: 44px;
-  font-size: 14px;
-  color: var(--color-gray-900);
-  display: flex;
-  align-items: center;
-  position: relative;
-}
-
-/* DatePicker - Input 스타일 */
-.datePicker :global(.ant-picker-input > input) {
-  font-family: var(--typo-font-family-ko);
-  font-size: 16px;
-  color: var(--color-gray-900);
-}
-
-/* DatePicker - Placeholder */
-.datePicker :global(.ant-picker-input > input::placeholder) {
-  color: var(--color-gray-500);
-}
-
-/* DatePicker - Focus & Hover */
-.datePicker :global(.ant-picker-focused),
-.datePicker:hover {
-  border: 1px solid var(--color-gray-b) !important;
-  box-shadow: none !important;
-}
-
-/* DatePicker - Clear 버튼 제거 */
-.datePicker :global(.ant-picker-clear) {
-  display: none !important;
-}
 
 /* DatePicker - Calendar 아이콘 */
 .calendarIcon {

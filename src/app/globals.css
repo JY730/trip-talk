@@ -309,3 +309,54 @@ html, body {
     text-wrap: balance;
   }
 }
+
+/* ========================================
+   DatePicker Global Styles
+   ======================================== */
+
+/* DatePicker 기본 스타일 */
+.ant-picker {
+  width: 300px;
+  height: 48px;
+  border-radius: 8px;
+  background-color: var(--color-gray-50);
+  border: none;
+  outline: none;
+  padding-left: 44px;
+  font-size: 14px;
+  color: var(--color-gray-900);
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+/* DatePicker - Input 스타일 */
+.ant-picker .ant-picker-input > input {
+  font-family: var(--typo-font-family-ko);
+  font-size: 16px;
+  color: var(--color-gray-900);
+}
+
+/* DatePicker - Placeholder */
+.ant-picker .ant-picker-input > input::placeholder {
+  color: var(--color-gray-500);
+}
+
+/* DatePicker - 호버 상태에서 배경색 유지 */
+.ant-picker:hover {
+  background-color: var(--color-gray-50);
+  border: none;
+  box-shadow: none;
+}
+
+/* DatePicker - Focus 상태만 스타일 적용 */
+.ant-picker.ant-picker-focused {
+  background-color: var(--color-gray-w);
+  border: 1px solid var(--color-gray-b);
+  box-shadow: none;
+}
+
+/* DatePicker - Clear 버튼 제거 */
+.ant-picker .ant-picker-clear {
+  display: none;
+}

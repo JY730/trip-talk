@@ -1,0 +1,174 @@
+/**
+ * Modal Component Styles
+ * Design Source: Figma Node IDs 285:30884, 285:32916, 285:32688
+ * Last Updated: 2025-01-27
+ */
+
+/* 모달 컨테이너 */
+.modal {
+  width: 480px;
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+/* 모달 콘텐츠 */
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+}
+
+/* 로고 영역 */
+.logoArea {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.logo {
+  width: 77px;
+  height: 48px;
+  background: url('/images/logo.svg') no-repeat center;
+  background-size: contain;
+}
+
+/* 제목 */
+.title {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 24px;
+  color: #000000;
+  margin: 0;
+  width: 100%;
+}
+
+/* 설명 */
+.description {
+  font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  color: #333333;
+  margin: 0;
+  width: 100%;
+}
+
+/* 버튼 영역 */
+.buttonArea {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  margin-top: 8px;
+}
+
+/* 단일 액션 버튼 */
+.actions-single .buttonArea {
+  justify-content: center;
+}
+
+.actions-single .confirmButton {
+  width: 120px;
+}
+
+/* 듀얼 액션 버튼 */
+.actions-dual .buttonArea {
+  justify-content: center;
+}
+
+.actions-dual .confirmButton,
+.actions-dual .cancelButton {
+  width: 120px;
+}
+
+/* Variant별 스타일 */
+.variant-info .title {
+  color: #000000;
+}
+
+.variant-info .description {
+  color: #333333;
+}
+
+.variant-danger .title {
+  color: #f66a6a;
+}
+
+.variant-danger .description {
+  color: #333333;
+}
+
+/* 테마별 스타일 */
+.theme-light {
+  background: #ffffff;
+}
+
+.theme-light .title {
+  color: #000000;
+}
+
+.theme-light .description {
+  color: #333333;
+}
+
+.theme-dark {
+  background: #1c1c1c;
+}
+
+.theme-dark .title {
+  color: #ffffff;
+}
+
+.theme-dark .description {
+  color: #e4e4e4;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .modal {
+    width: 90%;
+    max-width: 400px;
+    padding: 20px;
+  }
+  
+  .title {
+    font-size: 16px;
+    line-height: 22px;
+  }
+  
+  .description {
+    font-size: 13px;
+    line-height: 18px;
+  }
+  
+  .actions-dual .confirmButton,
+  .actions-dual .cancelButton,
+  .actions-single .confirmButton {
+    width: 100px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .modal {
+    width: 95%;
+    padding: 16px;
+  }
+  
+  .buttonArea {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .actions-dual .confirmButton,
+  .actions-dual .cancelButton,
+  .actions-single .confirmButton {
+    width: 100%;
+  }
+}
