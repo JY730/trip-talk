@@ -54,15 +54,17 @@ export interface UseBoardsBindingReturn {
   boards: BoardItem[];
   totalCount: number;
   loading: boolean;
-  error: string | null;
+  error: Error | null;
   refetch: () => void;
 }
 
 /**
  * 게시글 목록 조회 커스텀 훅
  * Apollo Client의 useQuery를 사용하여 게시글 데이터를 조회합니다.
+ * 
+ * @returns {UseBoardsBindingReturn} 게시글 목록, 총 개수, 로딩 상태, 에러 상태, refetch 함수
  */
-export const useBoardsBinding = (): UseBoardsBindingReturn => {
+export default function useBoardsBinding(): UseBoardsBindingReturn {
   // 게시글 목록 조회
   const {
     data: boardsData,
@@ -83,14 +85,6 @@ export const useBoardsBinding = (): UseBoardsBindingReturn => {
     errorPolicy: 'all',
   });
 
-  // 에러 처리
-  const getErrorMessage = (): string | null => {
-    if (boardsError || countError) {
-      return '게시글을 불러오는 중 오류가 발생했습니다. 다시 시도해주세요.';
-    }
-    return null;
-  };
-
   // refetch 함수
   const refetch = () => {
     refetchBoards();
@@ -101,7 +95,7 @@ export const useBoardsBinding = (): UseBoardsBindingReturn => {
     boards: boardsData?.fetchBoards || [],
     totalCount: countData?.fetchBoardsCount || 0,
     loading: boardsLoading || countLoading,
-    error: getErrorMessage(),
+    error: boardsError || countError || null,
     refetch,
   };
-};
+}

@@ -13,7 +13,7 @@ import type { Dayjs } from 'dayjs';
 import { SearchBar } from '@/commons/components/searchbar';
 import { Button } from '@/commons/components/button';
 import { Pagination } from '@/commons/components/pagination';
-import { useBoardsBinding } from './hooks/index.binding.hook';
+import useBoardsBinding from './hooks/index.binding.hook';
 import styles from './styles.module.css';
 
 const { RangePicker } = DatePicker;
@@ -194,7 +194,7 @@ export default function Boards() {
             </div>
           ) : error ? (
             <div className={styles.errorContainer}>
-              <div className={styles.errorText}>{error}</div>
+              <div className={styles.errorText}>게시글을 불러오는 중 오류가 발생했습니다. 다시 시도해주세요.</div>
               <Button
                 variant="secondary"
                 styleType="filled"
