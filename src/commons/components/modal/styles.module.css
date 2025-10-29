@@ -6,7 +6,8 @@
 
 /* 모달 컨테이너 */
 .modal {
-  width: 480px;
+  min-width: 320px;
+  height: auto;
   background: #ffffff;
   border-radius: 24px;
   padding: 24px;

@@ -157,6 +157,7 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
                 styleType="outline"
                 size="medium"
                 theme="light"
+                shape="rectangle"
                 className={styles.cancelButton}
                 onClick={onCancel}
               >
@@ -168,6 +169,7 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
               variant="primary"
               styleType="filled"
               size="medium"
+              shape="rectangle"
               theme="light"
               className={styles.confirmButton}
               onClick={onConfirm}
