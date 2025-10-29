@@ -6,14 +6,14 @@
  * Last Updated: 2025-10-21
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { DatePicker } from 'antd';
 import type { Dayjs } from 'dayjs';
 import { SearchBar } from '@/commons/components/searchbar';
 import { Button } from '@/commons/components/button';
 import { Pagination } from '@/commons/components/pagination';
-import useBoardsBinding from './hooks/index.binding.hook';
+import usePagination from './hooks/index.pagination.hook';
 import styles from './styles.module.css';
 
 const { RangePicker } = DatePicker;
@@ -38,24 +38,75 @@ const formatDate = (dateString: string): string => {
 export default function Boards() {
   const router = useRouter();
   
-  // API 데이터 조회
-  const { boards, totalCount, loading, error, refetch } = useBoardsBinding();
-  
   // State 관리
   const [searchValue, setSearchValue] = useState('');
   const [selectedRange, setSelectedRange] = useState<[Dayjs | null, Dayjs | null]>([null, null]);
-  const [currentPage, setCurrentPage] = useState(1);
+  
+  // 디바운싱을 위한 ref
+  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
+  
+  // 페이지네이션 훅 사용
+  const {
+    boards,
+    totalCount,
+    totalPages,
+    currentPage,
+    loading,
+    error,
+    setCurrentPage,
+    setSearch,
+    setDateRange,
+    refetch,
+  } = usePagination({
+    search: searchValue,
+    startDate: selectedRange[0],
+    endDate: selectedRange[1],
+  });
 
   // Constants
   const dateFormat = 'YYYY-MM-DD';
+  
+  // 디바운싱된 검색 함수
+  useEffect(() => {
+    // 이전 타이머가 있으면 취소
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current);
+    }
+    
+    // 디바운싱 시간: 500ms
+    debounceTimerRef.current = setTimeout(() => {
+      // 검색어를 대소문자 구분 없이 처리 (API에 전달 시 원본 유지)
+      setSearch(searchValue);
+    }, 500);
+    
+    // 컴포넌트 언마운트 시 타이머 정리
+    return () => {
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+      }
+    };
+  }, [searchValue, setSearch]);
 
   /**
    * 검색어 입력 핸들러
    * @param value - 검색어
    */
   const handleSearch = (value: string) => {
-    console.log('검색어:', value);
-    // TODO: 실제 검색 로직 구현
+    setSearchValue(value);
+    // 디바운싱으로 인해 자동으로 검색이 실행됨
+  };
+
+  /**
+   * 검색어 지우기 핸들러
+   */
+  const handleClear = () => {
+    setSearchValue('');
+    // 디바운싱 타이머 취소
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current);
+    }
+    // 즉시 검색 초기화
+    setSearch('');
   };
 
   /**
@@ -63,15 +114,21 @@ export default function Boards() {
    * @param dates - 시작/종료 날짜 배열
    */
   const handleRangeChange = (dates: [Dayjs | null, Dayjs | null] | null) => {
-    setSelectedRange(dates || [null, null]);
+    const newRange = dates || [null, null];
+    setSelectedRange(newRange);
+    setDateRange(newRange[0], newRange[1]);
   };
 
   /**
    * 검색 버튼 클릭 핸들러
    */
   const handleSearchClick = () => {
-    console.log('검색 실행:', { searchValue, selectedRange });
-    // TODO: 실제 검색 로직 구현
+    // 디바운싱 타이머 취소
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current);
+    }
+    // 즉시 검색 실행
+    setSearch(searchValue);
   };
 
   /**
@@ -95,7 +152,6 @@ export default function Boards() {
    */
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    console.log('페이지 변경:', page);
   };
 
   /**
@@ -104,7 +160,7 @@ export default function Boards() {
    * @returns 게시글 번호
    */
   const getBoardNumber = (index: number): number => {
-    return totalCount - index;
+    return totalCount - (currentPage - 1) * 10 - index;
   };
 
   return (
@@ -122,6 +178,7 @@ export default function Boards() {
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
               onSearch={handleSearch}
+              onClear={handleClear}
               placeholder="제목을 검색해 주세요."
               size="large"
               theme="light"
@@ -194,7 +251,7 @@ export default function Boards() {
             </div>
           ) : error ? (
             <div className={styles.errorContainer}>
-              <div className={styles.errorText}>게시글을 불러오는 중 오류가 발생했습니다. 다시 시도해주세요.</div>
+              <div className={styles.errorText}>데이터를 불러오는 중 오류가 발생했습니다. 다시 시도해주세요.</div>
               <Button
                 variant="secondary"
                 styleType="filled"
@@ -231,7 +288,7 @@ export default function Boards() {
             size="medium"
             theme="light"
             currentPage={currentPage}
-            totalPages={Math.ceil(totalCount / 10)}
+            totalPages={totalPages}
             onPageChange={handlePageChange}
             maxPageButtons={5}
           />

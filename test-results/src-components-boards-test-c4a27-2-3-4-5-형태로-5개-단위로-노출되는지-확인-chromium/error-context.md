@@ -1,0 +1,120 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e5]:
+          - link "TripTalk Logo" [ref=e6] [cursor=pointer]:
+            - /url: /boards
+            - img "TripTalk Logo" [ref=e7]
+          - navigation [ref=e8]:
+            - link "트립토크" [ref=e9] [cursor=pointer]:
+              - /url: /boards
+            - link "숙박권 구매" [ref=e10] [cursor=pointer]:
+              - /url: /products
+            - link "마이 페이지" [ref=e11] [cursor=pointer]:
+              - /url: /mypage
+        - link "로그인" [ref=e12] [cursor=pointer]:
+          - /url: /auth/login
+          - button "로그인" [ref=e13]:
+            - generic [ref=e14]: 로그인
+    - generic [ref=e19]:
+      - generic [ref=e21]:
+        - img "Banner 1"
+      - generic [ref=e23]:
+        - img "Banner 2"
+      - generic [ref=e25]:
+        - img "Banner 3"
+    - main [ref=e31]:
+      - generic [ref=e33]:
+        - heading "트립토크 게시판" [level=1] [ref=e35]
+        - generic [ref=e36]:
+          - generic [ref=e37]:
+            - generic [ref=e39]:
+              - img "search" [ref=e41]
+              - textbox "제목을 검색해 주세요." [ref=e42]
+            - generic [ref=e44]:
+              - textbox "YYYY-MM-DD" [ref=e46]
+              - generic "to" [ref=e48]:
+                - img "swap-right" [ref=e49]:
+                  - img [ref=e50]
+              - textbox "YYYY-MM-DD" [ref=e53]
+              - generic:
+                - img "calendar icon"
+            - button "검색" [ref=e55] [cursor=pointer]:
+              - generic [ref=e56]: 검색
+          - button "등록 트립토크 등록" [ref=e58] [cursor=pointer]:
+            - img "등록" [ref=e60]
+            - generic [ref=e61]: 트립토크 등록
+        - generic [ref=e62]:
+          - generic [ref=e64]:
+            - generic [ref=e65]: 번호
+            - generic [ref=e66]: 제목
+            - generic [ref=e67]: 작성자
+            - generic [ref=e68]: 날짜
+          - generic [ref=e69]:
+            - generic [ref=e70] [cursor=pointer]:
+              - generic [ref=e71]: "111"
+              - generic [ref=e72]: ㅇㅇ
+              - generic [ref=e73]: ㅇㅇ
+              - generic [ref=e74]: 2025.10.29
+            - generic [ref=e75] [cursor=pointer]:
+              - generic [ref=e76]: "110"
+              - generic [ref=e77]: ㅇㅇ
+              - generic [ref=e78]: ㅇㅇ
+              - generic [ref=e79]: 2025.10.29
+            - generic [ref=e80] [cursor=pointer]:
+              - generic [ref=e81]: "109"
+              - generic [ref=e82]: Test Board for Delete
+              - generic [ref=e83]: Test Writer
+              - generic [ref=e84]: 2025.10.29
+            - generic [ref=e85] [cursor=pointer]:
+              - generic [ref=e86]: "108"
+              - generic [ref=e87]: Test Board for Delete
+              - generic [ref=e88]: Test Writer
+              - generic [ref=e89]: 2025.10.29
+            - generic [ref=e90] [cursor=pointer]:
+              - generic [ref=e91]: "107"
+              - generic [ref=e92]: Test Board for Delete
+              - generic [ref=e93]: Test Writer
+              - generic [ref=e94]: 2025.10.29
+            - generic [ref=e95] [cursor=pointer]:
+              - generic [ref=e96]: "106"
+              - generic [ref=e97]: Test Board for Delete
+              - generic [ref=e98]: Test Writer
+              - generic [ref=e99]: 2025.10.29
+            - generic [ref=e100] [cursor=pointer]:
+              - generic [ref=e101]: "105"
+              - generic [ref=e102]: Test Board for Delete
+              - generic [ref=e103]: Test Writer
+              - generic [ref=e104]: 2025.10.29
+            - generic [ref=e105] [cursor=pointer]:
+              - generic [ref=e106]: "104"
+              - generic [ref=e107]: Test Board for Delete
+              - generic [ref=e108]: Test Writer
+              - generic [ref=e109]: 2025.10.29
+            - generic [ref=e110] [cursor=pointer]:
+              - generic [ref=e111]: "103"
+              - generic [ref=e112]: Test Board for Delete
+              - generic [ref=e113]: Test Writer
+              - generic [ref=e114]: 2025.10.29
+            - generic [ref=e115] [cursor=pointer]:
+              - generic [ref=e116]: "102"
+              - generic [ref=e117]: Test Board for Delete
+              - generic [ref=e118]: Test Writer
+              - generic [ref=e119]: 2025.10.29
+          - generic [ref=e121]:
+            - button "이전 페이지" [disabled] [ref=e122]:
+              - img [ref=e123]
+            - generic [ref=e125]:
+              - button "1 페이지" [ref=e126]: "1"
+              - button "2 페이지" [ref=e127] [cursor=pointer]: "2"
+              - button "3 페이지" [ref=e128] [cursor=pointer]: "3"
+              - button "4 페이지" [ref=e129] [cursor=pointer]: "4"
+              - button "5 페이지" [ref=e130] [cursor=pointer]: "5"
+            - button "다음 페이지" [ref=e131] [cursor=pointer]:
+              - img [ref=e132]
+  - alert [ref=e134]
+```

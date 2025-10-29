@@ -24,9 +24,19 @@ export interface SearchBarProps extends Omit<React.InputHTMLAttributes<HTMLInput
   showIcon?: boolean;
   
   /**
+   * 닫기 버튼 표시 여부 (값이 있을 때만 표시)
+   */
+  showClearButton?: boolean;
+  
+  /**
    * 검색 버튼 클릭 핸들러
    */
   onSearch?: (value: string) => void;
+  
+  /**
+   * 닫기 버튼 클릭 핸들러
+   */
+  onClear?: () => void;
   
   /**
    * 컨테이너 클래스명
@@ -72,7 +82,9 @@ export const SearchBar = React.forwardRef<HTMLInputElement, SearchBarProps>(
       size = 'large',
       theme = 'light',
       showIcon = true,
+      showClearButton = true,
       onSearch,
+      onClear,
       containerClassName = '',
       className = '',
       placeholder = '제목을 검색해 주세요.',
@@ -148,6 +160,19 @@ export const SearchBar = React.forwardRef<HTMLInputElement, SearchBarProps>(
       }
       onKeyDown?.(e);
     };
+    
+    const handleClear = () => {
+      if (controlledValue === undefined) {
+        setInternalValue('');
+      }
+      // 부모 컴포넌트에 값 초기화 알림
+      onChange?.({
+        target: { value: '' }
+      } as React.ChangeEvent<HTMLInputElement>);
+      onClear?.();
+      // 포커스 유지
+      inputRef.current?.focus();
+    };
 
     return (
       <div className={containerClassNames}>
@@ -171,6 +196,20 @@ export const SearchBar = React.forwardRef<HTMLInputElement, SearchBarProps>(
           onKeyDown={handleKeyDown}
           {...rest}
         />
+        {showClearButton && hasValue && (
+          <button
+            type="button"
+            className={styles.clearButton}
+            onClick={handleClear}
+            aria-label="검색어 지우기"
+          >
+            <img
+              src="/icons/close.svg"
+              alt="close"
+              className={styles.clearIcon}
+            />
+          </button>
+        )}
       </div>
     );
   }
