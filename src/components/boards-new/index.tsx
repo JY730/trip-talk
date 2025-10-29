@@ -8,41 +8,17 @@
 'use client';
 
 import React from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { useRouter } from 'next/navigation';
-import { useModal } from '../../commons/providers/modal/modal.provider';
-import { Modal } from '../../commons/components/modal';
 import styles from './styles.module.css';
-import { Input } from '../../commons/components/input';
-import { Textarea } from '../../commons/components/textarea';
-import { Button } from '../../commons/components/button';
+import { Input } from '@/commons/components/input';
+import { Textarea } from '@/commons/components/textarea';
+import { Button } from '@/commons/components/button';
+import useBoardForm from './hooks/index.form.hook';
 
-const boardFormSchema = z.object({
-  author: z.string().min(1, '작성자를 입력해 주세요.'),
-  password: z.string().min(1, '비밀번호를 입력해 주세요.'),
-  title: z.string().min(1, '제목을 입력해 주세요.'),
-  content: z.string().min(1, '내용을 입력해 주세요.'),
-  postcode: z.string().optional(),
-  address: z.string().optional(),
-  detailAddress: z.string().optional(),
-  youtubeUrl: z.string().optional(),
-});
-
-type BoardFormData = z.infer<typeof boardFormSchema>;
-
-interface BoardData {
-  id: string;
-  author: string;
-  password: string;
-  title: string;
-  content: string;
-  postcode?: string;
-  address?: string;
-  detailAddress?: string;
-  youtubeUrl?: string;
-  createdAt: string;
+export interface BoardsNewProps {
+  /**
+   * 추가 props가 필요한 경우 여기에 정의
+   */
+  [key: string]: unknown;
 }
 
 /**
@@ -52,103 +28,16 @@ interface BoardData {
  * @example
  * <BoardsNew />
  */
-const BoardsNew = () => {
-  const router = useRouter();
-  const { openModal, closeModal } = useModal();
-
-  const form = useForm<BoardFormData>({
-    resolver: zodResolver(boardFormSchema),
-    defaultValues: {
-      author: '',
-      password: '',
-      title: '',
-      content: '',
-      postcode: '',
-      address: '',
-      detailAddress: '',
-      youtubeUrl: '',
-    },
-    mode: 'onChange',
-  });
-
-  const { formState: { isValid } } = form;
-  const isFormValid = isValid;
-
-  const getBoardsFromStorage = (): BoardData[] => {
-    try {
-      const stored = localStorage.getItem('boards');
-      return stored ? JSON.parse(stored) : [];
-    } catch (error) {
-      console.error('Failed to get boards from storage:', error);
-      return [];
-    }
-  };
-
-  const saveBoardsToStorage = (boards: BoardData[]): void => {
-    try {
-      localStorage.setItem('boards', JSON.stringify(boards));
-    } catch (error) {
-      console.error('Failed to save boards to storage:', error);
-    }
-  };
-
-  const onSubmit = (data: BoardFormData) => {
-    try {
-      const existingBoards = getBoardsFromStorage();
-      
-      const maxId = existingBoards.length > 0 
-        ? Math.max(...existingBoards.map(board => parseInt(board.id) || 0))
-        : 0;
-      const newId = (maxId + 1).toString();
-      
-      const newBoard: BoardData = {
-        id: newId,
-        ...data,
-        createdAt: new Date().toISOString(),
-      };
-      
-      const updatedBoards = [...existingBoards, newBoard];
-      saveBoardsToStorage(updatedBoards);
-      
-      openModal(
-        <Modal
-          variant="info"
-          actions="single"
-          title="게시글 등록 완료"
-          description="게시글이 성공적으로 등록되었습니다."
-          confirmText="확인"
-          onConfirm={() => {
-            closeModal();
-            router.push(`/boards/${newId}`);
-          }}
-        />
-      );
-    } catch (error) {
-      console.error('Failed to submit form:', error);
-      
-      openModal(
-        <Modal
-          variant="danger"
-          actions="single"
-          title="등록 실패"
-          description="게시글 등록 중 오류가 발생했습니다. 다시 시도해 주세요."
-          confirmText="확인"
-          onConfirm={() => closeModal()}
-        />
-      );
-    }
-  };
-
-  const onCancel = () => {
-    router.back();
-  };
+export const BoardsNew = React.forwardRef<HTMLFormElement, BoardsNewProps>(
+  (props, ref) => {
+  const { form, isFormValid, onSubmit, onCancel } = useBoardForm();
   const { register, formState: { errors } } = form;
 
-  return (
-    <form onSubmit={form.handleSubmit(onSubmit)} className={styles.container}>      
+    return (
+      <form ref={ref} onSubmit={onSubmit} className={styles.container} data-testid="board-form" {...props}>
       {/* Detail Title */}
       <div className={styles.submitTitle}>
-        <h1>게시글 등록</h1>
+        <h1 data-testid="board-form-title">게시글 등록</h1>
       </div>
       
       {/* Gap */}
@@ -164,10 +53,10 @@ const BoardsNew = () => {
             label="작성자"
             placeholder="작성자를 입력해 주세요."
             required
-            containerClassName={styles.userInputContainer}
-            {...register('author')}
-            error={!!errors.author}
-            errorMessage={errors.author?.message}
+            className={styles.userInputContainer}
+            {...register('writer')}
+            error={!!errors.writer}
+            errorMessage={errors.writer?.message}
           />
         </div>
         <div className={styles.passwordInputWrapper}>
@@ -179,7 +68,7 @@ const BoardsNew = () => {
             placeholder="비밀번호를 입력해 주세요."
             type="password"
             required
-            containerClassName={styles.passwordInputContainer}
+            className={styles.passwordInputContainer}
             {...register('password')}
             error={!!errors.password}
             errorMessage={errors.password?.message}
@@ -205,7 +94,7 @@ const BoardsNew = () => {
           label="제목"
           placeholder="제목을 입력해 주세요."
           required
-          containerClassName={styles.titleInputContainer}
+          className={styles.titleInputContainer}
           {...register('title')}
           error={!!errors.title}
           errorMessage={errors.title?.message}
@@ -227,10 +116,10 @@ const BoardsNew = () => {
           label="내용"
           placeholder="내용을 입력해 주세요."
           required
-          containerClassName={styles.contentInputContainer}
-          {...register('content')}
-          error={!!errors.content}
-          errorMessage={errors.content?.message}
+          className={styles.contentInputContainer}
+          {...register('contents')}
+          error={!!errors.contents}
+          errorMessage={errors.contents?.message}
         />
       </div>
       
@@ -245,47 +134,15 @@ const BoardsNew = () => {
       
       {/* Input Address */}
       <div className={styles.inputAddress}>
-        <div className={styles.postcodeWrapper}>
-          <Input
-            variant="primary"
-            theme="light"
-            size="large"
-            label="주소"
-            placeholder="01234"
-            containerClassName={styles.postcodeInputContainer}
-            {...register('postcode')}
-            rightButton={
-              <Button
-                variant="secondary"
-                styleType="outline"
-                size="large"
-                shape='rectangle'
-                className={styles.postcodeSearchButton}
-                type="button"
-              >
-                우편번호 검색
-              </Button>
-            }
-          />
-        </div>
         <div className={styles.addressInputWrapper}>
           <Input
             variant="primary"
             theme="light"
             size="large"
+            label="주소"
             placeholder="주소를 입력해 주세요."
-            containerClassName={styles.addressInputContainer}
-            {...register('address')}
-          />
-        </div>
-        <div className={styles.detailAddressWrapper}>
-          <Input
-            variant="primary"
-            theme="light"
-            size="large"
-            placeholder="상세주소"
-            containerClassName={styles.detailAddressInputContainer}
-            {...register('detailAddress')}
+            className={styles.addressInputContainer}
+            {...register('boardAddress')}
           />
         </div>
       </div>
@@ -307,7 +164,7 @@ const BoardsNew = () => {
           size="large"
           label="유튜브 링크"
           placeholder="링크를 입력해 주세요."
-          containerClassName={styles.youtubeInputContainer}
+          className={styles.youtubeInputContainer}
           {...register('youtubeUrl')}
         />
       </div>
@@ -352,7 +209,7 @@ const BoardsNew = () => {
             variant="secondary"
             styleType="outline"
             size="large"
-            shape='rectangle'
+            shape="rectangle"
             className={styles.cancelButton}
             type="button"
             onClick={onCancel}
@@ -363,7 +220,7 @@ const BoardsNew = () => {
             variant="primary"
             styleType="filled"
             size="large"
-            shape='rectangle'
+            shape="rectangle"
             className={styles.submitButton}
             type="submit"
             disabled={!isFormValid}
@@ -373,9 +230,12 @@ const BoardsNew = () => {
         </div>
       </div>
 
-      <div className={styles.gap}></div>
-    </form>
-  );
-};
+        <div className={styles.gap}></div>
+      </form>
+    );
+  }
+);
+
+BoardsNew.displayName = 'BoardsNew';
 
 export default BoardsNew;

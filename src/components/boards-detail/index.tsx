@@ -3,20 +3,41 @@
 /**
  * BoardsDetail Component (UI Implementation)
  * Design Source: Figma Node IDs 285:32577, 285:32604, 285:32608, 285:32615
- * Last Updated: 2025-10-22
+ * Last Updated: 2025-01-27
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Button } from '@/commons/components/button';
 import { Comments, Comment } from './comments';
+import useBoardDetail from './hooks/index.binding.hook';
 import styles from './styles.module.css';
+
+/**
+ * 날짜 포맷팅 함수
+ */
+const formatDate = (dateString?: string): string => {
+  if (!dateString) return '';
+  try {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('ko-KR', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    }).replace(/\./g, '.').replace(/\s/g, '');
+  } catch {
+    return '';
+  }
+};
 
 /**
  * BoardsDetail 컴포넌트
  * 게시글 상세 페이지를 보여줍니다.
  */
 export default function BoardsDetail() {
+  // 게시글 데이터 조회
+  const { data, loading, error } = useBoardDetail();
+  
   const [isLiked, setIsLiked] = useState(false);
   const [isDisliked, setIsDisliked] = useState(false);
   const [comments, setComments] = useState<Comment[]>([
@@ -39,6 +60,13 @@ export default function BoardsDetail() {
       isOwner: false
     }
   ]);
+
+  // 게시글 데이터가 로드되면 좋아요/싫어요 상태 초기화
+  useEffect(() => {
+    if (data?.likeCount !== undefined && data?.dislikeCount !== undefined) {
+      // 초기 상태는 false로 유지 (사용자 액션에 따라 변경)
+    }
+  }, [data]);
 
   const handleLike = () => {
     setIsLiked(!isLiked);
@@ -67,16 +95,44 @@ export default function BoardsDetail() {
     setComments(prev => [newComment, ...prev]);
   };
 
+  // 에러 처리: 콘솔에 에러 출력
+  useEffect(() => {
+    if (error) {
+      console.error('게시글 조회 실패:', error);
+    }
+  }, [error]);
+
+  // 로딩 상태 처리
+  if (loading) {
+    return (
+      <div className={styles.container} data-testid="board-detail-page">
+        <div className={styles.loadingContainer}>
+          <div className={styles.loadingText}>불러오는 중…</div>
+        </div>
+      </div>
+    );
+  }
+
+  // 에러 상태 처리
+  if (error || !data) {
+    return (
+      <div className={styles.container} data-testid="board-detail-page">
+        <div className={styles.errorContainer}>
+          <div className={styles.errorText}>게시글 정보를 불러올 수 없습니다.</div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} data-testid="board-detail-page" data-board-id={data?._id}>
       {/* Gap: 1168 * 40 */}
       <div className={styles.gap40}></div>
 
       {/* Detail Title Section */}
       <div className={styles.titleSection}>
-        <h1 className={styles.title}>
-          살어리 살어리랏다 쳥산(靑山)애 살어리랏다멀위랑 ᄃᆞ래랑 먹고 쳥산(靑山)애 살어리랏다얄리얄리 얄랑셩 얄라리 얄라
+        <h1 className={styles.title} data-testid="board-title">
+          {data?.title || ''}
         </h1>
       </div>
 
@@ -94,9 +150,11 @@ export default function BoardsDetail() {
               height={24}
               className={styles.profileImage}
             />
-            <span className={styles.profileName}>홍길동</span>
+            <span className={styles.profileName} data-testid="board-writer">
+              {data?.writer || data?.user?.name || '익명'}
+            </span>
           </div>
-          <span className={styles.profileDate}>2024.11.11</span>
+          <span className={styles.profileDate}>{formatDate(data?.createdAt)}</span>
         </div>
         <div className={styles.divider}></div>
         <div className={styles.metadataIcons}>
@@ -113,53 +171,25 @@ export default function BoardsDetail() {
       <div className={styles.gap24}></div>
 
       {/* Detail Content Image */}
-      <div className={styles.contentImage}>
-        <Image
-          src="/images/detail_image.png"
-          alt="상세 이미지"
-          width={400}
-          height={531}
-          className={styles.image}
-        />
-      </div>
+      {data?.images && data.images.length > 0 && (
+        <div className={styles.contentImage}>
+          <Image
+            src={data.images[0]}
+            alt="상세 이미지"
+            width={400}
+            height={531}
+            className={styles.image}
+          />
+        </div>
+      )}
 
       {/* Gap: 1168 * 24 */}
       <div className={styles.gap24}></div>
 
       {/* Detail Content Text */}
       <div className={styles.contentText}>
-        <p>
-          살겠노라 살겠노라. 청산에 살겠노라.<br />
-          머루랑 다래를 먹고 청산에 살겠노라.<br />
-          얄리얄리 얄랑셩 얄라리 얄라<br />
-          <br />
-          우는구나 우는구나 새야. 자고 일어나 우는구나 새야.<br />
-          너보다 시름 많은 나도 자고 일어나 우노라.<br />
-          얄리얄리 얄라셩 얄라리 얄라<br />
-          <br />
-          갈던 밭(사래) 갈던 밭 보았느냐. 물 아래(근처) 갈던 밭 보았느냐<br />
-          이끼 묻은 쟁기를 가지고 물 아래 갈던 밭 보았느냐.<br />
-          얄리얄리 얄라셩 얄라리 얄라<br />
-          <br />
-          이럭저럭 하여 낮일랑 지내 왔건만<br />
-          올 이도 갈 이도 없는 밤일랑 또 어찌 할 것인가.<br />
-          얄리얄리 얄라셩 얄라리 얄라<br />
-          <br />
-          어디다 던지는 돌인가 누구를 맞히려던 돌인가.<br />
-          미워할 이도 사랑할 이도 없이 맞아서 우노라.<br />
-          얄리얄리 얄라셩 얄라리 얄라<br />
-          <br />
-          살겠노라 살겠노라. 바다에 살겠노라.<br />
-          나문재, 굴, 조개를 먹고 바다에 살겠노라.<br />
-          얄리얄리 얄라셩 얄라리 얄라<br />
-          <br />
-          가다가 가다가 듣노라. 에정지(미상) 가다가 듣노라.<br />
-          사슴(탈 쓴 광대)이 솟대에 올라서 해금을 켜는 것을 듣노라.<br />
-          얄리얄리 얄라셩 얄라리 얄라<br />
-          <br />
-          가다 보니 배불룩한 술독에 독한 술을 빚는구나.<br />
-          조롱박꽃 모양 누룩이 매워 (나를) 붙잡으니 내 어찌 하리이까.[1]<br />
-          얄리얄리 얄라셩 얄라리 얄라
+        <p data-testid="board-contents">
+          {data?.contents || ''}
         </p>
       </div>
 
@@ -167,15 +197,17 @@ export default function BoardsDetail() {
       <div className={styles.gap24}></div>
 
       {/* Detail Content Youtube Preview */}
-      <div className={styles.youtubePreview}>
-        <Image
-          src="/images/youtube_preview.png"
-          alt="유튜브 미리보기"
-          width={1280}
-          height={512}
-          className={styles.youtubeImage}
-        />
-      </div>
+      {data?.youtubeUrl && (
+        <div className={styles.youtubePreview}>
+          <Image
+            src="/images/youtube_preview.png"
+            alt="유튜브 미리보기"
+            width={1280}
+            height={512}
+            className={styles.youtubeImage}
+          />
+        </div>
+      )}
 
       {/* Gap: 1168 * 24 */}
       <div className={styles.gap24}></div>
@@ -190,7 +222,9 @@ export default function BoardsDetail() {
               width={24}
               height={24}
             />
-            <span className={`${styles.count} ${isDisliked ? styles.active : ''}`}>24</span>
+            <span className={`${styles.count} ${isDisliked ? styles.active : ''}`}>
+              {data?.dislikeCount || 0}
+            </span>
           </button>
           <button className={styles.likeButton} onClick={handleLike}>
             <Image
@@ -199,7 +233,9 @@ export default function BoardsDetail() {
               width={24}
               height={24}
             />
-            <span className={`${styles.count} ${isLiked ? styles.active : ''}`}>12</span>
+            <span className={`${styles.count} ${isLiked ? styles.active : ''}`}>
+              {data?.likeCount || 0}
+            </span>
           </button>
         </div>
       </div>

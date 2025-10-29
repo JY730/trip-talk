@@ -1,6 +1,7 @@
 'use client';
 
-import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@apollo/client';
+import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
+import { ApolloProvider } from '@apollo/client/react';
 import { ReactNode } from 'react';
 
 interface ApolloClientProviderProps {
@@ -9,7 +10,7 @@ interface ApolloClientProviderProps {
 
 // HTTP Link 생성
 const httpLink = createHttpLink({
-  uri: process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT || 'http://localhost:4000/graphql',
+  uri: '/api/graphql',
 });
 
 // Apollo Client 인스턴스 생성

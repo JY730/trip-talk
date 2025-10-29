@@ -273,3 +273,41 @@
   font-weight: 600;
 }
 
+/* ========================================
+   Loading & Error States
+   ======================================== */
+
+.loadingContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 0;
+}
+
+.loadingText {
+  font-family: var(--typo-font-family-ko);
+  font-size: var(--typo-body-b4-font-size);
+  line-height: var(--typo-body-b4-line-height);
+  font-weight: var(--typo-body-b4-font-weight);
+  letter-spacing: var(--typo-body-b4-letter-spacing);
+  color: var(--color-gray-500);
+}
+
+.errorContainer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 0;
+}
+
+.errorText {
+  font-family: var(--typo-font-family-ko);
+  font-size: var(--typo-body-b4-font-size);
+  line-height: var(--typo-body-b4-line-height);
+  font-weight: var(--typo-body-b4-font-weight);
+  letter-spacing: var(--typo-body-b4-letter-spacing);
+  color: var(--color-gray-700);
+}
+

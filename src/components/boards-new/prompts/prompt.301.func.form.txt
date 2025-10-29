@@ -1,0 +1,136 @@
+아래의 조건을 모두 적용하여, 아래의 요구사항을 모두 구현할 것.  
+구현 결과를 체크리스트로 반환할 것.  
+
+==============================================
+
+조건-커서룰) 아래의 커서룰을 적용하여 작업하고, 이 작업이 끝나면 해당 rules 적용 결과를 체크리스트로 반환할 것.  
+            - @01-common.mdc  
+            - @04-func.mdc  
+
+==============================================
+
+조건-파일경로) 참고할 API  문서경로: https://main-practice.codebootcamp.co.kr/graphql  
+조건-파일경로) 참고할 TSX  파일경로: src/components/boards-new/index.tsx  
+조건-파일경로) 참고할 CSS  파일경로: src/components/boards-new/styles.module.css  
+조건-파일경로) 구현될 HOOK 파일경로: src/components/boards-new/hooks/index.form.hook.tsx  
+조건-파일경로) 구현될 TEST 파일경로: src/components/boards-new/tests/index.form.hook.spec.ts  
+
+==============================================
+
+핵심요구사항) 다음의 기능을 playwright 테스트를 활용하여 TDD기반으로 구현하고, 테스트에 통과할 때까지 반복할 것.  
+            1) 테스트 제외 라이브러리  
+                - jest  
+                - @testing-library/react  
+
+            2) 테스트 조건  
+                - timeout은 network 통신인 경우 2000ms 미만으로 설정할 것.  
+                - timeout은 network 통신이 아닌 경우 설정하지 않거나, 500ms 미만으로 설정할 것.  
+                - /boards/new 페이지가 완전히 로드된 후 테스트할 것.  
+                    - 페이지 로드 식별 요구사항: 고정식별자 data-testid 대기 방법  
+                    - 페이지 로드 식별 금지사항: networkidle 대기 방법  
+
+            3) 테스트 API 조건  
+                3-1) 데이터  
+                    - 실제데이터를 사용할 것.  
+                    - Mock데이터 사용하지 말 것.  
+
+                3-2) 성공시나리오  
+                    - API 모킹하지 말 것.  
+                    - _id가 정상적으로 반환되는지 확인할 것.  
+
+                3-3) 실패시나리오  
+                    - API 모킹할 것.  
+
+==============================================
+
+핵심요구사항) 다음의 조건에 맞게 게시글 등록 기능을 step-by-step 으로 구현하고, 적용 결과를 체크리스트로 반환할 것.  
+
+1) 라이브러리조건  
+    - 폼: 이미 설치되어있는 react-hook-form, @hookform/resolvers를 사용할 것.  
+    - 검증: 이미 설치되어있는 zod를 사용할 것.  
+    - API: 이미 설치되어있는 apollo-client 를 사용할 것.  
+
+2) 유저시나리오  
+    1. 모든 인풋(작성자, 비밀번호, 제목, 내용)이 입력되면 등록하기 버튼을 활성화할 것.  
+
+    2. 등록하기 버튼을 누르면 GRAPHQL-API(createBoard)를 요청할 것.  
+        2-1) API명: createBoard  
+        2-2) 요청데이터:  
+                createBoardInput(  
+                    writer,  
+                    password,  
+                    title,  
+                    contents,  
+                    youtubeUrl,  
+                    boardAddress,  
+                    images  
+                )  
+        2-3) 응답데이터:  
+                {  
+                    _id: ID!  
+                    writer: String  
+                    title: String!  
+                    contents: String!  
+                    youtubeUrl: String  
+                    likeCount: Int!  
+                    dislikeCount: Int!  
+                    images: [String!]  
+                    boardAddress: BoardAddress  
+                    user: User  
+                    createdAt: DateTime!  
+                    updatedAt: DateTime!  
+                    deletedAt: DateTime  
+                }  
+
+        2-4) zod 검증 조건  
+            - 제목, 작성자, 내용, 비밀번호는 필수로 입력되어야 함.  
+            - 제목은 최소 2글자 이상 작성해야 함.  
+            - 제목을 2글자 이상 작성하지 않은 경우 “제목은 2자 이상 입력해 주세요.” 오류 메시지를 보여줄 것.  
+            - 비밀번호는 최소 8글자, 최대 16글자까지 입력할 수 있음.  
+
+    3. 게시글 등록에 성공하면, 다음의 순서대로 동작할 것.  
+        - 게시글 등록완료 모달을 노출할 것.  
+        - 모달 확인 버튼을 클릭하면 아래 순서를 따를 것.  
+            1) 모든 모달을 닫을 것.  
+            2) 게시글 상세페이지로 이동할 것.  
+               (이동 경로: /boards/[id])  
+
+    4. 게시글 등록에 실패하면, 다음의 순서대로 동작할 것.  
+        - try-catch 구문을 통해 에러를 감지할 것.  
+        - 에러가 발생하면 “에러가 발생하였습니다. 다시 시도해 주세요.”라는 메시지를 띄울 것.  
+        - 게시글 등록실패 모달을 노출할 것.  
+        - 모달 확인 버튼을 클릭하면 아래 순서를 따를 것.  
+            1) 모든 모달을 닫을 것.  
+
+3) 모달 조건  
+    - 모달 프로바이더 경로: src/commons/providers/modal/modal.provider.tsx  
+    - 이미 셋팅되어있는 modal.provider를 사용할 것.  
+    - 이미 셋팅되어있는 modal.provider를 수정하지 말 것.  
+    - 모달은 한 번만 보여야 하며, 닫힌 뒤에는 같은 상황에서 다시 나타나지 않도록 할 것.  
+
+4) 공통컴포넌트 조건  
+    - 게시글 등록완료 모달: <Modal />, variant: 'info', actions: 'single'  
+    - 게시글 등록실패 모달: <Modal />, variant: 'danger', actions: 'single'  
+
+5) 페이지 이동 조건  
+    - 게시글 등록완료 모달:  
+        1. '확인' 클릭  
+        2. 열려있는 모든 모달을 닫기  
+        3. 게시글상세페이지로 이동 => /boards/[id]  
+
+    - 게시글 등록실패 모달:  
+        1. '확인' 클릭  
+        2. 열려있는 모든 모달을 닫기  
+
+6) 네트워크 검증 조건  
+    - 네트워크 탭을 통해 게시글 전송이 정상적으로 완료되었는지 확인할 것.  
+    - 등록 요청 시 API 에러가 발생하지 않아야 함.  
+    - 등록 성공 시 서버로부터 _id가 반환되어야 함.  
+
+==============================================
+
+최종목표)  
+- 작성자, 비밀번호, 제목, 내용을 입력한 후 “등록하기” 버튼을 클릭하면 게시글이 등록될 것.  
+- 등록에 성공하면 게시글 상세페이지로 이동할 것.  
+- 등록 실패 시 에러 메시지 “에러가 발생하였습니다. 다시 시도해 주세요.”를 화면에 출력할 것.  
+- 모든 테스트 케이스가 playwright 기반 TDD로 통과되어야 함.  
