@@ -7,6 +7,7 @@
  */
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { DatePicker } from 'antd';
 import type { Dayjs } from 'dayjs';
 import { SearchBar } from '@/commons/components/searchbar';
@@ -47,6 +48,8 @@ const mockBoardData: BoardItem[] = [
  * 트립토크 게시글 목록을 표시하고 검색, 페이지네이션 기능을 제공합니다.
  */
 export default function Boards() {
+  const router = useRouter();
+  
   // State 관리
   const [searchValue, setSearchValue] = useState('');
   const [selectedRange, setSelectedRange] = useState<[Dayjs | null, Dayjs | null]>([null, null]);
@@ -84,8 +87,7 @@ export default function Boards() {
    * 트립토크 등록 버튼 클릭 핸들러
    */
   const handleWriteClick = () => {
-    console.log('트립토크 등록 클릭');
-    // TODO: 등록 페이지로 이동
+    router.push('/boards/new');
   };
 
   /**

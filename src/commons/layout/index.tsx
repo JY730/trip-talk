@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Banner from './banner';
 import Button from '@/commons/components/button';
@@ -17,6 +18,15 @@ export default function Layout({ children }: LayoutProps) {
   const [isLoggedIn] = useState(false); // 로그인 상태 관리 (추후 연동)
   const { activeTab } = useNavigationRouting();
   const { isHeaderVisible, isBannerVisible } = useAreaVisibility();
+  const pathname = usePathname();
+  
+  // auth 페이지들은 레이아웃에서 제외
+  const isAuthPage = pathname?.startsWith('/auth');
+  
+  // auth 페이지인 경우 레이아웃 없이 children만 렌더링
+  if (isAuthPage) {
+    return <>{children}</>;
+  }
   
   return (
     <div className={styles.container} data-testid="layout-container">

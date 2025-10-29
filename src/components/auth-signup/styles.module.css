@@ -1,0 +1,149 @@
+/**
+ * Auth Signup Component Styles
+ * Design Source: Figma Node ID 285:32642
+ * Last Updated: 2025-01-27
+ */
+
+.container {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+  background-color: var(--color-gray-w);
+  font-family: var(--typo-font-family-ko);
+}
+
+/* 배경 이미지 영역 */
+.backgroundArea {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/images/auth_image.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+/* 폼 영역 */
+.formArea {
+  position: relative;
+  z-index: 3;
+  width: 400px;
+  height: 100vh;
+  background-color: var(--color-gray-w);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 320px 40px;
+  box-sizing: border-box;
+}
+
+/* 타이틀 영역 */
+.signupTitle {
+  font-size: var(--typo-headline-h4-font-size);
+  font-weight: var(--typo-headline-h4-font-weight);
+  line-height: var(--typo-headline-h4-line-height);
+  color: var(--color-gray-900);
+  text-align: center;
+  margin: 0 0 8px 0;
+}
+
+.signupDescription {
+  font-size: var(--typo-body-b3-font-size);
+  font-weight: var(--typo-body-b3-font-weight);
+  line-height: var(--typo-body-b3-line-height);
+  color: var(--color-gray-800);
+  text-align: center;
+  margin: 0 0 24px 0;
+}
+
+/* 입력 필드 그룹 */
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.input {
+  width: 100%;
+}
+
+/* 버튼 영역 */
+.buttonArea {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.signupButton {
+  width: 100%;
+  height: 48px;
+  font-size: var(--typo-headline-h4-font-size);
+  font-weight: var(--typo-headline-h4-font-weight);
+  line-height: var(--typo-headline-h4-line-height);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+  
+  .formArea {
+    width: 100%;
+    height: auto;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  
+  .backgroundArea {
+    position: relative;
+    height: 200px;
+    background-size: cover;
+  }
+}
+
+@media (max-width: 480px) {
+  .formArea {
+    padding: 16px;
+  }
+  
+  .signupTitle {
+    font-size: var(--typo-headline-h3-font-size);
+    line-height: var(--typo-headline-h3-line-height);
+  }
+  
+  .signupDescription {
+    font-size: var(--typo-body-b5-font-size);
+    line-height: var(--typo-body-b5-line-height);
+  }
+}
+
+/* 다크모드 지원 */
+@media (prefers-color-scheme: dark) {
+  .container {
+    background-color: var(--color-gray-50);
+  }
+  
+  .formArea {
+    background-color: var(--color-gray-50);
+  }
+  
+  .signupTitle {
+    color: var(--color-gray-900);
+  }
+  
+  .signupDescription {
+    color: var(--color-gray-800);
+  }
+}
