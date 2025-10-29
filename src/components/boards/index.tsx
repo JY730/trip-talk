@@ -13,35 +13,23 @@ import type { Dayjs } from 'dayjs';
 import { SearchBar } from '@/commons/components/searchbar';
 import { Button } from '@/commons/components/button';
 import { Pagination } from '@/commons/components/pagination';
+import { useBoardsBinding } from './hooks/index.binding.hook';
 import styles from './styles.module.css';
 
 const { RangePicker } = DatePicker;
 
 /**
- * 게시글 데이터 타입
+ * 날짜 포맷팅 함수
+ * @param dateString - ISO 날짜 문자열
+ * @returns 포맷된 날짜 문자열 (YYYY.MM.DD)
  */
-interface BoardItem {
-  id: number;
-  title: string;
-  author: string;
-  date: string;
-}
-
-/**
- * Mock 게시글 데이터 (피그마 디자인 기반)
- */
-const mockBoardData: BoardItem[] = [
-  { id: 243, title: '제주 살이 1일차', author: '홍길동', date: '2024.12.16' },
-  { id: 242, title: '강남 살이 100년차', author: '홍길동', date: '2024.12.16' },
-  { id: 241, title: '길 걷고 있었는데 고양이한테 간택 받았어요', author: '홍길동', date: '2024.12.16' },
-  { id: 240, title: '오늘 날씨 너무 좋아서 바다보러 왔어요~', author: '홍길동', date: '2024.12.16' },
-  { id: 239, title: '누가 양양 핫하다고 했어 나밖에 없는데?', author: '홍길동', date: '2024.12.16' },
-  { id: 238, title: '여름에 보드타고 싶은거 저밖에 없나요 🥲', author: '홍길동', date: '2024.12.16' },
-  { id: 237, title: '사무실에서 과자 너무 많이 먹은거 같아요 다이어트하러 여행 가야겠어요', author: '홍길동', date: '2024.12.16' },
-  { id: 236, title: '여기는 기승전 여행이네요 ㅋㅋㅋ', author: '홍길동', date: '2024.12.16' },
-  { id: 235, title: '상여금 들어왔는데 이걸로 다낭갈까 사이판 갈까', author: '홍길동', date: '2024.12.16' },
-  { id: 234, title: '강릉 여름바다 보기 좋네요', author: '홍길동', date: '2024.12.16' },
-];
+const formatDate = (dateString: string): string => {
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}.${month}.${day}`;
+};
 
 /**
  * Boards 컴포넌트
@@ -49,6 +37,9 @@ const mockBoardData: BoardItem[] = [
  */
 export default function Boards() {
   const router = useRouter();
+  
+  // API 데이터 조회
+  const { boards, totalCount, loading, error, refetch } = useBoardsBinding();
   
   // State 관리
   const [searchValue, setSearchValue] = useState('');
@@ -91,12 +82,29 @@ export default function Boards() {
   };
 
   /**
+   * 게시글 제목 클릭 핸들러
+   * @param boardId - 게시글 ID
+   */
+  const handleBoardClick = (boardId: string) => {
+    router.push(`/boards/${boardId}`);
+  };
+
+  /**
    * 페이지 변경 핸들러
    * @param page - 변경할 페이지 번호
    */
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
     console.log('페이지 변경:', page);
+  };
+
+  /**
+   * 게시글 번호 계산 함수
+   * @param index - 배열 인덱스
+   * @returns 게시글 번호
+   */
+  const getBoardNumber = (index: number): number => {
+    return totalCount - index;
   };
 
   return (
@@ -179,15 +187,41 @@ export default function Boards() {
         </div>
 
         {/* 게시글 목록 */}
-        <div className={styles.boardListContainer}>
-          {mockBoardData.map((board) => (
-            <div key={board.id} className={styles.boardItem}>
-              <div className={styles.boardNumber}>{board.id}</div>
-              <div className={styles.boardTitle}>{board.title}</div>
-              <div className={styles.boardAuthor}>{board.author}</div>
-              <div className={styles.boardDate}>{board.date}</div>
+        <div className={styles.boardListContainer} data-testid="board-list">
+          {loading ? (
+            <div className={styles.loadingContainer}>
+              <div className={styles.loadingText}>로딩 중입니다.</div>
             </div>
-          ))}
+          ) : error ? (
+            <div className={styles.errorContainer}>
+              <div className={styles.errorText}>{error}</div>
+              <Button
+                variant="secondary"
+                styleType="filled"
+                size="medium"
+                theme="light"
+                shape="rectangle"
+                onClick={refetch}
+              >
+                다시 시도
+              </Button>
+            </div>
+          ) : (
+            boards.map((board, index) => (
+              <div key={board._id} className={styles.boardItem}>
+                <div className={styles.boardNumber}>{getBoardNumber(index)}</div>
+                <div 
+                  className={styles.boardTitle}
+                  onClick={() => handleBoardClick(board._id)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  {board.title}
+                </div>
+                <div className={styles.boardAuthor}>{board.writer}</div>
+                <div className={styles.boardDate}>{formatDate(board.createdAt)}</div>
+              </div>
+            ))
+          )}
         </div>
 
         {/* 페이지네이션 */}
@@ -197,7 +231,7 @@ export default function Boards() {
             size="medium"
             theme="light"
             currentPage={currentPage}
-            totalPages={5}
+            totalPages={Math.ceil(totalCount / 10)}
             onPageChange={handlePageChange}
             maxPageButtons={5}
           />

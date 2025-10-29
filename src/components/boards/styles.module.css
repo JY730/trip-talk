@@ -258,6 +258,45 @@
 }
 
 /* ========================================
+   Loading & Error States
+   ======================================== */
+
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 48px;
+  min-height: 200px;
+}
+
+.loadingText {
+  font-family: var(--typo-font-family-ko);
+  font-size: var(--typo-body-b2-font-size);
+  font-weight: var(--typo-body-b2-font-weight);
+  line-height: var(--typo-body-b2-line-height);
+  color: var(--color-gray-500);
+}
+
+.errorContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 48px;
+  min-height: 200px;
+  gap: 16px;
+}
+
+.errorText {
+  font-family: var(--typo-font-family-ko);
+  font-size: var(--typo-body-b2-font-size);
+  font-weight: var(--typo-body-b2-font-weight);
+  line-height: var(--typo-body-b2-line-height);
+  color: var(--color-red-500);
+  text-align: center;
+}
+
+/* ========================================
    Responsive Design
    ======================================== */
 
