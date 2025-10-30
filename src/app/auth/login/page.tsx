@@ -5,31 +5,36 @@
  * Last Updated: 2025-01-27
  */
 
+import React from 'react';
 import AuthLogin from '@/components/auth-login';
+import { useAuthLoginForm } from '@/components/auth-login/hooks/index.form.hook';
 
 export default function LoginPage() {
-  const handleEmailChange = (value: string) => {
-    console.log('Email changed:', value);
-  };
-
-  const handlePasswordChange = (value: string) => {
-    console.log('Password changed:', value);
-  };
-
-  const handleLoginClick = () => {
-    console.log('Login clicked');
-  };
-
-  const handleSignupClick = () => {
-    console.log('Signup clicked');
-  };
+  const {
+    email,
+    password,
+    error,
+    errorMessage,
+    loading,
+    canSubmit,
+    onEmailChange,
+    onPasswordChange,
+    onLoginClick,
+    onSignupClick,
+  } = useAuthLoginForm();
 
   return (
     <AuthLogin
-      onEmailChange={handleEmailChange}
-      onPasswordChange={handlePasswordChange}
-      onLoginClick={handleLoginClick}
-      onSignupClick={handleSignupClick}
+      email={email}
+      password={password}
+      onEmailChange={onEmailChange}
+      onPasswordChange={onPasswordChange}
+      onLoginClick={onLoginClick}
+      onSignupClick={onSignupClick}
+      error={error}
+      errorMessage={errorMessage}
+      loading={loading}
+      canSubmit={canSubmit}
     />
   );
 }

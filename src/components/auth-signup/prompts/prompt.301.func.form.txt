@@ -46,7 +46,7 @@
             1) 라이브러리조건
                 - 폼: 이미 설치되어있는 react-hook-form, @hookform/resolvers를 사용할 것.
                 - 검증: 이미 설치되어있는 zod를 사용할 것.
-                - API: 이미 설치되어있는 @tanstack/react-query를 사용할 것.
+                - API: 이미 설치되어있는 apollo-client를 사용할 것.
 
             2) 유저시나리오(회원가입)
                 1. 모든 인풋이 입력되면 회원가입버튼을 활성화 할 것.

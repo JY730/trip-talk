@@ -71,6 +71,11 @@ export interface AuthSignupProps {
    * 로딩 상태
    */
   loading?: boolean;
+  
+  /**
+   * 폼 유효성 상태
+   */
+  isFormValid?: boolean;
 }
 
 /**
@@ -104,6 +109,7 @@ export const AuthSignup = React.forwardRef<HTMLDivElement, AuthSignupProps>(
       error = false,
       errorMessage = '',
       loading = false,
+      isFormValid = false,
       ...rest
     },
     ref
@@ -125,65 +131,73 @@ export const AuthSignup = React.forwardRef<HTMLDivElement, AuthSignupProps>(
           
           <div className={styles.inputGroup}>
             {/* 이메일 입력 */}
-            <Input
-              variant="primary"
-              size="medium"
-              theme="light"
-              type="email"
-              label="이메일"
-              placeholder="이메일을 입력해 주세요."
-              value={email}
-              onChange={(e) => onEmailChange?.(e.target.value)}
-              error={error}
-              errorMessage={errorMessage}
-              required
-              className={styles.input}
-            />
+            <div data-testid="signup-email">
+              <Input
+                variant="primary"
+                size="medium"
+                theme="light"
+                type="email"
+                label="이메일"
+                placeholder="이메일을 입력해 주세요."
+                value={email}
+                onChange={(e) => onEmailChange?.(e.target.value)}
+                error={error}
+                errorMessage={errorMessage}
+                required
+                className={styles.input}
+              />
+            </div>
 
             {/* 이름 입력 */}
-            <Input
-              variant="primary"
-              size="medium"
-              theme="light"
-              type="text"
-              label="이름"
-              placeholder="이름을 입력해 주세요."
-              value={name}
-              onChange={(e) => onNameChange?.(e.target.value)}
-              error={error}
-              required
-              className={styles.input}
-            />
+            <div data-testid="signup-name">
+              <Input
+                variant="primary"
+                size="medium"
+                theme="light"
+                type="text"
+                label="이름"
+                placeholder="이름을 입력해 주세요."
+                value={name}
+                onChange={(e) => onNameChange?.(e.target.value)}
+                error={error}
+                required
+                className={styles.input}
+              />
+            </div>
 
             {/* 비밀번호 입력 */}
-            <Input
-              variant="primary"
-              size="medium"
-              theme="light"
-              type="password"
-              label="비밀번호"
-              placeholder="비밀번호를 입력해 주세요."
-              value={password}
-              onChange={(e) => onPasswordChange?.(e.target.value)}
-              error={error}
-              required
-              className={styles.input}
-            />
+            <div data-testid="signup-password">
+              <Input
+                variant="primary"
+                size="medium"
+                theme="light"
+                type="password"
+                label="비밀번호"
+                placeholder="비밀번호를 입력해 주세요."
+                value={password}
+                onChange={(e) => onPasswordChange?.(e.target.value)}
+                error={error}
+                required
+                className={styles.input}
+              />
+            </div>
 
             {/* 비밀번호 확인 입력 */}
-            <Input
-              variant="primary"
-              size="medium"
-              theme="light"
-              type="password"
-              label="비밀번호 확인"
-              placeholder="비밀번호를 한번 더 입력해 주세요."
-              value={confirmPassword}
-              onChange={(e) => onConfirmPasswordChange?.(e.target.value)}
-              error={error}
-              required
-              className={styles.input}
-            />
+            <div data-testid="signup-password-confirm">
+              <Input
+                variant="primary"
+                size="medium"
+                theme="light"
+                type="password"
+                label="비밀번호 확인"
+                placeholder="비밀번호를 한번 더 입력해 주세요."
+                value={confirmPassword}
+                onChange={(e) => onConfirmPasswordChange?.(e.target.value)}
+                error={error}
+                required
+                className={styles.input}
+              />
+            </div>
           </div>
 
           {/* 버튼 영역 */}
@@ -195,8 +209,9 @@ export const AuthSignup = React.forwardRef<HTMLDivElement, AuthSignupProps>(
               theme="light"
               shape="rectangle"
               onClick={onSignupClick}
-              disabled={loading}
+              disabled={loading || !isFormValid}
               className={styles.signupButton}
+              data-testid="signup-submit"
             >
               {loading ? '회원가입 중...' : '회원가입'}
             </Button>

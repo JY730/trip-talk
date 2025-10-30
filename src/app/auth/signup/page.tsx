@@ -6,35 +6,47 @@
  */
 
 import { AuthSignup } from '@/components/auth-signup';
+import useSignupForm from '@/components/auth-signup/hooks/index.form.hook';
 
 export default function SignupPage() {
+  const { form, isFormValid, onSubmit, loading } = useSignupForm();
+
   const handleEmailChange = (value: string) => {
-    console.log('Email changed:', value);
+    form.setValue('email', value, { shouldValidate: true });
   };
 
   const handleNameChange = (value: string) => {
-    console.log('Name changed:', value);
+    form.setValue('name', value, { shouldValidate: true });
   };
 
   const handlePasswordChange = (value: string) => {
-    console.log('Password changed:', value);
+    form.setValue('password', value, { shouldValidate: true });
   };
 
   const handleConfirmPasswordChange = (value: string) => {
-    console.log('Confirm password changed:', value);
+    form.setValue('passwordConfirm', value, { shouldValidate: true });
   };
 
   const handleSignupClick = () => {
-    console.log('Signup clicked');
+    onSubmit();
   };
 
   return (
-    <AuthSignup
-      onEmailChange={handleEmailChange}
-      onNameChange={handleNameChange}
-      onPasswordChange={handlePasswordChange}
-      onConfirmPasswordChange={handleConfirmPasswordChange}
-      onSignupClick={handleSignupClick}
-    />
+    <div data-testid="signup-page">
+      <AuthSignup
+        email={form.watch('email')}
+        name={form.watch('name')}
+        password={form.watch('password')}
+        confirmPassword={form.watch('passwordConfirm')}
+        onEmailChange={handleEmailChange}
+        onNameChange={handleNameChange}
+        onPasswordChange={handlePasswordChange}
+        onConfirmPasswordChange={handleConfirmPasswordChange}
+        onSignupClick={handleSignupClick}
+        error={false}
+        loading={loading}
+        isFormValid={isFormValid}
+      />
+    </div>
   );
 }

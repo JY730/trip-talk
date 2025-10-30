@@ -278,6 +278,7 @@ export default function BoardsDetail() {
       <Comments
         comments={comments}
         onSubmit={handleCommentSubmit}
+        boardId={data?._id}
       />
     </div>
   );

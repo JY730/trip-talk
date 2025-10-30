@@ -10,6 +10,7 @@ import { Button } from '@/commons/components/button';
 import { Input } from '@/commons/components/input';
 import styles from './styles.module.css';
 import Textarea from '@/commons/components/textarea';
+import useCommentForm from './hooks/index.retrospect.form.hook';
 
 export interface Comment {
   id: string;
@@ -25,6 +26,7 @@ export interface CommentsProps {
   comments?: Comment[];
   onSubmit?: (content: string, rating: number) => void;
   className?: string;
+  boardId?: string;
 }
 
 /**
@@ -43,6 +45,7 @@ export const Comments = React.forwardRef<HTMLDivElement, CommentsProps>(
       comments = [],
       onSubmit,
       className = '',
+      boardId,
     },
     ref
   ) => {
@@ -51,15 +54,14 @@ export const Comments = React.forwardRef<HTMLDivElement, CommentsProps>(
   const [author, setAuthor] = useState('');
   const [password, setPassword] = useState('');
 
-    const handleSubmit = () => {
-      if (newComment.trim() && rating > 0 && author.trim() && password.trim() && onSubmit) {
-        onSubmit(newComment.trim(), rating);
-        setNewComment('');
-        setRating(0);
-        setAuthor('');
-        setPassword('');
-      }
-    };
+    const {
+      register,
+      handleSubmit,
+      formState,
+      onSubmit: onSubmitForm,
+    } = useCommentForm({ boardId });
+
+    const submitDisabled = !author.trim() || !password.trim() || newComment.trim().length < 2;
 
     const handleEdit = () => {
       // 기능 비활성화
@@ -70,7 +72,7 @@ export const Comments = React.forwardRef<HTMLDivElement, CommentsProps>(
     };
 
     return (
-      <div ref={ref} className={`${styles.container} ${className}`}>
+      <div ref={ref} className={`${styles.container} ${className}`} data-testid="comments-section">
         {/* 댓글 입력 영역 */}
         <div className={styles.inputSection}>
           <div className={styles.titleSection}>
@@ -85,7 +87,9 @@ export const Comments = React.forwardRef<HTMLDivElement, CommentsProps>(
             <div className={styles.starRating}>
               <Rate 
                 value={rating} 
-                onChange={setRating}
+                onChange={(value) => {
+                  setRating(value);
+                }}
                 className={styles.rate}
               />
             </div>
@@ -105,6 +109,7 @@ export const Comments = React.forwardRef<HTMLDivElement, CommentsProps>(
                   required={true}
                   onChange={(e) => setAuthor(e.target.value)}
                   className={styles.authorPasswordInput}
+                  data-testid="comment-writer"
                 />
               </div>
               <div className={styles.passwordInput}>
@@ -119,6 +124,7 @@ export const Comments = React.forwardRef<HTMLDivElement, CommentsProps>(
                   required={true}
                   onChange={(e) => setPassword(e.target.value)}
                   className={styles.authorPasswordInput}
+                  data-testid="comment-password"
                 />
               </div>
             </div>
@@ -129,20 +135,38 @@ export const Comments = React.forwardRef<HTMLDivElement, CommentsProps>(
               placeholder="댓글을 입력해 주세요."
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
-              className={styles.commentInput}
+              className={`${styles.commentInput} ${newComment.length > 0 && newComment.length < 2 ? styles.commentInputError : ''}`}
+              data-testid="comment-contents"
             />
             <div className={styles.inputFooter}>
+              {newComment.length > 0 && newComment.length < 2 && (
+                <div className={styles.errorText} data-testid="comment-error">
+                  댓글은 2자 이상 입력해 주세요.
+                </div>
+              )}
               <Button
                 variant="secondary"
                 styleType="filled"
                 size="large"
                 theme="light"
                 shape="rounded"
-                onClick={handleSubmit}
-                disabled={!newComment.trim() || rating === 0 || !author.trim() || !password.trim()}
+                type="button"
+                disabled={submitDisabled}
                 className={styles.submitButton}
+                data-testid="comment-submit"
+                onClick={async () => {
+                  await onSubmitForm({
+                    writer: author,
+                    password,
+                    contents: newComment,
+                    rating,
+                  });
+                  if (onSubmit) {
+                    onSubmit(newComment.trim(), rating);
+                  }
+                }}
               >
-                댓글 등록
+                등록하기
               </Button>
             </div>
           </div>

@@ -1,0 +1,211 @@
+아래의 조건을 모두 적용하여, 아래의 요구사항을 모두 구현할 것.
+구현 결과를 체크리스트로 반환할 것.
+
+==============================================
+
+조건-커서룰) 아래의 커서룰을 적용하여 작업하고, 이 작업이 끝나면 해당 rules 적용 결과를 체크리스트로 반환할 것.
+            - @01-common.mdc
+            - @04-func.mdc
+
+==============================================
+
+조건-파일경로) 참고할 API 문서경로: https://main-practice.codebootcamp.co.kr/graphql
+
+조건-파일경로) 참고할 TSX  파일경로: src/components/boards-detail/comments/index.tsx
+조건-파일경로) 참고할 CSS  파일경로: src/components/boards-detail/comments/styles.module.css
+조건-파일경로) 구현될 HOOK 파일경로: src/components/boards-detail/comments/hooks/index.retrospect.form.hook.ts
+조건-파일경로) 구현될 TEST 파일경로: src/components/boards-detail/comments/tests/index.retrospect.form.hook.spec.ts
+
+==============================================
+
+핵심요구사항) 병렬처리 구현을 위한 작업 방식 조건
+            - 다른 채팅에서 개발중인 파일을 수정 및 삭제 하지 말 것.
+            - 테스트 충돌을 방지하기 위해, 빌드테스트, 전체테스트를 하지 말 것.
+
+핵심요구사항) 다음의 기능을 playwright 테스트를 활용하여 TDD기반으로 구현하고, 테스트에 통과할 때까지 반복할 것.
+            1) 테스트 제외 라이브러리
+                - jest
+                - @testing-library/react
+
+            2) 테스트 조건
+                - timeout은 network 통신인 경우 2000ms 미만으로 설정할 것.
+                - timeout은 network 통신이 아닌 경우 설정하지 않거나, 500ms 미만으로 설정할 것.
+                - /boards/[id] 페이지가 완전히 로드된 후 테스트할 것.
+                    - 페이지 로드 식별 요구사항: 고정식별자 data-testid 대기 방법
+                    - 페이지 로드 식별 금지사항: networkidle 대기 방법
+
+            3) 테스트 API 조건  
+                3-1) 데이터  
+                    - 실제데이터를 사용할 것.  
+                    - Mock데이터 사용하지 말 것. (mock 데이터는 절대 사용하지 말 것) 
+
+                3-2) 성공시나리오  
+                    - API 모킹하지 말 것.  
+                    - 서버로부터 반환되는 _id가 정상적으로 반환되는지 확인할 것.
+
+                3-3) 실패시나리오  
+                    - API 모킹하여 실패 시나리오를 테스트할 것.
+
+==============================================
+
+핵심요구사항) 다음의 조건에 맞게 댓글 등록 기능을 step-by-step 으로 구현하고, 적용 결과를 체크리스트로 반환할 것.
+
+            1) 라이브러리조건
+                1-1. 폼: 이미 설치되어있는 react-hook-form, @hookform/resolvers를 사용할 것.
+                1-2. 검증: 이미 설치되어있는 zod를 사용할 것.
+                1-3. API: 이미 설치되어있는 apollo-client를 사용할 것.
+
+            2) 유저시나리오 (댓글 등록하기)
+                2-1. 입력 필드: 작성자(writer), 비밀번호(password), 댓글내용(contents), (선택)평점(rating)
+                2-2. 모든 필수 인풋(작성자, 비밀번호, 댓글내용)이 입력되면 "등록하기" 버튼을 활성화할 것.
+                2-3. "등록하기" 버튼을 누르면 GRAPHQL-API(createBoardComment)를 요청할 것.
+                    2-3-1) API명: createBoardComment
+                    2-3-2) 요청데이터 구조:
+                        createBoardComment(boardId: ID!, createBoardCommentInput: CreateBoardCommentInput!)
+                        CreateBoardCommentInput {
+                        writer: String!
+                        password: String!
+                        contents: String!
+                        rating: Float
+                        }
+                    2-3-3) 요청 예시(mutataion):
+                        mutation createBoardComment($boardId: ID!, $createBoardCommentInput: CreateBoardCommentInput!) {
+                        createBoardComment(boardId: $boardId, createBoardCommentInput: $createBoardCommentInput) {
+                            _id
+                            writer
+                            contents
+                            rating
+                            createdAt
+                        }
+                        }
+                    2-3-4) 응답데이터:
+                        {
+                        _id: ID!
+                        writer: String
+                        contents: String!
+                        rating: Float
+                        createdAt: DateTime!
+                        }
+                2-4. zod 검증 조건:
+                    - 작성자(writer), 비밀번호(password), 댓글내용(contents)는 필수 입력.
+                    - 댓글내용은 최소 2자 이상 입력해야 함.
+                    - 댓글내용이 2자 미만이면 "댓글은 2자 이상 입력해 주세요." 오류 메시지를 보여줄 것.
+                    - 비밀번호는 숫자 4자 입력.
+                2-5. 성공 시 플로우:
+                    - 댓글 등록 성공 시 댓글 등록완료 모달을 노출할 것.
+                    - 등록완료 모달의 확인 버튼 클릭 시 아래 동작을 수행할 것:
+                        1) 열려있는 모든 모달을 닫을 것.
+                        2) 현재 게시글 상세페이지(/boards/[id])를 새로고침할 것.
+                2-6. 실패 시 플로우:
+                    - API 호출은 try-catch로 감싸서 예외를 처리할 것.
+                    - 에러 발생 시 "에러가 발생하였습니다. 다시 시도해 주세요." 메시지를 화면에 보여줄 것.
+                    - 댓글 등록실패 모달을 노출할 것.
+                    - 실패 모달 확인 클릭 시 열려있는 모든 모달을 닫을 것.
+
+            3) 모달 조건
+                - 모달 프로바이더 경로: src/commons/providers/modal/modal.provider.tsx
+                - 이미 셋팅되어있는 modal.provider를 사용할 것.
+                - modal.provider 코드는 수정하지 말 것.
+                - 모달은 동일 상황에서 한 번만 보여야 하며, 닫힌 뒤에는 다시 나타나지 않도록 할 것.
+
+            4) 공통컴포넌트 조건
+                - 댓글 등록완료 모달: <Modal />, variant: 'info', actions: 'single'
+                - 댓글 등록실패 모달: <Modal />, variant: 'danger', actions: 'single'
+
+            5) 페이지 이동/새로고침 조건
+                - 댓글 등록완료 모달 확인:
+                    1) '확인' 클릭
+                    2) 모든 모달 닫기
+                    3) 현재 게시글 상세페이지(/boards/[id]) 새로고침
+                - 댓글 등록실패 모달 확인:
+                    1) '확인' 클릭
+                    2) 모든 모달 닫기
+
+            6) 네트워크 검증 조건
+                - 브라우저 개발자 도구의 네트워크 탭을 통해 요청이 정상적으로 전송되었는지 확인할 것.
+                - 등록 요청에 실패가 없어야 함.
+                - 등록 성공 시 서버로부터 _id가 반환되는지 확인할 것.
+
+==============================================
+
+테스트 구현 요구사항 (Playwright)
+    1) 테스트 파일 경로: src/components/boards-detail/comments/tests/index.retrospect.form.hook.spec.ts
+    2) 테스트 시나리오:
+        - 페이지 로드: /boards/[id] 페이지가 완전히 로드된 후(data-testid 고정식별자 대기) 테스트 시작
+        - 성공 시나리오:
+            1) 실제 서버 데이터를 사용하여 댓글 작성 요청을 보내고, 응답으로 _id가 반환되는지 검증 (timeout < 2000ms)
+            2) 등록 성공 후 화면 상에 등록완료 모달이 표시되는지 검증
+            3) 모달 확인 클릭 시 페이지가 새로고침되는지 검증
+        - 실패 시나리오:
+            1) API를 모킹하여 실패 응답을 시뮬레이션
+            2) "에러가 발생하였습니다. 다시 시도해 주세요." 메시지와 실패 모달이 표시되는지 검증
+    3) 테스트 제한:
+        - 네트워크 통신 관련 테스트 timeout은 2000ms 미만
+        - UI 동작 테스트 timeout은 500ms 미만 또는 미설정
+        - 테스트에서 mock 데이터 사용 금지(성공시나리오는 실제 API 사용), 실패시나리오만 API 모킹 허용
+
+==============================================
+
+구현 파일 구성 및 역할
+    1) src/components/boards-detail/comments/index.tsx
+        - UI 레이아웃: 작성자 input, 비밀번호 input, 댓글 textarea, (선택)평점 input, 등록 버튼
+        - 등록 버튼은 필수 입력 확인 후 활성화
+        - 모달 표시/닫기 동작 트리거
+        - data-testid를 적절히 추가하여 Playwright에서 요소를 식별 가능하게 할 것
+
+    2) src/components/boards-detail/comments/styles.module.css
+        - 입력 폼 레이아웃 스타일
+        - 등록 버튼 활성/비활성 스타일
+        - 모달 관련 간단 스타일(필요시)
+
+    3) src/components/boards-detail/comments/hooks/index.retrospect.form.hook.ts
+        - 훅 이름: useCommentForm
+        - 내부 동작:
+            a) react-hook-form + @hookform/resolvers + zod로 폼 관리 및 유효성 검사
+            b) Apollo Client의 useMutation으로 createBoardComment 호출
+            c) 로딩, 에러 상태 반환
+            d) onSubmit 내부에서 try-catch로 API 호출, 성공/실패 처리(모달 호출, 페이지 새로고침 등)
+        - 반환값:
+            {
+              register,
+              handleSubmit,
+              formState,
+              onSubmit,
+              loading,
+              error
+            }
+
+    4) src/components/boards-detail/comments/tests/index.retrospect.form.hook.spec.ts (Playwright)
+        - Playwright 테스트로 위 시나리오(성공/실패)를 구현
+        - data-testid로 페이지 로드 대기
+        - API 성공 시 실제 서버 사용하여 _id 반환 확인
+        - API 실패 시 network 모킹으로 실패 플로우 확인
+
+==============================================
+
+출력 결과
+    1) 위 요구사항이 모두 반영된 전체 코드(파일별 역할 명시)
+    2) 구현 후 제출 시 다음 체크리스트를 반환할 것:
+        - [ ] @01-common.mdc 적용
+        - [ ] @04-func.mdc 적용
+        - [ ] src/components/boards-detail/comments/styles.module.css 구현
+        - [ ] src/components/comments-new/styles.module.css 구현
+        - [ ] src/components/boards-detail/comments/hooks/index.retrospect.form.hook.ts 구현
+        - [ ] ssrc/components/boards-detail/comments/tests/index.retrospect.form.hook.spec.ts 구현
+        - [ ] Playwright 테스트 성공(성공 시나리오)
+        - [ ] Playwright 테스트 성공(실패 시나리오 - 모킹)
+        - [ ] 실제 API로 _id 반환 확인
+        - [ ] 등록 실패 시 "에러가 발생하였습니다. 다시 시도해 주세요." 표시
+        - [ ] 모달 동작(완료/실패) 요구사항 충족
+        - [ ] 네트워크 탭으로 요청 정상 전송 확인
+
+==============================================           
+
+최종목표
+    - 작성자, 비밀번호, 댓글 내용을 입력한 후 "등록하기" 버튼 클릭 시 createBoardComment API 호출로 댓글이 등록될 것.
+    - 등록 성공 시 서버에서 _id가 반환되어야 함.
+    - 등록 성공 시 댓글 등록완료 모달을 표시하고, 확인 시 모든 모달을 닫고 현재 게시글 상세페이지를 새로고침할 것.
+    - 등록 실패 시 "에러가 발생하였습니다. 다시 시도해 주세요." 메시지를 화면에 표시하고 실패 모달을 노출할 것.
+    - 모든 테스트 케이스가 Playwright 기반 TDD로 통과되어야 함.
+    
+    

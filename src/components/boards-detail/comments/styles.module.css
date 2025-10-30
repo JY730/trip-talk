@@ -79,13 +79,20 @@
   resize: vertical;
 }
 
+/* 에러 상태일 때 테두리 강조 */
+.commentInputError {
+  border-color: var(--color-danger-500, #ef4444) !important;
+}
+
 .commentInput::placeholder {
   color: var(--color-gray-400);
 }
 
 .inputFooter {
-  display: flex;
-  justify-content: flex-end;
+  display: grid;
+  grid-template-columns: 1fr auto; /* 좌: 에러텍스트, 우: 버튼 */
+  align-items: center;
+  column-gap: 0; /* 에러 없을 때 여백이 생기지 않도록 0으로 고정 */
   margin-top: 16px;
 }
 
@@ -95,6 +102,22 @@
   font-weight: var(--typo-body-b2-font-weight);
   line-height: var(--typo-body-b2-line-height);
   color: var(--color-gray-400);
+}
+
+.errorText {
+  font-family: var(--typo-font-family-ko);
+  font-size: var(--typo-caption-c3-font-size);
+  font-weight: var(--typo-caption-c3-font-weight);
+  line-height: var(--typo-caption-c3-line-height);
+  color: var(--color-danger-500, #ef4444);
+  text-align: left;
+  align-self: flex-start;
+  margin-right: 12px; /* 에러가 있을 때만 버튼과 간격 부여 */
+}
+
+.submitButton {
+  justify-self: end; /* 버튼은 항상 우측 정렬 */
+  margin: 0; /* 오른쪽 끝 정렬을 방해하는 바깥 여백 제거 */
 }
 
 .submitButton {
@@ -312,13 +335,14 @@
   }
   
   .inputFooter {
-    flex-direction: column;
-    gap: 12px;
-    align-items: stretch;
+    display: grid;
+    grid-template-columns: 1fr auto; /* 모바일에서도 좌/우 유지 */
+    column-gap: 0; /* 에러 없을 때 여백 제거 유지 */
+    align-items: center;
   }
   
   .submitButton {
-    width: 100%;
+    justify-self: end;
   }
   
   .commentHeader {

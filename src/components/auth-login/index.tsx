@@ -56,6 +56,11 @@ export interface AuthLoginProps {
    * 로딩 상태
    */
   loading?: boolean;
+
+  /**
+   * 제출 가능 여부 (모든 인풋 유효 시 true)
+   */
+  canSubmit?: boolean;
 }
 
 /**
@@ -83,12 +88,18 @@ export const AuthLogin = React.forwardRef<HTMLDivElement, AuthLoginProps>(
       error = false,
       errorMessage = '',
       loading = false,
+      canSubmit = false,
       ...rest
     },
     ref
   ) => {
     return (
-      <div ref={ref} className={styles.pageContainer} {...rest}>
+      <div
+        ref={ref}
+        className={styles.pageContainer}
+        data-testid="auth-login-page"
+        {...rest}
+      >
         {/* 왼쪽 로그인 폼 영역 */}
         <div className={styles.formContainer}>
           {/* 로고 영역 */}
@@ -149,7 +160,7 @@ export const AuthLogin = React.forwardRef<HTMLDivElement, AuthLoginProps>(
                 theme="light"
                 shape="rectangle"
                 onClick={onLoginClick}
-                disabled={loading}
+                disabled={loading || !canSubmit}
                 className="w-full"
               >
                 {loading ? '로그인 중...' : '로그인'}
