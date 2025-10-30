@@ -54,12 +54,7 @@ export const Comments = React.forwardRef<HTMLDivElement, CommentsProps>(
   const [author, setAuthor] = useState('');
   const [password, setPassword] = useState('');
 
-    const {
-      register,
-      handleSubmit,
-      formState,
-      onSubmit: onSubmitForm,
-    } = useCommentForm({ boardId });
+    const { onSubmit: onSubmitForm } = useCommentForm({ boardId });
 
     const submitDisabled = !author.trim() || !password.trim() || newComment.trim().length < 2;
 

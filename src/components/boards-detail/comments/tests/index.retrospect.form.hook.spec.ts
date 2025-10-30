@@ -46,8 +46,14 @@ test.describe('댓글 등록 폼 훅 - 회고형 폼 시나리오', () => {
     // 2) GraphQL 요청 모킹 (createBoardComment만 실패)
     await page.route('**/api/graphql', async (route) => {
       const request = route.request();
-      const postData = request.postDataJSON?.() as any;
-      const isCreate = postData?.query?.includes('mutation createBoardComment');
+      const raw = request.postData() ?? 'null';
+      let postData: { query?: string } | null = null;
+      try {
+        postData = JSON.parse(raw) as { query?: string } | null;
+      } catch {
+        postData = null;
+      }
+      const isCreate = !!postData?.query && postData.query.includes('mutation createBoardComment');
       if (isCreate) {
         return route.fulfill({
           status: 200,
