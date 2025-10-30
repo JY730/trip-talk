@@ -4,21 +4,29 @@ const GRAPHQL_ENDPOINT = 'https://main-practice.codebootcamp.co.kr/graphql';
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    
+    const body = await request.text(); // body를 그대로 받음
+
+    const origin = request.headers.get('origin') || process.env.NEXT_PUBLIC_APP_ORIGIN || 'http://localhost:3000';
+    const authorization = request.headers.get('authorization') || '';
+
     const response = await fetch(GRAPHQL_ENDPOINT, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        // 백엔드가 Origin을 참고하여 CORS 헤더를 설정하는 경우 undefined 방지
+        'Origin': origin,
+        // 토큰 전달 필요 시 넘겨줌
+        ...(authorization ? { 'Authorization': authorization } : {}),
       },
-      body: JSON.stringify(body),
+      body,
     });
 
-    const data = await response.json();
-    
-    return NextResponse.json(data, {
+    const data = await response.text(); // text로 받아 그대로 전달
+
+    return new NextResponse(data, {
       status: response.status,
       headers: {
+        'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type, Authorization',
@@ -26,9 +34,17 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error('GraphQL proxy error:', error);
-    return NextResponse.json(
-      { error: 'Internal Server Error' },
-      { status: 500 }
+    return new NextResponse(
+      JSON.stringify({ error: 'Internal Server Error' }),
+      {
+        status: 500,
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+          'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        },
+      }
     );
   }
 }
