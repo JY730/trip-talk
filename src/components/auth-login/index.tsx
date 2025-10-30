@@ -61,6 +61,16 @@ export interface AuthLoginProps {
    * 제출 가능 여부 (모든 인풋 유효 시 true)
    */
   canSubmit?: boolean;
+
+  /**
+   * 이메일 필드 에러 메시지
+   */
+  emailErrorMessage?: string;
+
+  /**
+   * 비밀번호 필드 에러 메시지
+   */
+  passwordErrorMessage?: string;
 }
 
 /**
@@ -89,6 +99,8 @@ export const AuthLogin = React.forwardRef<HTMLDivElement, AuthLoginProps>(
       errorMessage = '',
       loading = false,
       canSubmit = false,
+      emailErrorMessage,
+      passwordErrorMessage,
       ...rest
     },
     ref
@@ -132,8 +144,8 @@ export const AuthLogin = React.forwardRef<HTMLDivElement, AuthLoginProps>(
                 placeholder="이메일을 입력해 주세요."
                 value={email}
                 onChange={(e) => onEmailChange?.(e.target.value)}
-                error={error}
-                errorMessage={errorMessage}
+                error={Boolean(emailErrorMessage)}
+                errorMessage={emailErrorMessage}
                 className={styles.input}
               />
 
@@ -146,7 +158,8 @@ export const AuthLogin = React.forwardRef<HTMLDivElement, AuthLoginProps>(
                 placeholder="비밀번호를 입력해 주세요."
                 value={password}
                 onChange={(e) => onPasswordChange?.(e.target.value)}
-                error={error}
+                error={Boolean(passwordErrorMessage)}
+                errorMessage={passwordErrorMessage}
                 className={styles.input}
               />
             </div>

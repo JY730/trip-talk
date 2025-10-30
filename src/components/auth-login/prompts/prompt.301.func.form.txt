@@ -95,3 +95,94 @@
                         - 로그인실패모달:
                             1. '확인' 클릭
                             2. 열려있는 모든 모달을 닫기
+
+==============================================
+
+이전 요구사항은 참고용이며, 신규 핵심요구사항 작성 시 반영 참고만 할 것.
+
+기존핵심요구사항 요약:
+    - react-hook-form + zod를 이용한 로그인 폼 유효성 검사
+    - apollo-client 기반 GraphQL API(loginUser, fetchUserLoggedIn) 통신
+    - playwright 기반 E2E 테스트 (Mock 없이 실제데이터)
+    - 로그인 성공 시 모달 노출 및 페이지 이동 (/boards)
+    - 로그인 실패 시 실패모달 노출
+    - Modal Provider 수정 금지
+    - 테스트 조건:
+        - timeout: network < 2000ms / local < 500ms
+        - data-testid 기반 로드 대기
+
+==============================================
+
+다음의 기능을 playwright 테스트 기반으로 TDD 방식으로 구현하고, 테스트 통과 시까지 반복할 것.
+
+핵심요구사항)
+
+1) **로그인 폼 검증 및 동작**
+    - 모든 인풋은 react-hook-form + zod를 사용하여 관리할 것.
+    - 검증 조건:
+        - email: '@' 포함 필수
+        - password: 최소 1글자 이상 입력
+    - 필수 입력 항목을 입력하지 않고 [로그인] 버튼 클릭 시, 각 입력창 아래에 오류 메시지를 출력할 것.
+        - 이메일 미입력 시: “이메일을 입력해주세요.”
+        - 비밀번호 미입력 시: “비밀번호를 입력해주세요.”
+    - 모든 필드가 올바르게 입력되면 버튼 활성화 상태로 변경.
+
+2) **GraphQL 로그인 요청**
+    - [로그인] 버튼 클릭 시 `loginUser` GraphQL API 요청.
+        - 요청 데이터: { email, password }
+        - 응답 데이터: { accessToken }
+    - 로그인 성공 시:
+        1. 반환된 accessToken을 Zustand 전역 상태로 저장할 것.
+        2. localStorage에도 accessToken을 함께 저장할 것.
+        3. /boards 페이지로 이동할 것.
+
+3) **전역 상태 관리 (Zustand)**
+    - Zustand store 생성 경로: src/commons/stores/useAuth.store.ts
+    - store 구조:
+        ```ts
+        interface AuthState {
+          accessToken: string | null;
+          setAccessToken: (token: string) => void;
+          clearAuth: () => void;
+        }
+        ```
+    - 로그인 성공 시 `setAccessToken(token)` 호출.
+    - 로그아웃 시 `clearAuth()`로 상태 초기화.
+
+4) **테스트 조건 (Playwright 기반)**
+    - jest, @testing-library/react 사용 금지
+    - network timeout < 2000ms
+    - local timeout < 500ms
+    - data-testid 기반 대기
+    - 실제 API 사용 (mock 금지)
+    - 성공 시나리오:
+        - email: "a@c.com", password: "1234qwer"
+        - accessToken 정상 반환 여부 확인
+        - 로그인 후 /boards로 이동 여부 확인
+    - 실패 시나리오:
+        - 잘못된 이메일/비밀번호로 시도 시, 에러 메시지 출력 및 페이지 이동하지 않음
+
+5) **UI/UX 상세 요구**
+    - 로그인 버튼은 기본적으로 disabled 상태.
+    - 모든 필드 입력 완료 시 활성화.
+    - 로그인 성공 시:
+        - Zustand에 accessToken 저장.
+        - /boards 페이지로 navigate.
+    - 로그인 실패 시:
+        - 입력창 아래에 “로그인에 실패했습니다.” 메시지 출력.
+
+----------------------------------------------
+반환 형식:
+작업 완료 후 아래 항목 기준으로 체크리스트를 반환할 것.
+
+- 커서룰(@01-common.mdc, @04-func.mdc) 적용 여부  
+-  react-hook-form + zod 검증 로직 적용 여부  
+-  필수 입력 누락 시 오류 메시지 표시 여부  
+-  GraphQL loginUser 요청 정상 동작 여부  
+-  Zustand 전역 상태(accessToken) 저장 여부  
+-  localStorage 동기화 여부  
+-  로그인 성공 시 /boards 이동 여부  
+-  playwright 테스트 통과 여부
+----------------------------------------------
+
+

@@ -13,8 +13,8 @@ export default function LoginPage() {
   const {
     email,
     password,
-    error,
-    errorMessage,
+    emailErrorMessage,
+    passwordErrorMessage,
     loading,
     canSubmit,
     onEmailChange,
@@ -31,8 +31,8 @@ export default function LoginPage() {
       onPasswordChange={onPasswordChange}
       onLoginClick={onLoginClick}
       onSignupClick={onSignupClick}
-      error={error}
-      errorMessage={errorMessage}
+      emailErrorMessage={emailErrorMessage}
+      passwordErrorMessage={passwordErrorMessage}
       loading={loading}
       canSubmit={canSubmit}
     />

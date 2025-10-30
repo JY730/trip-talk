@@ -5,6 +5,7 @@ import { ModalProvider } from "@/commons/providers/modal/modal.provider";
 import { ThemeProvider } from "@/commons/providers/next-themes/next-themes.provider";
 import { ReactQueryProvider } from "@/commons/providers/react-query/react-query.provider";
 import { ApolloClientProviderWrapper } from "@/commons/providers/apollo-client/apollo-client.provider";
+import { AuthProvider } from "@/commons/providers/auth/auth.provider";
 import Layout from "@/commons/layout";
 
 const pretendard = localFont({
@@ -53,17 +54,19 @@ export default function RootLayout({
       <body
         className={`${pretendard.variable} antialiased`}
       >
-        <ApolloClientProviderWrapper>
-          <ReactQueryProvider>
-            <ThemeProvider>
-              <ModalProvider>
-                <Layout>
-                  {children}
-                </Layout>
-              </ModalProvider>
-            </ThemeProvider>
-          </ReactQueryProvider>
-        </ApolloClientProviderWrapper>
+        <AuthProvider>
+          <ApolloClientProviderWrapper>
+            <ReactQueryProvider>
+              <ThemeProvider>
+                <ModalProvider>
+                  <Layout>
+                    {children}
+                  </Layout>
+                </ModalProvider>
+              </ThemeProvider>
+            </ReactQueryProvider>
+          </ApolloClientProviderWrapper>
+        </AuthProvider>
       </body>
     </html>
   );
