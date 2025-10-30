@@ -11,6 +11,7 @@ import { Input } from '@/commons/components/input';
 import styles from './styles.module.css';
 import Textarea from '@/commons/components/textarea';
 import useCommentForm from './hooks/index.retrospect.form.hook';
+import useCommentList from './hooks/index.retrospect.binding.hook';
 
 export interface Comment {
   id: string;
@@ -65,6 +66,8 @@ export const Comments = React.forwardRef<HTMLDivElement, CommentsProps>(
     const handleDelete = () => {
       // 기능 비활성화
     };
+
+    const { comments: fetchedComments, loading: listLoading, error: listError } = useCommentList(boardId);
 
     return (
       <div ref={ref} className={`${styles.container} ${className}`} data-testid="comments-section">
@@ -167,59 +170,48 @@ export const Comments = React.forwardRef<HTMLDivElement, CommentsProps>(
           </div>
         </div>
 
-        {/* 댓글 목록 */}  
-
-        <div className={styles.commentsList}>
-           {comments.map((comment) => (
-            <div key={comment.id} className={styles.commentWrapper}>
-              <div className={styles.commentItem}>
-                <div className={styles.commentContent}>
-                  <div className={styles.commentHeader}>
-                    <div className={styles.profileAndRatingGroup}>
-                      <div className={styles.profileSection}>
-                        <img 
-                          src={comment.profileImage} 
-                          alt={comment.author}
-                          className={styles.profileImage}
-                        />
-                        <span className={styles.authorName}>{comment.author}</span>
-                      </div>
-                      <div className={styles.starRating}>
-                        <Rate 
-                          value={comment.rating} 
-                          disabled
-                          className={styles.rate}
-                        />
+        {/* fetchBoardComments 기반 렌더링 (실제 등록된 댓글만 표시) */}
+        <div className={styles.commentsList} data-testid="comment-list">
+          {listLoading && (
+            <div data-testid="comment-loading">댓글을 불러오는 중입니다...</div>
+          )}
+          {!listLoading && listError && (
+            <div data-testid="comment-error-message">댓글을 불러오는데 실패하였습니다. 다시 시도해주세요.</div>
+          )}
+          {!listLoading && !listError && fetchedComments && fetchedComments.length === 0 && (
+            <div data-testid="comment-empty">등록된 댓글이 없습니다.</div>
+          )}
+          {!listLoading && !listError && fetchedComments && fetchedComments.length > 0 && (
+            <>
+              {fetchedComments.map((item) => (
+                <div key={item._id} className={styles.commentItem} data-testid="comment-item">
+                  <div className={styles.commentContent}>
+                    <div className={styles.commentHeader}>
+                      <div className={styles.profileAndRatingGroup}>
+                        <div className={styles.profileSection}>
+                          <img 
+                            src={'/images/profile_default.svg'}
+                            alt={item.writer}
+                            className={styles.profileImage}
+                          />
+                          <span className={styles.authorName} data-testid="comment-item-writer">{item.writer}</span>
+                        </div>
+                        <div className={styles.starRating}>
+                          <Rate 
+                            value={item.rating ?? 0}
+                            disabled
+                            className={styles.rate}
+                          />
+                        </div>
                       </div>
                     </div>
-                    <div className={styles.actionButtons}>
-                      <button 
-                        className={styles.actionButton}
-                        onClick={handleEdit}
-                        title="수정"
-                      >
-                        <img src="/icons/edit.svg" alt="수정" />
-                      </button>
-                      <button 
-                        className={styles.actionButton}
-                        onClick={handleDelete}
-                        title="삭제"
-                      >
-                        <img src="/icons/close.svg" alt="삭제" />
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className={styles.commentText}>
-                    {comment.content}
-                  </div>
-                  <div className={styles.commentDate}>
-                    {comment.date}
+                    <div className={styles.commentText} data-testid="comment-item-contents">{item.contents}</div>
+                    <div className={styles.commentDate} data-testid="comment-item-createdAt">{new Date(item.createdAt).toLocaleString()}</div>
                   </div>
                 </div>
-              </div>
-            </div>
-           ))}
+              ))}
+            </>
+          )}
         </div>
 
 
