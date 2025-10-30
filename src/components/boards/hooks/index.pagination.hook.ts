@@ -99,11 +99,6 @@ export default function usePagination(initialParams: UsePaginationParams = {}): 
   const [startDate, setStartDate] = useState<Dayjs | null>(initialParams.startDate || null);
   const [endDate, setEndDate] = useState<Dayjs | null>(initialParams.endDate || null);
 
-  // 날짜 포맷팅 함수
-  const formatDate = (date: Dayjs | null): string | undefined => {
-    return date ? date.format('YYYY-MM-DD') : undefined;
-  };
-
   // 시작일 포맷팅 함수 (00:00:00으로 설정)
   const formatStartDate = (date: Dayjs | null): string | undefined => {
     return date ? date.startOf('day').format('YYYY-MM-DDTHH:mm:ss.SSS[Z]') : undefined;
