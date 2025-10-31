@@ -318,7 +318,12 @@ export default function Boards() {
                   className={styles.boardItem}
                   data-testid={`board-item-${board._id}`}
                 >
-                  <div className={styles.boardNumber}>{getBoardNumber(index)}</div>
+                  <div
+                    className={styles.boardNumber}
+                    data-testid={`board-number-${board._id}`}
+                  >
+                    {getBoardNumber(index)}
+                  </div>
                   <div
                     className={styles.boardTitle}
                     onClick={() => handleBoardClick(board._id)}
@@ -334,8 +339,18 @@ export default function Boards() {
                   >
                     {board.title}
                   </div>
-                  <div className={styles.boardAuthor}>{board.writer}</div>
-                  <div className={styles.boardDate}>{formatDate(board.createdAt)}</div>
+                  <div
+                    className={styles.boardAuthor}
+                    data-testid={`board-writer-${board._id}`}
+                  >
+                    {board.writer}
+                  </div>
+                  <div
+                    className={styles.boardDate}
+                    data-testid={`board-date-${board._id}`}
+                  >
+                    {formatDate(board.createdAt)}
+                  </div>
                   {canDelete && (
                     <button
                       type="button"

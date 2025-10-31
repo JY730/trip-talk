@@ -5,10 +5,22 @@
  * Last Updated: 2025-01-27
  */
 
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test';
+
+const setLoggedInState = async (page: Page) => {
+  await page.addInitScript(() => {
+    window.localStorage.setItem('accessToken', 'e2e-access-token');
+    window.localStorage.setItem(
+      'user',
+      JSON.stringify({ _id: 'e2e-user-id', name: 'E2E Tester' })
+    );
+    (window as unknown as { __TEST_BYPASS__?: boolean }).__TEST_BYPASS__ = true;
+  });
+};
 
 test.describe('게시글 목록 조회 기능 테스트', () => {
   test.beforeEach(async ({ page }) => {
+    await setLoggedInState(page);
     // /boards 페이지로 이동
     await page.goto('/boards');
     
@@ -21,26 +33,32 @@ test.describe('게시글 목록 조회 기능 테스트', () => {
     const boardList = page.locator('[data-testid="board-list"]');
     await expect(boardList).toBeVisible();
 
+    await page.waitForSelector('[data-testid^="board-item-"]', { timeout: 1800 });
+
     // 로딩 상태가 아닌지 확인 (로딩 텍스트가 없어야 함)
-    const loadingText = page.locator('text=로딩 중입니다.');
-    await expect(loadingText).not.toBeVisible();
+    const loadingText = boardList.getByText('로딩 중입니다.');
+    await expect(loadingText).toHaveCount(0);
 
     // 게시글 아이템들이 존재하는지 확인
-    const boardItems = page.locator('.boardItem');
+    const boardItems = page.locator('[data-testid^="board-item-"]');
     const itemCount = await boardItems.count();
     expect(itemCount).toBeGreaterThan(0);
 
     // 게시글 정보가 올바르게 표시되는지 확인 (UI 렌더링이므로 500ms 미만)
     const firstBoard = boardItems.first();
-    await expect(firstBoard.locator('.boardNumber')).toBeVisible();
-    await expect(firstBoard.locator('.boardTitle')).toBeVisible();
-    await expect(firstBoard.locator('.boardAuthor')).toBeVisible();
-    await expect(firstBoard.locator('.boardDate')).toBeVisible();
+    await expect(firstBoard.locator('[data-testid^="board-number-"]')).toBeVisible();
+    await expect(firstBoard.locator('[data-testid^="board-title-"]')).toBeVisible();
+    await expect(firstBoard.locator('[data-testid^="board-writer-"]')).toBeVisible();
+    await expect(firstBoard.locator('[data-testid^="board-date-"]')).toBeVisible();
   });
 
   test('게시글 제목 클릭 시 상세페이지로 이동하는지 검증', async ({ page }) => {
     // 첫 번째 게시글의 제목을 클릭
-    const firstBoardTitle = page.locator('.boardItem').first().locator('.boardTitle');
+    await page.waitForSelector('[data-testid^="board-item-"]', { timeout: 1800 });
+    const firstBoardTitle = page
+      .locator('[data-testid^="board-item-"]')
+      .first()
+      .locator('[data-testid^="board-title-"]');
     await expect(firstBoardTitle).toBeVisible();
     
     // 클릭 이벤트 발생
@@ -62,11 +80,15 @@ test.describe('게시글 목록 조회 기능 테스트', () => {
     await page.reload();
     
     // 오류 메시지가 표시되는지 확인 (API 통신이므로 2000ms 미만)
-    const errorMessage = page.locator('text=게시글을 불러오는 중 오류가 발생했습니다. 다시 시도해주세요.');
+    const errorMessage = page
+      .locator('[data-testid="board-list"]')
+      .getByText('데이터를 불러오는 중 오류가 발생했습니다. 다시 시도해주세요.');
     await expect(errorMessage).toBeVisible({ timeout: 1800 });
     
     // 다시 시도 버튼이 표시되는지 확인 (UI 렌더링이므로 500ms 미만)
-    const retryButton = page.locator('button:has-text("다시 시도")');
+    const retryButton = page
+      .locator('[data-testid="board-list"]')
+      .getByRole('button', { name: '다시 시도' });
     await expect(retryButton).toBeVisible();
   });
 
@@ -78,14 +100,18 @@ test.describe('게시글 목록 조회 기능 테스트', () => {
     await page.reload();
     
     // 오류 상태 확인 (API 통신이므로 2000ms 미만)
-    const errorMessage = page.locator('text=게시글을 불러오는 중 오류가 발생했습니다. 다시 시도해주세요.');
+    const errorMessage = page
+      .locator('[data-testid="board-list"]')
+      .getByText('데이터를 불러오는 중 오류가 발생했습니다. 다시 시도해주세요.');
     await expect(errorMessage).toBeVisible({ timeout: 1800 });
     
     // 네트워크 차단 해제
     await page.unroute('**/api/graphql');
     
     // 다시 시도 버튼 클릭
-    const retryButton = page.locator('button:has-text("다시 시도")');
+    const retryButton = page
+      .locator('[data-testid="board-list"]')
+      .getByRole('button', { name: '다시 시도' });
     await retryButton.click();
     
     // 게시글 목록이 다시 로드되는지 확인 (API 통신이므로 2000ms 미만)
@@ -96,27 +122,36 @@ test.describe('게시글 목록 조회 기능 테스트', () => {
     await expect(errorMessage).not.toBeVisible();
     
     // 게시글 아이템들이 표시되는지 확인
-    const boardItems = page.locator('.boardItem');
+    await page.waitForSelector('[data-testid^="board-item-"]', { timeout: 1800 });
+    const boardItems = page.locator('[data-testid^="board-item-"]');
     const itemCount = await boardItems.count();
     expect(itemCount).toBeGreaterThan(0);
   });
 
   test('게시글 번호가 올바르게 계산되어 표시되는지 검증', async ({ page }) => {
     // 게시글 목록이 로드될 때까지 대기
-    const boardItems = page.locator('.boardItem');
+    await page.waitForSelector('[data-testid^="board-item-"]', { timeout: 1800 });
+    const boardItems = page.locator('[data-testid^="board-item-"]');
     const itemCount = await boardItems.count();
     expect(itemCount).toBeGreaterThan(0);
     
     // 첫 번째 게시글의 번호가 가장 큰 번호인지 확인
-    const firstBoardNumber = await boardItems.first().locator('.boardNumber').textContent();
-    const secondBoardNumber = await boardItems.nth(1).locator('.boardNumber').textContent();
+    const firstBoardNumber = await boardItems
+      .first()
+      .locator('[data-testid^="board-number-"]')
+      .textContent();
+    const secondBoardNumber = await boardItems
+      .nth(1)
+      .locator('[data-testid^="board-number-"]')
+      .textContent();
     
     expect(Number(firstBoardNumber)).toBeGreaterThan(Number(secondBoardNumber));
   });
 
   test('게시글 작성자와 날짜가 올바르게 표시되는지 검증', async ({ page }) => {
     // 게시글 목록이 로드될 때까지 대기
-    const boardItems = page.locator('.boardItem');
+    await page.waitForSelector('[data-testid^="board-item-"]', { timeout: 1800 });
+    const boardItems = page.locator('[data-testid^="board-item-"]');
     const itemCount = await boardItems.count();
     expect(itemCount).toBeGreaterThan(0);
     
@@ -124,12 +159,12 @@ test.describe('게시글 목록 조회 기능 테스트', () => {
     const firstBoard = boardItems.first();
     
     // 작성자가 비어있지 않은지 확인
-    const author = await firstBoard.locator('.boardAuthor').textContent();
+    const author = await firstBoard.locator('[data-testid^="board-writer-"]').textContent();
     expect(author).toBeTruthy();
     expect(author?.trim()).not.toBe('');
     
     // 날짜가 올바른 형식인지 확인 (YYYY.MM.DD)
-    const date = await firstBoard.locator('.boardDate').textContent();
+    const date = await firstBoard.locator('[data-testid^="board-date-"]').textContent();
     expect(date).toMatch(/^\d{4}\.\d{2}\.\d{2}$/);
   });
 
@@ -145,17 +180,18 @@ test.describe('게시글 목록 조회 기능 테스트', () => {
     await page.reload();
     
     // 로딩 상태가 표시되는지 확인 (UI 렌더링이므로 500ms 미만)
-    const loadingText = page.locator('text=로딩 중입니다.');
-    const loadingExists = await loadingText.count();
-    
-    // 로딩 상태가 표시되었거나, 바로 데이터가 표시될 수 있음
-    const hasData = await page.locator('[data-testid="board-list"] .boardItem').count() > 0;
-    const hasLoading = loadingExists > 0;
-    
-    // 로딩 또는 데이터 중 하나는 표시되어야 함
-    expect(hasData || hasLoading).toBe(true);
+    const loadingText = page.locator('[data-testid="board-list"]').getByText('로딩 중입니다.');
+    const boardItems = page.locator('[data-testid^="board-item-"]');
+
+    await expect
+      .poll(async () => {
+        const hasData = (await boardItems.count()) > 0;
+        const hasLoading = (await loadingText.count()) > 0;
+        return hasData || hasLoading;
+      }, { timeout: 400, interval: 50 })
+      .toBeTruthy();
     
     // 최종적으로 데이터가 표시될 때까지 대기 (API 통신이므로 2000ms 미만)
-    await page.waitForSelector('[data-testid="board-list"] .boardItem', { timeout: 1800 });
+    await page.waitForSelector('[data-testid^="board-item-"]', { timeout: 1800 });
   });
 });

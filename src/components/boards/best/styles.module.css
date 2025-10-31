@@ -48,6 +48,22 @@
   background-color: var(--color-gray-w);
 }
 
+.cardButton {
+  all: unset;
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.cardButton:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
 .thumbnailWrapper {
   flex: 0 0 112px;
   width: 112px;
@@ -138,5 +154,45 @@
   font-weight: var(--typo-body-b5-font-weight);
   letter-spacing: var(--typo-body-b5-letter-spacing);
   color: var(--color-gray-600);
+}
+
+.statusMessage {
+  margin: 0;
+  font-size: var(--typo-body-b4-font-size);
+  line-height: var(--typo-body-b4-line-height);
+  color: var(--color-gray-700);
+}
+
+.errorContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border-radius: 12px;
+  background-color: var(--color-gray-50);
+}
+
+.errorMessage {
+  margin: 0;
+  font-size: var(--typo-body-b4-font-size);
+  line-height: var(--typo-body-b4-line-height);
+  color: var(--color-red);
+}
+
+.retryButton {
+  align-self: flex-start;
+  padding: 8px 16px;
+  border-radius: 8px;
+  background-color: var(--color-primary);
+  color: var(--color-gray-w);
+  font-size: var(--typo-body-b5-font-size);
+  line-height: var(--typo-body-b5-line-height);
+  font-weight: var(--typo-body-b5-font-weight);
+  cursor: pointer;
+}
+
+.retryButton:focus-visible {
+  outline: 2px solid var(--color-primary-light);
+  outline-offset: 2px;
 }
 

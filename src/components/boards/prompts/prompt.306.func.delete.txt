@@ -1,0 +1,179 @@
+아래의 조건을 모두 적용하여, 아래의 요구사항을 모두 구현할 것.
+구현 결과를 체크리스트로 반환할 것.
+
+==============================================
+
+조건-커서룰) 아래의 커서룰을 적용하여 작업하고, 이 작업이 끝나면 해당 rules 적용 결과를 체크리스트로 반환할 것.
+            - @01-common.mdc
+            - @02-wireframe.mdc
+            - @03-ui.mdc
+            - @04-func.mdc
+            - @05-func.role.mdc
+
+==============================================
+
+조건-피그마) 활용할MCP: CursorTalkToFigmaMCP(채널명: 9ocv0q5j)
+조건-피그마) 구현될 컴포넌트 참고 노드ID: 394:13288
+
+조건-파일경로) 참고할 TSX  파일경로: src/components/boards/index.tsx
+조건-파일경로) 참고할 CSS  파일경로: src/components/boards/styles.module.css
+조건-파일경로) 구현될 HOOK 파일경로: src/components/boards/hooks/index.delete.hook.ts
+조건-파일경로) 구현될 TEST 파일경로: src/components/boards/tests/index.delete.hook.spec.ts
+
+조건-API문서) 참고할 GraphQL 문서: https://main-practice.codebootcamp.co.kr/graphql
+
+==============================================
+
+핵심요구사항) 병렬처리 구현을 위한 작업 방식 조건
+            - 다른 채팅에서 개발중인 파일을 수정 및 삭제 하지 말 것.
+            - 테스트 충돌을 방지하기 위해, 빌드테스트, 전체테스트를 하지 말 것.
+
+핵심요구사항) 다음의 기능을 playwright 테스트를 활용하여 TDD기반으로 구현하고, 테스트에 통과할 때까지 반복할 것.
+            1) 테스트 제외 라이브러리
+                - jest
+                - @testing-library/react
+
+            2) 테스트 조건
+                - timeout은 설정하지 않거나, 500ms 미만으로 설정할 것.
+                - /boards 페이지가 완전히 로드된 후 테스트할 것. 
+                    - 페이지 로드 식별 요구사항: 고정식별자 data-testid 대기 방법
+                    - 페이지 로드 식별 금지사항: networkidle 대기 방법
+
+            3) 테스트 API 조건  
+                3-1) 데이터  
+                    - 실제 데이터를 사용할 것.  
+                    - Mock데이터 사용하지 말 것. (단, 실패 시나리오는 mock 허용)  
+
+                3-2) 테스트시나리오(비로그인유저)
+                1. /boards 접속하여 페이지 로드 확인
+                2. 게시글 각각의 삭제아이콘(X) 미노출 확인
+
+                3-3) 테스트시나리오(로그인유저)
+                    1. /boards 접속하여 페이지 로드 확인
+                    2. 게시글 각각의 삭제아이콘(X) 노출 확인
+                    3. 하단 유저시나리오에 적절한 테스트시나리오를 생성하여 진행
+
+                3-4) 성공시나리오  
+                    - deleteBoard 요청 성공 시 서버에서 해당 게시물 id가 삭제되는지 확인할 것.  
+                    - fetchBoards를 재요청하여 클라이언트 목록이 갱신되는지 확인할 것.  
+                3-5) 실패시나리오  
+                    - API 모킹하여 실패 응답(예: 권한 없음, 401 또는 400)을 시뮬레이션하고 UI 동작을 검증할 것.
+
+            
+            4) 테스트 데이터타입
+                 - API명: deleteBoard, fetchBoards  
+                 - fetchBoards 응답은 게시물 배열 [{ _id, writer, title, contents, createdAt, ... }] 형태
+
+==============================================
+
+핵심요구사항) 다음의 조건에 맞게 게시글 삭제(목록) 기능을 구현하고, 적용 결과를 체크리스트로 반환할 것.  
+
+1) 권한/액션 가드  
+    - 액션GUARD 기능 경로: src/commons/providers/auth/auth.guard.hook.tsx  
+    - 이미 셋팅되어있는 auth.guard.hook을 사용하여 삭제 아이콘의 노출/동작을 제어할 것.  
+    - auth.guard.hook을 수정하지 말 것.
+
+2) UI 동작(목록)  
+    - 게시글 목록의 각 board item은 hover 시 삭제 아이콘이 보이도록 구현할 것.  
+    - 삭제 아이콘은 /icons/delete.svg 를 사용할 것.  
+    - 삭제 아이콘에 접근 가능한 data-testid를 부여할 것 (예: `data-testid="board-delete-<id>"`).
+
+3) 삭제 플로우  
+    1. 사용자가 삭제 아이콘 클릭 → 액션GUARD가 허용하는 경우에만 동작.  
+    2. 클릭 시 삭제 확인 모달을 띄울 것.  
+        - 모달 메시지: "게시글을 삭제 하시겠어요?"  
+        - 모달 컴포넌트: `<Modal />`, variant: 'info', actions: 'dual' (취소 / 삭제)  
+        - 모달 프로바이더 경로: src/commons/providers/modal/modal.provider.tsx (수정 금지)  
+    3. 모달에서 "취소" 클릭 → 모달 닫기, 아무 동작 없음.  
+    4. 모달에서 "삭제" 클릭 → 아래 동작을 수행:  
+        a) GRAPHQL-API `deleteBoard` 호출 (variables: { boardId: id }).  
+        b) deleteBoard 성공 시 `fetchBoards`를 다시 요청하여 목록을 갱신.  
+        c) 목록 갱신 완료 후 현재 페이지에서 해당 게시물이 사라졌는지 확인.  
+        d) 네트워크 에러 또는 서버 에러 발생 시 적절한 에러 UI/모달(variant: 'danger')을 표시.
+
+4) 비동기 및 렌더링 안전성  
+    - 데이터를 받아오는데 시간이 걸려 fetch 응답이 아직 없는 상태에서 존재하지 않는 속성에 접근하여 발생하는 렌더 에러를 방지할 것.  
+        - 해결책: `loading` 상태 표시(스켈레톤 또는 "로딩중" 텍스트) 및 데이터 존재 여부 체크(`if (!data) return ...`)로 안전하게 렌더링 처리.  
+        - 컴포넌트는 `data?.fetchBoards ?? []` 형태로 방어적 접근을 사용하고, map 전에 빈 배열 디폴트로 처리할 것.
+
+5) 클라이언트 상태 동기화  
+    - deleteBoard 요청 성공 후 fetchBoards 재요청으로 서버와 클라이언트 목록을 동기화할 것.  
+    - 가능하면 Apollo Client의 cache 업데이트(예: refetchQueries) 중 하나를 사용하여 UI를 즉시 갱신하도록 구현하되, refetch가 보장되는 흐름을 기본으로 할 것.
+
+6) 접근성 및 UX  
+    - 삭제 아이콘은 키보드 포커스 가능해야 하며 `button` 요소로 구현.  
+    - 삭제 버튼에 aria-label="게시글 삭제" 또는 aria-describedby 제공.  
+    - 모달의 버튼들에도 data-testid를 부여하여 Playwright에서 식별 가능하도록 할 것.
+
+==============================================
+
+구현파일 및 역할(권장)  
+
+1) src/components/boards/index.tsx  
+    - fetchBoards를 호출하여 게시물 목록을 표시  
+    - 각 item hover 시 삭제 아이콘 노출 및 삭제 이벤트 위임  
+    - loading / empty / error 상태 처리 및 data-safe rendering 적용  
+    - data-testid: boards-list, board-item-<id>, board-delete-<id> 등 추가
+
+2) src/components/boards/styles.module.css  
+    - hover 시 삭제아이콘 보이기 위한 스타일(transition 포함)  
+    - 삭제아이콘 위치, 크기, 접근성 스타일 지정
+
+3) src/components/boards/hooks/index.delete.hook.ts  
+    - 훅명: useBoardDelete  
+    - 내부 동작:  
+        - 액션가드(auth.guard.hook)로 사용 권한 확인 후 삭제 흐름 수행  
+        - deleteBoard mutation 호출 (Apollo useMutation)  
+        - 성공 시 fetchBoards 재요청 또는 cache update  
+        - 실패 시 에러 처리 및 모달(variant: 'danger') 호출  
+    - 반환값: { onDelete(boardId: string): Promise<void>, loading, error }
+
+4) src/components/boards/tests/index.delete.hook.spec.ts (Playwright)  
+    - 성공 시나리오: 실제 API 사용하여 삭제 후 fetchBoards 재요청으로 목록 갱신 확인 (timeout < 2000ms)  
+    - 실패 시나리오: API 모킹으로 401/400 시나리오를 생성하고 에러 UI 확인
+
+==============================================
+
+네트워크/디버그 지침  
+    - 개발 중 네트워크 탭에서 deleteBoard mutation과 fetchBoards 쿼리가 순서대로 호출되는지 확인할 것.  
+    - deleteBoard 응답에서 서버가 삭제 성공을 확인하면 클라이언트 목록이 갱신되어야 함.  
+    - 실패 응답(권한 없음 등)인 경우, 에러 메시지/모달을 통해 사용자에게 명확히 알릴 것.
+
+==============================================
+
+체크리스트(구현 완료 시 반환)  
+
+1) 커서룰 적용 여부  
+    - [ ] @01-common.mdc  
+    - [ ] @02-wireframe.mdc  
+    - [ ] @03-ui.mdc  
+    - [ ] @04-func.mdc  
+    - [ ] @05-func.role.mdc
+
+2) 기능 구현  
+    - [ ] 게시글 목록에서 hover 시 삭제아이콘 노출 (삭제아이콘: /icons/delete.svg)  
+    - [ ] 삭제 아이콘 버튼에 data-testid 부여 (예: board-delete-<id>)  
+    - [ ] 액션GUARD(auth.guard.hook)로 삭제 권한 분기 처리  
+    - [ ] 삭제 클릭 시 확인 모달 노출 (Modal, variant: 'info', actions: 'dual')  
+    - [ ] 모달의 취소/삭제 버튼 동작 구현 (취소: 닫기, 삭제: deleteBoard 호출)  
+    - [ ] deleteBoard 호출 시 variables에 boardId 포함하여 요청  
+    - [ ] deleteBoard 성공 시 fetchBoards 재요청 또는 Apollo cache 업데이트로 목록 갱신  
+    - [ ] fetch 응답이 없는 상태에서 안전하게 렌더링(로딩/스켈레톤) 처리  
+    - [ ] 실패 시 에러 모달(variant: 'danger') 또는 alert 표시 및 예외 처리  
+    - [ ] 삭제 버튼 접근성(키보드 포커스, aria-label) 구현  
+    - [ ] Playwright 테스트 작성 및 성공/실패 시나리오 통과
+
+3) 테스트·운영 안전  
+    - [ ] 실제 API로 동작 확인 (성공 시)  
+    - [ ] 실패 시나리오(모킹)로 에러 흐름 확인  
+    - [ ] 네트워크 탭에서 요청/응답 흐름 확인
+
+==============================================
+
+추가 메모  
+    - 삭제 아이콘 리소스 경로는 명확히 `/icons/delete.svg` 로 사용할 것.  
+    - ModalProvider, auth.guard.hook 같은 기존 Provider/Hook은 수정하지 말고 제공된 인터페이스대로 호출만 할 것.  
+    - UI는 피그마 MCP(채널 9ocv0q5j)에서 디자인을 참고하여 스타일을 맞출 것.
+            
+
+
