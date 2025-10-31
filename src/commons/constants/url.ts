@@ -70,6 +70,14 @@ export const urls = {
      * @param id 게시글 ID
      */
     detail: (id: string | number): string => `/boards/${id}`,
+
+    /**
+     * 게시글 수정 페이지
+     * @path /boards/[id]/edit
+     * @access 회원전용
+     * @param id 게시글 ID
+     */
+    edit: (id: string | number): string => `/boards/${id}/edit`,
   },
 
   /**
@@ -158,6 +166,13 @@ export const urlMeta: Record<string, UrlMeta> = {
     showHeader: true,
     showBanner: true,
     description: '게시글 상세 페이지',
+  },
+  '/boards/[id]/edit': {
+    path: '/boards/[id]/edit',
+    access: 'member-only',
+    showHeader: true,
+    showBanner: false,
+    description: '게시글 수정 페이지',
   },
   '/products': {
     path: '/products',

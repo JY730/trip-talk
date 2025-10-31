@@ -13,6 +13,7 @@
   width: 1168px;
   display: flex;
   align-items: center;
+  gap: 12px;
 }
 
 .submitTitle h1 {
@@ -22,6 +23,20 @@
   font-weight: var(--typo-headline-h3-font-weight);
   line-height: var(--typo-headline-h3-line-height);
   color: var(--color-gray-800);
+}
+
+.editBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background-color: var(--color-main-alpha-10, rgba(64, 105, 255, 0.1));
+  color: var(--color-main-500, #4069ff);
+  font-family: var(--typo-font-family-ko);
+  font-size: var(--typo-body-b4-font-size);
+  font-weight: var(--typo-body-b4-font-weight);
+  line-height: var(--typo-body-b4-line-height);
 }
 
 .inputUser {

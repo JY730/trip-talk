@@ -8,10 +8,12 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/commons/components/button';
 import { Comments, Comment } from './comments';
 import useBoardDetail from './hooks/index.binding.hook';
 import styles from './styles.module.css';
+import { urls } from '@/commons/constants/url';
 
 /**
  * 날짜 포맷팅 함수
@@ -37,6 +39,7 @@ const formatDate = (dateString?: string): string => {
 export default function BoardsDetail() {
   // 게시글 데이터 조회
   const { data, loading, error } = useBoardDetail();
+  const router = useRouter();
   
   const [isLiked, setIsLiked] = useState(false);
   const [isDisliked, setIsDisliked] = useState(false);
@@ -254,6 +257,7 @@ export default function BoardsDetail() {
             shape="rectangle"
             leftIcon={<Image src="/icons/menu.svg" alt="목록" width={24} height={24} />}
             className={styles.footerButton}
+            onClick={() => router.push(urls.boards.list())}
           >
             목록으로
           </Button>
@@ -265,6 +269,11 @@ export default function BoardsDetail() {
             shape="rectangle"
             leftIcon={<Image src="/icons/edit.svg" alt="수정" width={24} height={24} />}
             className={styles.footerButton}
+            data-testid="board-edit-button"
+            onClick={() => {
+              if (!data?._id) return;
+              router.push(urls.boards.edit(data._id));
+            }}
           >
             수정하기
           </Button>
