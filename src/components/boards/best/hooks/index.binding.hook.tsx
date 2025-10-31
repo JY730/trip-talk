@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { gql } from '@apollo/client';
 import { useQuery } from '@apollo/client/react';
-import type { ApolloError, ApolloQueryResult } from '@apollo/client';
+import type { ApolloQueryResult } from '@apollo/client';
 
 const FETCH_BOARDS_OF_THE_BEST = gql`
   query FetchBoardsOfTheBest {
@@ -35,7 +35,7 @@ export interface UseBestBoardsBindingResult {
   bestBoards: BestBoardItem[];
   loading: boolean;
   errorMessage: string | null;
-  refetch: () => Promise<ApolloQueryResult<FetchBoardsOfTheBestResponse>>;
+  refetch: () => Promise<any>;
 }
 
 const DEFAULT_ERROR_MESSAGE = '베스트 게시글을 불러오는 중 오류가 발생했습니다. 다시 시도해주세요.';
@@ -65,8 +65,7 @@ export default function useBestBoardsBinding(): UseBestBoardsBindingResult {
         setErrorMessage(null);
       }
     } catch (caughtError) {
-      const apolloError = caughtError as ApolloError;
-      console.error('Best boards fetch error:', apolloError);
+      console.error('Best boards fetch error:', caughtError);
 
       setBestBoards([]);
       setErrorMessage(DEFAULT_ERROR_MESSAGE);
@@ -80,10 +79,9 @@ export default function useBestBoardsBinding(): UseBestBoardsBindingResult {
 
       return result;
     } catch (caughtError) {
-      const apolloError = caughtError as ApolloError;
-      console.error('Best boards refetch error:', apolloError);
+      console.error('Best boards refetch error:', caughtError);
       setErrorMessage(DEFAULT_ERROR_MESSAGE);
-      throw apolloError;
+      throw caughtError;
     }
   }, [refetch]);
 

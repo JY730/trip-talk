@@ -6,7 +6,7 @@
  * Last Updated: 2025-01-27
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/commons/components/button';
@@ -14,6 +14,38 @@ import { Comments, Comment } from './comments';
 import useBoardDetail from './hooks/index.binding.hook';
 import styles from './styles.module.css';
 import { urls } from '@/commons/constants/url';
+
+const STORAGE_BASE_URL = 'https://storage.googleapis.com/';
+
+const normalizeBoardImageUrl = (source: string): string | null => {
+  if (typeof source !== 'string') return null;
+
+  const trimmed = source.trim();
+
+  if (!trimmed) {
+    return null;
+  }
+
+  const isAbsolute = /^https?:\/\//i.test(trimmed);
+  if (isAbsolute) {
+    return trimmed;
+  }
+
+  if (trimmed.startsWith('//')) {
+    return `https:${trimmed}`;
+  }
+
+  if (trimmed.startsWith('/')) {
+    return trimmed;
+  }
+
+  if (trimmed.toLowerCase().startsWith('storage.googleapis.com')) {
+    return `https://${trimmed}`;
+  }
+
+  const sanitized = trimmed.replace(/^\/+/, '');
+  return `${STORAGE_BASE_URL}${sanitized}`;
+};
 
 /**
  * 날짜 포맷팅 함수
@@ -40,6 +72,17 @@ export default function BoardsDetail() {
   // 게시글 데이터 조회
   const { data, loading, error } = useBoardDetail();
   const router = useRouter();
+  const imageUrls = useMemo(() => {
+    if (!Array.isArray(data?.images)) {
+      return [];
+    }
+
+    const normalized = data.images
+      .map((image) => (typeof image === 'string' ? normalizeBoardImageUrl(image) : null))
+      .filter((value): value is string => Boolean(value));
+
+    return Array.from(new Set(normalized));
+  }, [data?.images]);
   
   const [isLiked, setIsLiked] = useState(false);
   const [isDisliked, setIsDisliked] = useState(false);
@@ -173,16 +216,21 @@ export default function BoardsDetail() {
       {/* Gap: 1168 * 24 */}
       <div className={styles.gap24}></div>
 
-      {/* Detail Content Image */}
-      {data?.images && data.images.length > 0 && (
-        <div className={styles.contentImage}>
-          <Image
-            src={data.images[0]}
-            alt="상세 이미지"
-            width={400}
-            height={531}
-            className={styles.image}
-          />
+      {/* Detail Content Images */}
+      {imageUrls.length > 0 && (
+        <div className={styles.imageList}>
+          {imageUrls.map((imageUrl, index) => (
+            <div className={styles.imageWrapper} key={`${imageUrl}-${index}`}>
+              <Image
+                src={imageUrl}
+                alt={`게시글 이미지 ${index + 1}`}
+                width={1168}
+                height={656}
+                className={styles.image}
+                data-testid="board-image"
+              />
+            </div>
+          ))}
         </div>
       )}
 

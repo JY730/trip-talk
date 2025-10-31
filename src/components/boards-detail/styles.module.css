@@ -131,17 +131,24 @@
    Content Section
    ======================================== */
 
-.contentImage {
+.imageList {
   width: 1168px;
   display: flex;
-  align-items: center;
-  justify-content: flex-start;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.imageWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .image {
-  width: 400px;
+  width: 100%;
+  max-width: 100%;
   height: auto;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .contentText {

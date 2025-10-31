@@ -1,0 +1,209 @@
+아래의 조건을 모두 적용하여, 아래의 요구사항을 모두 구현할 것.
+구현 결과를 체크리스트로 반환할 것.
+
+==============================================
+
+조건-커서룰) 아래의 커서룰을 적용하여 작업하고, 이 작업이 끝나면 해당 rules 적용 결과를 체크리스트로 반환할 것.
+            - @01-common.mdc
+            - @02-wireframe.mdc
+            - @03-ui.mdc
+            - @04-func.mdc
+
+==============================================
+
+조건-피그마) 활용할MCP: CursorTalkToFigmaMCP(채널명: 9ocv0q5j)
+조건-피그마) 구현될 컴포넌트 노드ID(수정전): 285:32385
+조건-피그마) 구현될 컴포넌트 노드ID(수정중): 898:16329
+
+
+조건-파일경로) 참고할 TSX  파일경로: src/components/boards-new/index.tsx
+조건-파일경로) 참고할 CSS  파일경로: src/components/boards-new/styles.module.css
+조건-파일경로) 구현될 HOOK 파일경로: src/components/boards-new/hooks/index.update.hook.ts
+조건-파일경로) 구현될 TEST 파일경로: src/components/boards-new/tests/index.update.hook.spec.ts
+조건-파일경로) 수정 페이지 경로: src/app/boards/[id]/edit/page.tsx  
+
+조건-API문서) 참고할 GraphQL 문서: https://main-practice.codebootcamp.co.kr/graphql
+==============================================
+
+기존히스토리-참고만) 병렬처리 구현을 위한 작업 방식 조건
+            - 다른 채팅에서 개발중인 파일을 수정 및 삭제 하지 말 것.
+            - 테스트 충돌을 방지하기 위해, 빌드테스트, 전체테스트를 하지 말 것.
+
+기존히스토리-참고만)  다음의 기능을 playwright 테스트를 활용하여 TDD기반으로 구현하고, 테스트에 통과할 때까지 반복할 것.
+            1) 테스트 제외 라이브러리
+                - jest
+                - @testing-library/react
+
+            2) 테스트 조건
+                - timeout은 설정하지 않거나, 500ms 미만으로 설정할 것.
+                - 모든 페이지의 로드 식별 조건은 아래를 따를 것.
+                    - 페이지 로드 식별 요구사항: 고정식별자 data-testid 대기 방법
+                    - 페이지 로드 식별 금지사항: networkidle 대기 방법
+
+            3) 테스트 로컬스토리지 조건
+                3-1) 데이터
+                    - 실제데이터를 사용할 것.
+                    - Mock데이터 사용하지 말 것.
+                    
+                3-2) 성공시나리오
+                    - 로컬스토리지 모킹하지 말 것.
+
+                3-3) 실패시나리오
+                    - 로컬스토리지 모킹하지 말 것.
+            
+            4) 테스트 데이터타입
+                - api명: updateBoard
+                - key: boards
+                - value: [{ 
+                    id: number,
+                    title: string, 
+                    content: string,                     
+                    createdAt: string
+                }]
+
+==============================================
+
+
+핵심요구사항) 다음의 기능을 playwright 테스트를 활용하여 TDD 기반으로 구현하고, 테스트에 통과할 때까지 반복할 것.  
+
+1. 테스트 제외 라이브러리  
+    1-1. jest  
+    1-2. @testing-library/react  
+
+2. 테스트 조건  
+    2-1. timeout은 네트워크 통신인 경우 2000ms 미만으로 설정할 것.  
+    2-2. timeout은 네트워크 통신이 아닌 경우 설정하지 않거나 500ms 미만으로 설정할 것.  
+    2-3. /boards/[boardId]/edit 페이지가 완전히 로드된 후 테스트할 것.  
+        - 페이지 로드 식별 요구사항: 고정식별자 data-testid 대기 방법  
+        - 페이지 로드 식별 금지사항: networkidle 대기 방법  
+
+3. 테스트 API 조건  
+    3-1. 데이터  
+        - 실제 데이터를 사용할 것.  
+        - Mock 데이터를 사용하지 말 것.  
+    3-2. 성공시나리오  
+        - API 모킹하지 말 것.  
+        - updateBoard 요청 성공 시 서버로부터 `_id`가 정상적으로 반환되는지 확인할 것.  
+    3-3. 실패시나리오  
+        - API 모킹할 것.  
+        - 비밀번호가 틀린 경우, “비밀번호가 일치하지 않습니다.” alert 창이 출력되는지 확인할 것. 
+
+
+==============================================
+
+핵심요구사항) 다음의 조건에 맞게 게시글 등록 기능을 step-by-step 으로 구현하고, 적용 결과를 체크리스트로 반환할 것.  
+
+        1) 라이브러리조건  
+            - 폼: 이미 설치되어있는 react-hook-form, @hookform/resolvers를 사용할 것.  
+            - 검증: 이미 설치되어있는 zod를 사용할 것.  
+            - API: 이미 설치되어있는 apollo-client 를 사용할 것.  
+
+        2) 유저시나리오 
+
+            1. 상세 페이지에서 `[수정하기]` 버튼을 클릭하면, `/boards/[boardId]/edit` 페이지로 이동할 것.  
+
+            2-1. 수정 페이지 접속 시, 기존 게시글 정보를 불러오기 위해 GRAPHQL API(fetchBoard)를 호출할 것.  
+                - 호출 시 boardId를 params에서 받아올 것.  
+                - API 응답으로 받은 데이터 중, `title`, `contents`, `youtubeUrl`, `boardAddress`, `images` 필드를 초기값으로 폼에 바인딩할 것.  
+
+            2-2. 수정 페이지에서는 아래 입력창만 수정 가능해야 함.  
+                - 수정 가능: 제목(title), 내용(contents), 유튜브 URL(youtubeUrl), 주소(boardAddress), 이미지(images)  
+                - 수정 불가: 작성자(writer), 비밀번호(password) → `input`에 `disabled` 속성 부여  
+             
+            2-3. 수정 페이지 진입 시, 피그마의 (수정전 → 수정중) 상태 변경이 UI 상에서 확인되어야 함.  
+                - 수정전 노드ID: 285:32385 → 수정중 노드ID: 898:16329 참조하여 UI 반영  
+
+            2-4. 수정 버튼 활성화 조건  
+                - 제목과 내용이 모두 입력된 경우에만 `[수정하기]` 버튼 활성화.  
+                - 둘 중 하나라도 비어있으면 비활성화. 
+
+            2-5. 수정하기 버튼 클릭 시 동작  
+                - `prompt()`를 사용하여 비밀번호 입력창을 띄울 것.  
+                    // 아래 코드가 실행될 경우 비밀번호를 입력받는 prompt 창이 실행 됩니다.
+                    const password = prompt("글을 입력할 때 입력하셨던 비밀번호를 입력해주세요");
+                    
+                - 입력받은 비밀번호를 `updateBoard` API의 variables에 포함시켜 전송할 것.  
+                - 수정되지 않은 값은 제외하고, 변경된 필드만 포함하여 요청할 것.  
+            
+            2-6. 수정 요청 API  
+                - API명: updateBoard  
+                - 요청 데이터:  
+                    updateBoard(  
+                        boardId: ID!,  
+                        password: String,  
+                        updateBoardInput: {  
+                            title?: String,  
+                            contents?: String,  
+                            youtubeUrl?: String,  
+                            boardAddress?: BoardAddressInput,  
+                            images?: [String!]  
+                        }  
+                    )  
+                - 변경된 필드만 updateBoardInput에 포함할 것. 
+
+            2-7. 수정 성공 시 동작  
+                - "게시글 수정이 완료되었습니다." 모달 노출 (Modal, variant: 'info', actions: 'single')  
+                - 모달의 확인 버튼 클릭 시:  
+                    1) 모든 모달 닫기  
+                    2) 게시글 상세페이지(`/boards/[boardId]`)로 이동     
+
+
+            2-8. 수정 실패 시 동작  
+                - try ~ catch 문으로 예외처리할 것.  
+                - catch문 내부에서 `error.graphQLErrors`를 확인하여:  
+                    - 비밀번호가 틀린 경우 → `alert("비밀번호가 일치하지 않습니다.")` 호출  
+                    - 그 외 에러 → 화면에 "에러가 발생하였습니다. 다시 시도해 주세요." 표시  
+                - 게시글 수정 실패 모달 노출 (Modal, variant: 'danger', actions: 'single')  
+                - 모달의 확인 버튼 클릭 시 모든 모달 닫기
+
+
+            3. 모달 조건  
+                3-1. 모달 프로바이더 경로: src/commons/providers/modal/modal.provider.tsx  
+                3-2. 이미 셋팅되어있는 modal.provider를 사용할 것. 수정하지 말 것.  
+                3-3. 모달은 한 번만 보여야 하며, 닫힌 뒤에는 같은 상황에서 다시 나타나지 않도록 할 것.  
+
+            4. 공통컴포넌트 조건  
+                4-1. 게시글 수정완료 모달: `<Modal />`, variant: 'info', actions: 'single'  
+                4-2. 게시글 수정실패 모달: `<Modal />`, variant: 'danger', actions: 'single'  
+
+            5. 페이지 이동 조건  
+                5-1. 수정 성공 시:  
+                    1) '확인' 클릭  
+                    2) 모든 모달 닫기  
+                    3) 상세 페이지(`/boards/[boardId]`)로 이동  
+                5-2. 수정 실패 시:  
+                    1) '확인' 클릭  
+                    2) 모든 모달 닫기  
+
+            6. 네트워크 검증 조건  
+                6-1. 네트워크 탭에서 updateBoard 요청이 정상적으로 완료되어야 함.  
+                6-2. 요청 실패 시 400 또는 401 에러를 catch로 처리할 것.  
+                6-3. 성공 시 `_id`가 반환되어야 함.  
+
+==============================================
+            
+            최종목표)  
+                1. 상세페이지에서 `[수정하기]` 버튼 클릭 시 `/boards/[id]/edit` 페이지로 이동  
+                2. 수정 페이지 진입 시, fetchBoard API로 기존 데이터가 폼에 바인딩됨  
+                3. 작성자, 비밀번호 입력 불가 (disabled 상태)  
+                4. 제목, 내용 변경 후 `[수정하기]` 클릭 시 updateBoard API 호출  
+                5. prompt로 비밀번호 검증 수행  
+                6. 비밀번호 불일치 시 alert 메시지 출력  
+                7. 수정 성공 시 "게시글 수정이 완료되었습니다." 모달 노출 후 상세페이지로 이동  
+                8. 모든 테스트 케이스가 playwright 기반 TDD로 통과되어야 함.  
+
+==============================================
+
+            출력물(요청)  
+                1. 위 요구사항이 모두 반영된 프롬프트(이 파일 그대로 복사해서 사용)  
+                2. 구현 완료 시 반환할 체크리스트:  
+                    - [ ] /boards/[id]/edit 페이지로 이동 기능 구현  
+                    - [ ] fetchBoard로 초기값 바인딩 구현  
+                    - [ ] 작성자, 비밀번호 input disabled 처리 구현  
+                    - [ ] 변경된 필드만 updateBoard 요청에 포함되도록 구현  
+                    - [ ] prompt 기반 비밀번호 입력 및 variables에 포함 구현  
+                    - [ ] 비밀번호 불일치 시 alert 처리 구현  
+                    - [ ] 수정 성공 시 모달 노출 및 상세페이지 이동 구현  
+                    - [ ] 수정 실패 시 에러 메시지 및 실패 모달 처리 구현  
+                    - [ ] playwright 테스트(성공/실패 케이스) 통과                          
+ 

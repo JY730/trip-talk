@@ -188,7 +188,7 @@ test.describe('게시글 목록 조회 기능 테스트', () => {
         const hasData = (await boardItems.count()) > 0;
         const hasLoading = (await loadingText.count()) > 0;
         return hasData || hasLoading;
-      }, { timeout: 400, interval: 50 })
+      }, { timeout: 400, intervals: [50] })
       .toBeTruthy();
     
     // 최종적으로 데이터가 표시될 때까지 대기 (API 통신이므로 2000ms 미만)

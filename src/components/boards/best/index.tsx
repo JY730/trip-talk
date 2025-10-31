@@ -34,16 +34,39 @@ export default function BestBoards() {
   const { bestBoards, loading, errorMessage, refetch } = useBestBoardsBinding();
 
   const getBoardThumbnail = (board: BestBoardItem): string => {
-    const candidates = board.images?.filter((src) => typeof src === "string" && src.trim()) ?? [];
+    const candidates =
+      board.images
+        ?.map((src) => (typeof src === "string" ? src.trim() : ""))
+        .filter((src) => Boolean(src)) ?? [];
 
     if (candidates.length === 0) {
       return DEFAULT_THUMBNAIL;
     }
 
     const primary = candidates[0];
-    const absoluteUrl = primary.startsWith("http") ? primary : `${STORAGE_BASE_URL}${primary}`;
+    
+    // 빈 문자열이나 유효하지 않은 경우 기본 이미지 반환
+    if (!primary || primary.length === 0) {
+      return DEFAULT_THUMBNAIL;
+    }
+    
+    // 이미 절대 URL인 경우 그대로 사용
+    if (primary.startsWith("http://") || primary.startsWith("https://")) {
+      return primary;
+    }
+    
+    // 로컬 경로인 경우 그대로 사용
+    if (primary.startsWith("/")) {
+      return primary;
+    }
+    
+    // codecamp-file-storage로 시작하는 상대 경로를 Google Storage URL로 변환
+    if (primary.includes("codecamp-file-storage") || !primary.startsWith("http")) {
+      return `${STORAGE_BASE_URL}${primary}`;
+    }
 
-    return encodeURI(absoluteUrl);
+    // 예외 상황: 기본 이미지 반환
+    return DEFAULT_THUMBNAIL;
   };
 
   const handleCardClick = (boardId: string) => {
@@ -109,6 +132,12 @@ export default function BestBoards() {
                     height={152}
                     className={styles.thumbnailImage}
                     unoptimized
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      if (target.src !== DEFAULT_THUMBNAIL) {
+                        target.src = DEFAULT_THUMBNAIL;
+                      }
+                    }}
                   />
                 </div>
 
