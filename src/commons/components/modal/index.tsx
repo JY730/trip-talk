@@ -5,8 +5,10 @@
  */
 
 import React from 'react';
-import { Button } from '../button';
+import { Button, type ButtonProps } from '../button';
 import styles from './styles.module.css';
+
+type ModalActionButtonProps = Omit<ButtonProps, 'children' | 'onClick'>;
 
 export interface ModalProps {
   /**
@@ -63,6 +65,16 @@ export interface ModalProps {
    * 추가 CSS 클래스명
    */
   className?: string;
+
+  /**
+   * 확인 버튼에 전달할 추가 props (data-testid 등)
+   */
+  confirmButtonProps?: ModalActionButtonProps;
+
+  /**
+   * 취소 버튼에 전달할 추가 props (data-testid 등)
+   */
+  cancelButtonProps?: ModalActionButtonProps;
 }
 
 /**
@@ -106,6 +118,8 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
       onConfirm,
       onCancel,
       className = '',
+      confirmButtonProps,
+      cancelButtonProps,
       ...rest
     },
     ref
@@ -160,6 +174,7 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
                 shape="rectangle"
                 className={styles.cancelButton}
                 onClick={onCancel}
+                {...cancelButtonProps}
               >
                 {cancelText}
               </Button>
@@ -173,6 +188,7 @@ export const Modal = React.forwardRef<HTMLDivElement, ModalProps>(
               theme="light"
               className={styles.confirmButton}
               onClick={onConfirm}
+              {...confirmButtonProps}
             >
               {confirmText}
             </Button>

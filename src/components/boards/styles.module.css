@@ -137,7 +137,7 @@
 .boardHeader {
   display: flex;
   align-items: center;
-  padding: 16px 24px;
+  padding: 12px 40px 12px 24px;
 }
 
 .headerNumber {
@@ -194,12 +194,13 @@
   display: flex;
   align-items: center;
   height: 44px;
-  padding: 12px 24px;
+  padding: 12px 40px 12px 24px;
   background-color: var(--color-gray-w);
   border: 1px solid var(--color-gray-50);
   border-radius: 8px;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  position: relative;
 }
 
 .boardItem:hover {
@@ -227,6 +228,16 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  cursor: pointer;
+}
+
+.boardTitle:focus {
+  outline: none;
+}
+
+.boardTitle:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+  outline-offset: 2px;
 }
 
 .boardAuthor {
@@ -247,6 +258,42 @@
   font-weight: var(--typo-caption-c3-font-weight);
   line-height: var(--typo-caption-c3-line-height);
   color: var(--color-gray-500);
+}
+
+.boardDeleteButton {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.boardDeleteButton img {
+  width: 24px;
+  height: 24px;
+}
+
+.boardItem:hover .boardDeleteButton,
+.boardDeleteButton:focus-visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.boardDeleteButton:disabled {
+  opacity: 0.6;
+  pointer-events: none;
 }
 
 /* Pagination Container */
@@ -270,6 +317,7 @@
 }
 
 .loadingText {
+  align-items: center;
   font-family: var(--typo-font-family-ko);
   font-size: var(--typo-body-b2-font-size);
   font-weight: var(--typo-body-b2-font-weight);
@@ -347,6 +395,18 @@
   .boardAuthor,
   .boardDate {
     font-size: var(--typo-caption-c5-font-size);
+  }
+
+  .boardDeleteButton {
+    position: static;
+    transform: none;
+    width: 28px;
+    height: 28px;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    align-self: flex-end;
+    margin-top: 4px;
   }
 }
 

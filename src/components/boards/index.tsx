@@ -6,7 +6,7 @@
  * Last Updated: 2025-10-21
  */
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { DatePicker } from 'antd';
 import type { Dayjs } from 'dayjs';
@@ -17,6 +17,7 @@ import { useModal } from '@/commons/providers/modal/modal.provider';
 import { Modal } from '@/commons/components/modal';
 import { useAuthStore } from '@/commons/stores/useAuth.store';
 import usePagination from './hooks/index.pagination.hook';
+import useBoardDelete from './hooks/index.delete.hook';
 import styles from './styles.module.css';
 
 const { RangePicker } = DatePicker;
@@ -66,6 +67,15 @@ export default function Boards() {
     search: searchValue,
     startDate: selectedRange[0],
     endDate: selectedRange[1],
+  });
+
+  const {
+    onDelete,
+    loading: deleteLoading,
+    canDelete,
+    pendingBoardId,
+  } = useBoardDelete({
+    onReload: refetch,
   });
 
   // Constants
@@ -187,6 +197,15 @@ export default function Boards() {
     return totalCount - (currentPage - 1) * 10 - index;
   };
 
+  const handleDeleteBoard = useCallback(
+    (boardId: string) => {
+      void onDelete(boardId);
+    },
+    [onDelete]
+  );
+
+  const safeBoards = boards ?? [];
+
   return (
     <div className={styles.container}>
       {/* 타이틀 영역 */}
@@ -288,20 +307,51 @@ export default function Boards() {
               </Button>
             </div>
           ) : (
-            boards.map((board, index) => (
-              <div key={board._id} className={styles.boardItem}>
-                <div className={styles.boardNumber}>{getBoardNumber(index)}</div>
-                <div 
-                  className={styles.boardTitle}
-                  onClick={() => handleBoardClick(board._id)}
-                  style={{ cursor: 'pointer' }}
+            safeBoards.map((board, index) => {
+              const isDeleting = pendingBoardId === board._id && deleteLoading;
+
+              return (
+                <div
+                  key={board._id}
+                  className={styles.boardItem}
+                  data-testid={`board-item-${board._id}`}
                 >
-                  {board.title}
+                  <div className={styles.boardNumber}>{getBoardNumber(index)}</div>
+                  <div
+                    className={styles.boardTitle}
+                    onClick={() => handleBoardClick(board._id)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(event) => {
+                      if (event.key === 'Enter' || event.key === ' ' || event.key === 'Space' || event.key === 'Spacebar') {
+                        event.preventDefault();
+                        handleBoardClick(board._id);
+                      }
+                    }}
+                    data-testid={`board-title-${board._id}`}
+                  >
+                    {board.title}
+                  </div>
+                  <div className={styles.boardAuthor}>{board.writer}</div>
+                  <div className={styles.boardDate}>{formatDate(board.createdAt)}</div>
+                  {canDelete && (
+                    <button
+                      type="button"
+                      className={styles.boardDeleteButton}
+                      aria-label="게시글 삭제"
+                      data-testid={`board-delete-${board._id}`}
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        handleDeleteBoard(board._id);
+                      }}
+                      disabled={isDeleting}
+                    >
+                      <img src="/icons/delete.svg" alt="delete icon" />
+                    </button>
+                  )}
                 </div>
-                <div className={styles.boardAuthor}>{board.writer}</div>
-                <div className={styles.boardDate}>{formatDate(board.createdAt)}</div>
-              </div>
-            ))
+              );
+            })
           )}
         </div>
 
