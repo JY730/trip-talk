@@ -18,6 +18,7 @@ import { Modal } from '@/commons/components/modal';
 import { useAuthStore } from '@/commons/stores/useAuth.store';
 import usePagination from './hooks/index.pagination.hook';
 import useBoardDelete from './hooks/index.delete.hook';
+import BestBoards from './best';
 import styles from './styles.module.css';
 
 const { RangePicker } = DatePicker;
@@ -208,6 +209,7 @@ export default function Boards() {
 
   return (
     <div className={styles.container}>
+      <BestBoards />
       {/* 타이틀 영역 */}
       <div className={styles.titleSection}>
         <h1 className={styles.title}>트립토크 게시판</h1>

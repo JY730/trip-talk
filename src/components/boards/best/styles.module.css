@@ -1,0 +1,142 @@
+/**
+ * Best Boards Styles
+ * Design Source: Figma Node ID 285:33460
+ * Last Updated: 2025-10-31
+ */
+
+.container {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  height: 36px;
+}
+
+.title {
+  margin: 0;
+  font-size: var(--typo-headline-h1-font-size);
+  line-height: var(--typo-headline-h1-line-height);
+  font-weight: var(--typo-headline-h1-font-weight);
+  letter-spacing: var(--typo-headline-h1-letter-spacing);
+  color: var(--color-gray-b);
+}
+
+.cardList {
+  display: flex;
+  flex-wrap: row;
+  gap: 32px;
+  padding-bottom: 16px;
+  margin: 0;
+  list-style: none;
+}
+
+.card {
+  box-sizing: border-box;
+  display: flex;
+  align-items: stretch;
+  width: 296px;
+  height: 152px;
+  gap: 8px;
+  border-radius: 12px;
+  background-color: var(--color-gray-w);
+}
+
+.thumbnailWrapper {
+  flex: 0 0 112px;
+  width: 112px;
+  height: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.thumbnailImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.cardContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: var(--typo-title-t1-font-size);
+  line-height: var(--typo-title-t1-line-height);
+  font-weight: var(--typo-title-t1-font-weight);
+  letter-spacing: var(--typo-title-t1-letter-spacing);
+  color: var(--color-gray-900);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.profileRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.profileImageWrapper {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.profileImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profileName {
+  font-size: var(--typo-body-b5-font-size);
+  line-height: var(--typo-body-b5-line-height);
+  font-weight: var(--typo-body-b5-font-weight);
+  letter-spacing: var(--typo-body-b5-letter-spacing);
+  color: var(--color-gray-700);
+}
+
+.metaRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+}
+
+.likes {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.likeCount {
+  font-size: var(--typo-body-b5-font-size);
+  line-height: var(--typo-body-b5-line-height);
+  font-weight: var(--typo-body-b5-font-weight);
+  letter-spacing: var(--typo-body-b5-letter-spacing);
+  color: var(--color-red);
+}
+
+.date {
+  font-size: var(--typo-body-b5-font-size);
+  line-height: var(--typo-body-b5-line-height);
+  font-weight: var(--typo-body-b5-font-weight);
+  letter-spacing: var(--typo-body-b5-letter-spacing);
+  color: var(--color-gray-600);
+}
+
