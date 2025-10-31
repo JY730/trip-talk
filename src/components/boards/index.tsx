@@ -13,6 +13,9 @@ import type { Dayjs } from 'dayjs';
 import { SearchBar } from '@/commons/components/searchbar';
 import { Button } from '@/commons/components/button';
 import { Pagination } from '@/commons/components/pagination';
+import { useModal } from '@/commons/providers/modal/modal.provider';
+import { Modal } from '@/commons/components/modal';
+import { useAuthStore } from '@/commons/stores/useAuth.store';
 import usePagination from './hooks/index.pagination.hook';
 import styles from './styles.module.css';
 
@@ -37,6 +40,8 @@ const formatDate = (dateString: string): string => {
  */
 export default function Boards() {
   const router = useRouter();
+  const { openModal, closeModal } = useModal();
+  const accessToken = useAuthStore((s) => s.accessToken);
   
   // State 관리
   const [searchValue, setSearchValue] = useState('');
@@ -143,6 +148,25 @@ export default function Boards() {
    * @param boardId - 게시글 ID
    */
   const handleBoardClick = (boardId: string) => {
+    // 비로그인 사용자는 현재 페이지에서 로그인 요청 모달을 먼저 보여주고, 로그인 페이지로 이동
+    if (!accessToken) {
+      openModal(
+        <Modal
+          variant="info"
+          actions="single"
+          title="로그인이 필요합니다"
+          description="서비스 이용을 위해 로그인해주세요."
+          confirmText="확인"
+          onConfirm={() => {
+            closeModal();
+            router.push('/auth/login');
+          }}
+        />
+      );
+      return;
+    }
+
+    // 로그인 상태라면 상세 페이지로 이동
     router.push(`/boards/${boardId}`);
   };
 

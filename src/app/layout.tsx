@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import 'antd/dist/reset.css';
 import "./globals.css";
+import AntdStyleProvider from '@/commons/providers/antd/antd-style.provider';
 import { ModalProvider } from "@/commons/providers/modal/modal.provider";
+import AuthGuard from "@/commons/providers/auth/auth.guard";
 import { ThemeProvider } from "@/commons/providers/next-themes/next-themes.provider";
 import { ReactQueryProvider } from "@/commons/providers/react-query/react-query.provider";
 import { ApolloClientProviderWrapper } from "@/commons/providers/apollo-client/apollo-client.provider";
@@ -54,19 +57,23 @@ export default function RootLayout({
       <body
         className={`${pretendard.variable} antialiased`}
       >
-        <AuthProvider>
-          <ApolloClientProviderWrapper>
-            <ReactQueryProvider>
-              <ThemeProvider>
-                <ModalProvider>
-                  <Layout>
-                    {children}
-                  </Layout>
-                </ModalProvider>
-              </ThemeProvider>
-            </ReactQueryProvider>
-          </ApolloClientProviderWrapper>
-        </AuthProvider>
+        <AntdStyleProvider>
+          <AuthProvider>
+            <ApolloClientProviderWrapper>
+              <ReactQueryProvider>
+                <ThemeProvider>
+                  <ModalProvider>
+                    <AuthGuard>
+                      <Layout>
+                        {children}
+                      </Layout>
+                    </AuthGuard>
+                  </ModalProvider>
+                </ThemeProvider>
+              </ReactQueryProvider>
+            </ApolloClientProviderWrapper>
+          </AuthProvider>
+        </AntdStyleProvider>
       </body>
     </html>
   );

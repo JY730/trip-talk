@@ -173,13 +173,13 @@ export const Comments = React.forwardRef<HTMLDivElement, CommentsProps>(
         {/* fetchBoardComments 기반 렌더링 (실제 등록된 댓글만 표시) */}
         <div className={styles.commentsList} data-testid="comment-list">
           {listLoading && (
-            <div data-testid="comment-loading">댓글을 불러오는 중입니다...</div>
+            <div className={styles.loadingComment} data-testid="comment-loading">댓글을 불러오는 중입니다...</div>
           )}
           {!listLoading && listError && (
-            <div data-testid="comment-error-message">댓글을 불러오는데 실패하였습니다. 다시 시도해주세요.</div>
+            <div className={styles.errorComment} data-testid="comment-error-message">댓글을 불러오는데 실패하였습니다. 다시 시도해주세요.</div>
           )}
           {!listLoading && !listError && fetchedComments && fetchedComments.length === 0 && (
-            <div data-testid="comment-empty">등록된 댓글이 없습니다.</div>
+            <div className={styles.emptyComment} data-testid="comment-empty">등록된 댓글이 없습니다.</div>
           )}
           {!listLoading && !listError && fetchedComments && fetchedComments.length > 0 && (
             <>

@@ -111,7 +111,7 @@
 }
 
 .children {
-  width: 1168px;
+  /* width: 1168px; */
   min-height: auto;
   flex: 1;
 }

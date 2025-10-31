@@ -176,6 +176,17 @@
   border-bottom: none;
 }
 
+.emptyComment, 
+.loadingComment,
+.errorComment {
+  font-family: var(--typo-font-family-ko);
+  font-size: var(--typo-body-b4-font-size);
+  font-weight: var(--typo-body-b4-font-weight);
+  line-height: var(--typo-body-b4-line-height);
+  color: var(--color-gray-500);
+  text-align: center;
+  margin: 16px 0px 48px 0px;
+}
 /* 편집 모드 */
 .editMode {
   border-radius: 8px;

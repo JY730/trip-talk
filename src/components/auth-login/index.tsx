@@ -188,7 +188,7 @@ export const AuthLogin = React.forwardRef<HTMLDivElement, AuthLoginProps>(
                 onClick={onSignupClick}
                 className="w-auto"
               >
-                회원가입
+                <div className={styles.signupButtonText}>회원가입</div>
               </Button>
             </div>
           </div>
