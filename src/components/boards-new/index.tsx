@@ -7,12 +7,13 @@
 
 'use client';
 
-import React from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import styles from './styles.module.css';
 import { Input } from '@/commons/components/input';
 import { Textarea } from '@/commons/components/textarea';
 import { Button } from '@/commons/components/button';
 import useBoardForm from './hooks/index.form.hook';
+import { useImageUpload } from './hooks/index.upload.hook';
 
 export interface BoardsNewProps {
   /**
@@ -32,9 +33,68 @@ export const BoardsNew = React.forwardRef<HTMLFormElement, BoardsNewProps>(
   (props, ref) => {
   const { form, isFormValid, onSubmit, onCancel } = useBoardForm();
   const { register, formState: { errors } } = form;
+  const { uploadedUrls, previewUrls, handleImageUpload, handleImageDelete } = useImageUpload();
+  const fileInputRefs = useRef<Array<HTMLInputElement | null>>([]);
+  const [uploadingStates, setUploadingStates] = useState<boolean[]>(
+    () => Array.from({ length: uploadedUrls.length }, () => false),
+  );
+
+  useEffect(() => {
+    const filtered = uploadedUrls.filter((url) => url);
+    form.setValue('images', filtered);
+    void form.trigger('images');
+  }, [uploadedUrls, form]);
+
+  const handleSlotClick = (index: number) => {
+    const input = fileInputRefs.current[index];
+    input?.click();
+  };
+
+  const handleFileChange = async (index: number, event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    setUploadingStates((prev) => {
+      const next = [...prev];
+      next[index] = true;
+      return next;
+    });
+
+    try {
+      await handleImageUpload(index, file);
+    } finally {
+      event.target.value = '';
+      setUploadingStates((prev) => {
+        const next = [...prev];
+        next[index] = false;
+        return next;
+      });
+    }
+  };
+
+  const handleDeleteImage = (index: number) => {
+    handleImageDelete(index);
+    setUploadingStates((prev) => {
+      if (!prev[index]) return prev;
+      const next = [...prev];
+      next[index] = false;
+      return next;
+    });
+  };
+
+  const filledCount = useMemo(
+    () => uploadedUrls.filter((url) => url).length,
+    [uploadedUrls],
+  );
 
     return (
-      <form ref={ref} onSubmit={onSubmit} className={styles.container} data-testid="board-form" {...props}>
+      <form
+        ref={ref}
+        onSubmit={onSubmit}
+        className={styles.container}
+        data-testid="board-upload-page"
+        {...props}
+      >
       {/* Detail Title */}
       <div className={styles.submitTitle}>
         <h1 data-testid="board-form-title">게시글 등록</h1>
@@ -183,20 +243,85 @@ export const BoardsNew = React.forwardRef<HTMLFormElement, BoardsNewProps>(
         <div className={styles.imageUploadLabel}>
           <span className={styles.imageLabel}>사진 첨부</span>
         </div>
-        <div className={styles.imageUploadGrid}>
-          <div className={styles.imageUploadSlot}>
-            <img src="/icons/add.svg" alt="이미지 추가" className={styles.addIcon} />
-            <span className={styles.addImageText}>클릭해서 사진 업로드</span>
-          </div>
-          <div className={styles.imageUploadSlot}>
-            <img src="/icons/add.svg" alt="이미지 추가" className={styles.addIcon} />
-            <span className={styles.addImageText}>클릭해서 사진 업로드</span>
-          </div>
-          <div className={styles.imageUploadSlot}>
-            <img src="/icons/add.svg" alt="이미지 추가" className={styles.addIcon} />
-            <span className={styles.addImageText}>클릭해서 사진 업로드</span>
-          </div>
+        <div className={styles.imageUploadGrid} data-upload-count={filledCount}>
+          {uploadedUrls.map((url, index) => {
+            const isUploading = uploadingStates[index];
+            const displayUrl = previewUrls[index] || url;
+            const hasImage = Boolean(displayUrl);
+            const slotClassName = [
+              styles.imageUploadSlot,
+              hasImage ? styles.imageUploadSlotFilled : styles.imageUploadSlotEmpty,
+            ].join(' ');
+
+            return (
+              <div
+                key={index}
+                className={slotClassName}
+                data-testid={`upload-slot-${index}`}
+                onClick={() => !hasImage && handleSlotClick(index)}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    if (!hasImage) {
+                      handleSlotClick(index);
+                    }
+                  }
+                }}
+              >
+                <input
+                  ref={(element) => {
+                    fileInputRefs.current[index] = element;
+                  }}
+                  type="file"
+                  accept="image/*"
+                  className={styles.fileInput}
+                  data-testid={`file-input-${index}`}
+                  onChange={(event) => handleFileChange(index, event)}
+                  tabIndex={-1}
+                />
+
+                {isUploading && (
+                  <div className={styles.uploadingOverlay}>
+                    <span className={styles.uploadingText}>업로드 중...</span>
+                  </div>
+                )}
+
+                {hasImage ? (
+                  <>
+                    <img
+                      src={displayUrl}
+                      alt="업로드된 이미지 미리보기"
+                      className={styles.previewImage}
+                      data-testid={`preview-image-${index}`}
+                    />
+                    <button
+                      type="button"
+                      className={styles.deleteButton}
+                      data-testid={`delete-image-${index}`}
+                      aria-label="이미지 삭제"
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        handleDeleteImage(index);
+                      }}
+                    >
+                      <img src="/icons/close_w.svg" alt="이미지 삭제" />
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <img src="/icons/add.svg" alt="이미지 추가" className={styles.addIcon} />
+                    <span className={styles.addImageText}>클릭해서 사진 업로드</span>
+                  </>
+                )}
+              </div>
+            );
+          })}
         </div>
+        <span className={styles.visuallyHidden} aria-hidden="true" data-testid="uploaded-url-count">
+          {filledCount}
+        </span>
       </div>
       
       {/* Gap */}

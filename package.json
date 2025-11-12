@@ -20,6 +20,7 @@
     "@hookform/resolvers": "^5.2.2",
     "@tanstack/react-query": "^5.90.5",
     "antd": "^5.27.5",
+    "apollo-upload-client": "^19.0.0",
     "dayjs": "^1.11.18",
     "graphql": "^16.11.0",
     "next": "14.2.32",

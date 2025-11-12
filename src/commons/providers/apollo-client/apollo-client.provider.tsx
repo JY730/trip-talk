@@ -1,21 +1,21 @@
 'use client';
 
-import { ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
+import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { ApolloProvider } from '@apollo/client/react';
 import { ReactNode } from 'react';
+import UploadHttpLink from 'apollo-upload-client/UploadHttpLink.mjs';
 
 interface ApolloClientProviderProps {
   children: ReactNode;
 }
 
-// HTTP Link 생성
-const httpLink = createHttpLink({
+const uploadLink = new UploadHttpLink({
   uri: '/api/graphql',
+  credentials: 'same-origin',
 });
 
-// Apollo Client 인스턴스 생성
 const client = new ApolloClient({
-  link: httpLink,
+  link: uploadLink,
   cache: new InMemoryCache({
     typePolicies: {
       Query: {

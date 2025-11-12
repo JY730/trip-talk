@@ -2,35 +2,56 @@ import { NextRequest, NextResponse } from 'next/server';
 
 const GRAPHQL_ENDPOINT = 'https://main-practice.codebootcamp.co.kr/graphql';
 
+export const runtime = 'nodejs';
+
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.text(); // body를 그대로 받음
-
     const origin = request.headers.get('origin') || process.env.NEXT_PUBLIC_APP_ORIGIN || 'http://localhost:3000';
     const authorization = request.headers.get('authorization') || '';
+    const contentType = request.headers.get('content-type') || '';
 
-    const response = await fetch(GRAPHQL_ENDPOINT, {
+    const headers: Record<string, string> = {
+      Origin: origin,
+    };
+
+    if (authorization) {
+      headers.Authorization = authorization;
+    }
+
+    if (contentType) {
+      headers['Content-Type'] = contentType;
+    }
+
+    const fetchOptions: RequestInit = {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        // 백엔드가 Origin을 참고하여 CORS 헤더를 설정하는 경우 undefined 방지
-        'Origin': origin,
-        // 토큰 전달 필요 시 넘겨줌
-        ...(authorization ? { 'Authorization': authorization } : {}),
-      },
-      body,
-    });
+      headers,
+    };
 
-    const data = await response.text(); // text로 받아 그대로 전달
+    if (contentType.includes('multipart/form-data')) {
+      fetchOptions.body = request.body;
+      // @ts-expect-error duplex는 Node.js fetch 스트리밍 전송에 필요
+      fetchOptions.duplex = 'half';
+    } else {
+      const bodyText = await request.text();
+      fetchOptions.body = bodyText;
+      if (!contentType) {
+        fetchOptions.headers = {
+          ...headers,
+          'Content-Type': 'application/json',
+        };
+      }
+    }
 
-    return new NextResponse(data, {
+    const response = await fetch(GRAPHQL_ENDPOINT, fetchOptions);
+
+    const responseHeaders = new Headers(response.headers);
+    responseHeaders.set('Access-Control-Allow-Origin', '*');
+    responseHeaders.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    responseHeaders.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+
+    return new NextResponse(response.body, {
       status: response.status,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-      },
+      headers: responseHeaders,
     });
   } catch (error) {
     console.error('GraphQL proxy error:', error);
