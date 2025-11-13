@@ -1,0 +1,136 @@
+아래의 조건을 모두 적용하여, 아래의 요구사항을 모두 구현할 것.
+구현 결과를 체크리스트 형태로 반환할 것.
+
+==============================================
+
+조건-커서룰)
+@01-common.mdc
+@04-func.mdc
+
+==============================================
+
+조건-파일경로)
+참고할 페이지 경로: src/app/boards/[id]/edit/page.tsx
+참고할 컴포넌트 경로: src/components/boards-new/index.tsx
+참고할 CSS 경로: src/components/boards-new/styles.module.css
+구현될 HOOK 파일경로: src/components/boards-new/hooks/index.address-edit.hook.ts
+구현될 TEST 파일경로: src/components/boards-new/tests/index.address-edit.hook.spec.ts
+참고할 API 문서경로: https://main-practice.codebootcamp.co.kr/graphql
+
+==============================================
+
+핵심요구사항)
+다음 기능을 Playwright 기반 TDD 방식으로 구현하고, 모든 테스트 통과 시까지 반복할 것.
+
+테스트 환경 조건
+
+테스트 제외 라이브러리: jest, @testing-library/react
+
+timeout 설정: network 통신 포함 2000ms 미만, network 통신 제외 500ms 미만 또는 미설정
+
+페이지 로드 조건: data-testid 활용, networkidle 방식 사용 금지
+
+API 관련 조건
+게시글 조회 API명: fetchBoard
+            query fetchBoard($boardId: ID!) {
+                fetchBoard(boardId: $boardId) {
+                    _id
+                    writer
+                    title
+                    contents
+                    boardAddress {
+                        zipcode
+                        address
+                        addressDetail
+                }
+                    youtubeUrl
+                    createdAt
+                }
+            }
+
+게시글 수정 API명: updateBoard
+                mutation updateBoard($updateBoardInput: UpdateBoardInput!, $password: String, $boardId: ID!) {
+                    updateBoard(updateBoardInput: $updateBoardInput, password: $password, boardId: $boardId) {
+                        _id
+                        title
+                        contents
+                        boardAddress {
+                            zipcode
+                            address
+                            addressDetail
+                    }
+                        youtubeUrl
+                        updatedAt
+                    }
+                }
+
+유저 시나리오
+
+페이지 진입 시 fetchBoard API를 통해 기존 게시글 데이터를 불러온다.
+
+응답받은 zipcode, address, addressDetail을 각각의 인풋에 초기값으로 세팅한다.
+
+사용자가 [우편번호 검색] 버튼을 클릭하면 react-daum-postcode를 활용해 모달을 띄운다.
+
+새로운 우편번호를 선택하면 zipcode, address 값이 기존 값에서 변경된다.
+
+[수정하기] 버튼 클릭 시 updateBoard API를 호출한다.
+
+updateBoardInput에 zipcode, address, addressDetail을 포함한다.
+
+주소 입력이 없더라도 정상적으로 수정 요청이 가능해야 한다.
+
+수정 성공 시 “게시글이 성공적으로 수정되었습니다.” 메시지를 표시하고 상세페이지로 이동한다.
+
+수정 실패 시 “게시글 수정 중 오류가 발생했습니다. 다시 시도해주세요.” 메시지를 표시한다.
+
+HOOK 구현 요구사항
+파일명: index.address-edit.hook.ts
+
+export const useAddressEdit = (boardId: string) => {
+// 1. 상태 관리: zipcode, address, addressDetail
+// 2. fetchBoard 실행: 게시글 데이터 로드 후 상태 초기화
+// 3. handleAddressSearch(): react-daum-postcode 모달 열기, 선택 결과로 zipcode, address 업데이트
+// 4. handleAddressChange(): 상세주소 직접 입력 반영
+// 5. handleUpdateBoard(): updateBoard API 호출, 성공 시 메시지 출력 + 상세페이지 이동, 실패 시 에러 메시지 출력
+// 6. 반환 데이터 구조
+            return {
+                zipcode,
+                address,
+                addressDetail,
+                handleAddressSearch,
+                handleAddressChange,
+                handleUpdateBoard
+            }
+            }
+
+Playwright 테스트 요구사항
+파일명: index.address-edit.hook.spec.ts
+
+페이지 완전 로드(data-testid="board-edit-page") 후 테스트 시작
+
+fetchBoard 성공 시 기존 zipcode, address, addressDetail이 인풋에 표시되는지 검증
+
+[우편번호 검색] 버튼 클릭 → 새 주소 선택 시 기존 값에서 변경된 주소 값 확인
+
+[수정하기] 클릭 → updateBoard API 정상 호출 및 응답 확인
+
+주소 입력이 없어도 수정 요청이 성공하는지 검증
+
+수정 실패(mock 처리 시) → 오류 메시지 "게시글 수정 중 오류가 발생했습니다. 다시 시도해주세요." 표시 확인
+
+==============================================
+
+✅ 체크리스트
+
+구분 항목 완료 여부
+커서룰 @01-common.mdc, @04-func.mdc 적용 여부 ☐
+API fetchBoard 정상 호출 및 데이터 바인딩 ☐
+API updateBoard 주소 필드 포함 전송 검증 ☐
+UI 기존 주소 인풋 초기값 표시 ☐
+UI react-daum-postcode 모달 동작 ☐
+기능 주소 변경 시 상태 반영 ☐
+기능 주소 미입력 시에도 수정 가능 ☐
+에러 수정 실패 시 오류 메시지 표시 ☐
+테스트 Playwright 성공 시나리오 통과 ☐
+테스트 Playwright 실패 시나리오 통과 ☐

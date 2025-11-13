@@ -1,0 +1,148 @@
+아래의 조건을 모두 적용하여, 아래의 요구사항을 모두 구현할 것.
+구현 결과를 체크리스트로 반환할 것.
+
+==============================================
+
+조건-커서룰)
+- @01-common.mdc
+- @04-func.mdc
+
+==============================================
+
+조건-피그마) 활용할MCP: CursorTalkToFigmaMCP(채널명: 07e3pyn5)
+조건-피그마) 구현될 이미지 미리보기 영역 참고 노드ID: 285:32449
+
+조건-파일경로)
+- 참고할 TSX 파일경로: src/components/boards-new/index.tsx
+- 참고할 CSS 파일경로: src/components/boards-new/styles.module.css
+- 구현될 HOOK 파일경로: src/components/boards-new/hooks/index.upload.hook.ts
+- 구현될 TEST 파일경로: src/components/boards-new/tests/index.upload.hook.spec.ts
+- 참고할 API 문서경로: https://main-practice.codebootcamp.co.kr/graphql
+
+조건-API문서) 참고할 GraphQL 문서: https://main-practice.codebootcamp.co.kr/graphql
+
+==============================================
+핵심요구사항)
+다음의 기능을 Playwright 테스트 기반의 TDD 방식으로 구현하고, 테스트 통과 시까지 반복하여 개발할 것.
+
+1) 테스트 환경 조건
+- 테스트 제외 라이브러리:
+  - jest
+  - @testing-library/react
+- timeout 조건:
+  - network 통신 포함: 2000ms 미만
+  - network 통신 제외: 500ms 미만 또는 미설정
+- 페이지 로드 조건:
+  - data-testid를 활용하여 로드 대기
+  - networkidle 방식 사용 금지
+
+2) API 관련 조건
+API명: uploadFile
+요청데이터:
+    mutation uploadFile($file: Upload!) {
+    uploadFile(file: $file) {
+        url
+    }
+    }
+응답데이터 구조:
+    {
+    "url": "https://.../uploaded/image.jpg"
+    }
+
+게시글 등록 API명: createBoard
+    mutation createBoard($createBoardInput: CreateBoardInput!) {
+    createBoard(createBoardInput: $createBoardInput) {
+        _id
+        writer
+        title
+        contents
+        images
+    }
+    }
+
+유저 시나리오)
+1) 이미지 등록
+    1. 사용자가 이미지 등록 영역(사각형 아이콘, data-testid="upload-slot-N") 클릭
+    2. 파일 선택창이 열리고 이미지 선택 시 uploadFile GraphQL API 호출
+    3. 업로드 성공 시:
+        - 미리보기 이미지 표시
+        - 업로드된 이미지 URL을 uploadedUrls[] 상태 배열에 저장
+    4. 업로드 실패 시:
+        - 콘솔 에러 출력 + alert("이미지 업로드에 실패했습니다.")
+    5. 파일 용량이 5MB 초과 시:
+        - 업로드 중단 + alert("이미지 용량은 최대 5MB까지 가능합니다.")
+
+2) 이미지 삭제
+    1. 미리보기 이미지 hover 시 삭제(X) 버튼 표시 - public/icons/close.svg를 사용할 것.
+    2. 삭제 버튼 클릭 시:
+        - 미리보기 이미지 제거
+        - uploadedUrls[] 배열에서 해당 URL 삭제
+
+3) 게시글 등록
+    1. [게시글 등록하기] 버튼 클릭 시 createBoard GraphQL API 호출
+    2. images 필드에 uploadedUrls[]를 포함
+    3. 이미지가 없을 경우 images: []로 전송
+
+HOOK 구현 요구사항)
+파일명: index.upload.hook.ts
+
+export const useImageUpload = () => {
+  // 1. 업로드된 이미지 URL 상태 (uploadedUrls[])
+  // 2. 이미지 업로드 함수 handleImageUpload(index)
+  //    - 용량 제한(<=5MB)
+  //    - Apollo Client로 uploadFile 요청
+  //    - 성공 시 uploadedUrls[index]에 URL 저장
+  // 3. 이미지 삭제 함수 handleImageDelete(index)
+  //    - 해당 index의 이미지 URL 제거
+  // 4. 전체 상태 반환 (uploadedUrls, handleImageUpload, handleImageDelete)
+}
+
+반환 데이터 구조:
+{
+  uploadedUrls: string[]
+  handleImageUpload: (index: number, file: File) => Promise<void>
+  handleImageDelete: (index: number) => void
+}
+
+Playwright 테스트 요구사항)
+파일명: index.upload.hook.spec.ts
+
+1. 페이지 완전 로드(data-testid="board-upload-page") 후 테스트 시작
+2. 파일 업로드 시나리오
+   - 5MB 이하 이미지 업로드 시 data-testid="preview-image-N" 표시 확인
+   - uploadedUrls.length > 0 검증
+3. 파일 용량 초과 시
+   - alert("이미지 용량은 최대 5MB까지 가능합니다.") 문구 노출 확인
+4. 업로드 실패 시
+   - alert("이미지 업로드에 실패했습니다.") 문구 표시 확인
+5. 이미지 삭제 시
+   - hover 시 data-testid="delete-image-N" 버튼 표시
+   - 삭제 클릭 후 미리보기 요소 제거 확인
+6. 게시글 등록 시
+   - 이미지 배열이 존재할 경우 images: [...] 검증
+   - 이미지가 없는 경우에도 등록 API 성공 검증
+
+CSS 요구사항)
+- 이미지 등록영역: 3개의 정사각형, 균등 간격 배치
+- 업로드 미리보기: border-radius: 8px, object-fit: cover
+- 삭제 버튼: hover 시 노출, position: absolute
+- 빈 슬롯: 연한 회색 배경, dashed border
+- 반응형: 모바일 세로 정렬
+
+
+==============================================
+
+✅ 체크리스트)
+| 구분 | 항목 | 완료 여부 |
+|------|------|------------|
+| 커서룰 | @01-common.mdc, @04-func.mdc 적용 여부 | ☐ |
+| API | uploadFile 요청 정상 동작 | ☐ |
+| API | createBoard 요청 시 이미지 배열 전송 확인 | ☐ |
+| UI | 업로드 슬롯 / 미리보기 / 삭제 버튼 표시 | ☐ |
+| 로딩 | 업로드 중 상태 표시 (ex. "업로드 중...") | ☐ |
+| 에러 | 업로드 실패 / 용량 초과 시 alert 처리 | ☐ |
+| 방어코드 | undefined, 빈배열, null-safe 접근 | ☐ |
+| 테스트 | Playwright 성공 시나리오 통과 | ☐ |
+| 테스트 | Playwright 실패 시나리오 통과 | ☐ |
+
+

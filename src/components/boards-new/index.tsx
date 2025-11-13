@@ -14,6 +14,8 @@ import { Textarea } from '@/commons/components/textarea';
 import { Button } from '@/commons/components/button';
 import useBoardForm from './hooks/index.form.hook';
 import { useImageUpload } from './hooks/index.upload.hook';
+import { useAddress } from './hooks/index.address.hook';
+import DaumPostcode from 'react-daum-postcode';
 
 export interface BoardsNewProps {
   /**
@@ -32,8 +34,18 @@ export interface BoardsNewProps {
 export const BoardsNew = React.forwardRef<HTMLFormElement, BoardsNewProps>(
   (props, ref) => {
   const { form, isFormValid, onSubmit, onCancel } = useBoardForm();
-  const { register, formState: { errors } } = form;
+  const { register, formState: { errors }, setValue } = form;
   const { uploadedUrls, previewUrls, handleImageUpload, handleImageDelete } = useImageUpload();
+  const { 
+    zipcode, 
+    address, 
+    addressDetail, 
+    isModalOpen, 
+    handleOpenModal, 
+    handleCloseModal, 
+    handleComplete, 
+    handleAddressDetailChange 
+  } = useAddress();
   const fileInputRefs = useRef<Array<HTMLInputElement | null>>([]);
   const [uploadingStates, setUploadingStates] = useState<boolean[]>(
     () => Array.from({ length: uploadedUrls.length }, () => false),
@@ -44,6 +56,20 @@ export const BoardsNew = React.forwardRef<HTMLFormElement, BoardsNewProps>(
     form.setValue('images', filtered);
     void form.trigger('images');
   }, [uploadedUrls, form]);
+
+  // 주소 값이 변경되면 form에 반영
+  useEffect(() => {
+    setValue('boardAddress', {
+      zipcode,
+      address,
+      addressDetail,
+    }, { shouldValidate: false });
+  }, [zipcode, address, addressDetail, setValue]);
+
+  // react-daum-postcode의 handleComplete를 래핑하여 form에 반영
+  const handlePostcodeComplete = (data: any) => {
+    handleComplete(data);
+  };
 
   const handleSlotClick = (index: number) => {
     const input = fileInputRefs.current[index];
@@ -88,11 +114,12 @@ export const BoardsNew = React.forwardRef<HTMLFormElement, BoardsNewProps>(
   );
 
     return (
+      <>
       <form
         ref={ref}
         onSubmit={onSubmit}
         className={styles.container}
-        data-testid="board-upload-page"
+        data-testid="board-address-page"
         {...props}
       >
       {/* Detail Title */}
@@ -194,15 +221,56 @@ export const BoardsNew = React.forwardRef<HTMLFormElement, BoardsNewProps>(
       
       {/* Input Address */}
       <div className={styles.inputAddress}>
+        <div className={styles.postcodeRow}>
+          <div className={styles.postcodeWrapper}>
+            <Input
+              variant="primary"
+              theme="light"
+              size="large"
+              label="주소"
+              placeholder="01234"
+              className={styles.postcodeInputContainer}
+              value={zipcode}
+              readOnly
+              data-testid="zipcode-input"
+            />
+          </div>
+          <div className={styles.postcodeSearchButton}>
+            <Button
+              variant="secondary"
+              styleType="outline"
+              size="large"
+              shape="rectangle"
+              type="button"
+              onClick={handleOpenModal}
+              data-testid="zipcode-button"
+            >
+              우편번호 검색
+            </Button>
+          </div>
+        </div>
         <div className={styles.addressInputWrapper}>
           <Input
             variant="primary"
             theme="light"
             size="large"
-            label="주소"
             placeholder="주소를 입력해 주세요."
             className={styles.addressInputContainer}
-            {...register('boardAddress')}
+            value={address}
+            readOnly
+            data-testid="address-input"
+          />
+        </div>
+        <div className={styles.detailAddressWrapper}>
+          <Input
+            variant="primary"
+            theme="light"
+            size="large"
+            placeholder="상세 주소를 입력해 주세요."
+            className={styles.detailAddressInputContainer}
+            value={addressDetail}
+            onChange={handleAddressDetailChange}
+            data-testid="address-detail-input"
           />
         </div>
       </div>
@@ -357,6 +425,27 @@ export const BoardsNew = React.forwardRef<HTMLFormElement, BoardsNewProps>(
 
         <div className={styles.gap}></div>
       </form>
+      
+      {/* Postcode Modal */}
+      {isModalOpen && (
+        <div className={styles.postcodeModalOverlay} onClick={handleCloseModal} data-testid="postcode-modal-overlay">
+          <div className={styles.postcodeModal} onClick={(e) => e.stopPropagation()} data-testid="postcode-modal">
+            <button
+              type="button"
+              className={styles.postcodeModalClose}
+              onClick={handleCloseModal}
+              aria-label="닫기"
+            >
+              <img src="/icons/close_w.svg" alt="닫기" />
+            </button>
+            <DaumPostcode
+              onComplete={handlePostcodeComplete}
+              autoClose={false}
+            />
+          </div>
+        </div>
+      )}
+      </>
     );
   }
 );

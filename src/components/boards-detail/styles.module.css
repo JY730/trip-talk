@@ -318,3 +318,18 @@
   color: var(--color-gray-700);
 }
 
+/* ========================================
+   Tooltip Styles
+   ======================================== */
+
+.addressTooltip {
+  font-size: 14px;
+  color: var(--color-gray-b);
+  background-color: var(--color-gray-w);
+  border: 1px solid var(--color-gray-100);
+  border-radius: 8px;
+  padding: 6px 10px;
+  max-width: 240px;
+  word-break: keep-all;
+}
+

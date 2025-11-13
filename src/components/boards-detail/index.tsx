@@ -9,6 +9,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
+import * as Tooltip from '@radix-ui/react-tooltip';
 import { Button } from '@/commons/components/button';
 import { Comments, Comment } from './comments';
 import useBoardDetail from './hooks/index.binding.hook';
@@ -207,9 +208,24 @@ export default function BoardsDetail() {
           <button className={styles.iconButton}>
             <Image src="/icons/link.svg" alt="링크" width={24} height={24} />
           </button>
-          <button className={styles.iconButton}>
-            <Image src="/icons/location.svg" alt="위치" width={24} height={24} />
-          </button>
+          <Tooltip.Provider>
+            <Tooltip.Root>
+              <Tooltip.Trigger asChild>
+                <button className={styles.iconButton} data-testid="board-address-icon">
+                  <Image src="/icons/location.svg" alt="위치" width={24} height={24} className="cursor-pointer" />
+                </button>
+              </Tooltip.Trigger>
+              <Tooltip.Portal>
+                <Tooltip.Content
+                  side="bottom"
+                  className={styles.addressTooltip}
+                  sideOffset={5}
+                >
+                  {data?.boardAddress?.address || '주소 정보 없음'}
+                </Tooltip.Content>
+              </Tooltip.Portal>
+            </Tooltip.Root>
+          </Tooltip.Provider>
         </div>
       </div>
 

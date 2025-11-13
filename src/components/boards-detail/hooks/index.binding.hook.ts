@@ -2,7 +2,7 @@
 
 import { useParams } from 'next/navigation';
 import { useQuery } from '@apollo/client/react';
-import { gql } from '@apollo/client';
+import { gql, ApolloError } from '@apollo/client';
 
 /**
  * GraphQL Query: fetchBoard
@@ -85,7 +85,7 @@ interface FetchBoardQueryData {
 export interface UseBoardDetailReturn {
   data: FetchBoardResponse | null;
   loading: boolean;
-  error: Error | null;
+  error: ApolloError | null;
 }
 
 /**

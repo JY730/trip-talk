@@ -1,11 +1,14 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useParams } from 'next/navigation';
 import styles from '../styles.module.css';
 import { Input } from '@/commons/components/input';
 import { Textarea } from '@/commons/components/textarea';
 import { Button } from '@/commons/components/button';
 import useBoardUpdateForm from '../hooks/index.update.hook';
+import { useAddressEdit } from '../hooks/index.address-edit.hook';
+import DaumPostcode from 'react-daum-postcode';
 
 /**
  * Boards Update Component
@@ -13,6 +16,9 @@ import useBoardUpdateForm from '../hooks/index.update.hook';
  * Design Source: Figma Node IDs 285:32385 (수정전) → 898:16329 (수정중)
  */
 export default function BoardsUpdate() {
+  const params = useParams();
+  const boardId = params?.id as string | undefined;
+  
   const {
     form,
     isSubmitEnabled,
@@ -26,7 +32,36 @@ export default function BoardsUpdate() {
   const {
     register,
     formState: { errors },
+    setValue,
   } = form;
+
+  // 주소 편집 hook 사용
+  const {
+    zipcode,
+    address,
+    addressDetail,
+    isModalOpen,
+    handleAddressSearch,
+    handleAddressChange,
+    handleComplete,
+    handleCloseModal,
+  } = useAddressEdit(boardId || '');
+
+  // 주소 값이 변경되면 form에 반영
+  useEffect(() => {
+    if (boardId) {
+      setValue('boardAddress', {
+        zipcode,
+        address,
+        addressDetail,
+      }, { shouldValidate: false });
+    }
+  }, [zipcode, address, addressDetail, setValue, boardId]);
+
+  // react-daum-postcode의 handleComplete를 래핑
+  const handlePostcodeComplete = (data: any) => {
+    handleComplete(data);
+  };
 
   if (isInitializing) {
     return (
@@ -63,6 +98,7 @@ export default function BoardsUpdate() {
   }
 
   return (
+    <>
     <form
       onSubmit={onSubmit}
       className={styles.container}
@@ -145,17 +181,58 @@ export default function BoardsUpdate() {
       <div className={styles.divider}></div>
       <div className={styles.gap}></div>
 
+      {/* Input Address */}
       <div className={styles.inputAddress}>
+        <div className={styles.postcodeRow}>
+          <div className={styles.postcodeWrapper}>
+            <Input
+              variant="primary"
+              theme="light"
+              size="large"
+              label="주소"
+              placeholder="01234"
+              className={styles.postcodeInputContainer}
+              value={zipcode}
+              readOnly
+              data-testid="zipcode-input"
+            />
+          </div>
+          <div className={styles.postcodeSearchButton}>
+            <Button
+              variant="secondary"
+              styleType="outline"
+              size="large"
+              shape="rectangle"
+              type="button"
+              onClick={handleAddressSearch}
+              data-testid="zipcode-button"
+            >
+              우편번호 검색
+            </Button>
+          </div>
+        </div>
         <div className={styles.addressInputWrapper}>
           <Input
             variant="primary"
             theme="light"
             size="large"
-            label="주소"
             placeholder="주소를 입력해 주세요."
             className={styles.addressInputContainer}
-            data-testid="board-update-address"
-            {...register('boardAddress.address')}
+            value={address}
+            readOnly
+            data-testid="address-input"
+          />
+        </div>
+        <div className={styles.detailAddressWrapper}>
+          <Input
+            variant="primary"
+            theme="light"
+            size="large"
+            placeholder="상세 주소를 입력해 주세요."
+            className={styles.detailAddressInputContainer}
+            value={addressDetail}
+            onChange={handleAddressChange}
+            data-testid="address-detail-input"
           />
         </div>
       </div>
@@ -236,6 +313,27 @@ export default function BoardsUpdate() {
 
       <div className={styles.gap}></div>
     </form>
+    
+    {/* Postcode Modal */}
+    {isModalOpen && (
+      <div className={styles.postcodeModalOverlay} onClick={handleCloseModal} data-testid="postcode-modal-overlay">
+        <div className={styles.postcodeModal} onClick={(e) => e.stopPropagation()} data-testid="postcode-modal">
+          <button
+            type="button"
+            className={styles.postcodeModalClose}
+            onClick={handleCloseModal}
+            aria-label="닫기"
+          >
+            <img src="/icons/close_w.svg" alt="닫기" />
+          </button>
+          <DaumPostcode
+            onComplete={handlePostcodeComplete}
+            autoClose={false}
+          />
+        </div>
+      </div>
+    )}
+    </>
   );
 }
 

@@ -1,0 +1,139 @@
+아래의 조건을 모두 적용하여, 아래의 요구사항을 모두 구현할 것.
+구현 결과를 체크리스트로 반환할 것.
+
+==============================================
+
+조건-커서룰)
+- @01-common.mdc
+- @04-func.mdc
+
+조건-피그마)
+- 활용할 MCP: CursorTalkToFigmaMCP(채널명: 07e3pyn5) 
+
+조건-파일경로)
+- 참고할 TSX 파일경로: src/components/boards-new/index.tsx
+- 참고할 CSS 파일경로: src/components/boards-new/styles.module.css
+- 구현될 HOOK 파일경로: src/components/boards-new/hooks/index.address.hook.ts
+- 구현될 TEST 파일경로: src/components/boards-new/tests/index.address.hook.spec.ts
+- 참고할 API 문서경로: https://main-practice.codebootcamp.co.kr/graphql
+
+조건-라이브러리)
+- react-daum-postcode 라이브러리를 사용하여 주소 검색 기능 구현
+
+==============================================
+핵심요구사항)
+다음의 기능을 Playwright 테스트 기반의 TDD 방식으로 구현하고, 테스트 통과 시까지 반복하여 개발할 것.
+
+1) 테스트 환경 조건
+    - 테스트 제외 라이브러리:
+    - jest
+    - @testing-library/react
+    - timeout 조건:
+    - network 통신 포함: 2000ms 미만
+    - network 통신 제외: 500ms 미만 또는 미설정
+    - 페이지 로드 조건:
+    - data-testid를 활용하여 로드 대기
+    - networkidle 방식 금지
+
+2) 유저 시나리오)
+    1. 우편번호 검색 버튼
+        - 사용자가 [우편번호 검색] 버튼(data-testid="zipcode-button")을 클릭하면, react-daum-postcode 모달이 열릴 것.
+        - 모달은 중앙에 위치하며, 주소 검색창이 표시될 것(data-testid="postcode-modal").
+        - 주소를 선택하면 onComplete 콜백이 호출되어 우편번호, 기본주소를 자동으로 입력란에 세팅할 것.
+
+    2. 주소 입력 동작
+        - 검색 완료 후 자동으로 다음 두 인풋에 값 반영:
+            - data-testid="zipcode-input"  → 우편번호
+            - data-testid="address-input"  → 기본 주소
+        - 사용자가 직접 입력 가능한 인풋:
+            - data-testid="address-detail-input"  → 상세 주소
+
+    3. 게시글 등록 연동
+        - 게시글 등록 시 createBoard API 호출 시, 다음 필드를 포함해야 함:
+            boardAddress: {
+                zipcode: string
+                address: string
+                addressDetail: string
+            }
+        - 주소 3개 필드는 선택 입력이며, 입력되지 않아도 게시글 등록은 정상 작동해야 함.
+
+    4. 예외 및 에러 처리
+        - react-daum-postcode 모달에서 취소 또는 닫기 시, 기존 입력값은 유지할 것.
+        - 입력 필드가 비어 있을 경우에도 null-safe 접근해야 함.
+        - 네트워크 에러나 예외 발생 시 콘솔 에러 출력 후 alert("주소 검색 중 문제가 발생했습니다.") 표시.
+
+==============================================
+HOOK 구현 요구사항)
+파일명: index.address.hook.ts
+
+export const useAddress = () => {
+  // 1. 주소 관련 상태 관리
+  //    zipcode, address, addressDetail
+  // 2. react-daum-postcode 모달 열기/닫기 상태 관리
+  // 3. handleComplete(postData): 검색 완료 시 zipcode, address 상태 갱신
+  // 4. handleOpenModal(), handleCloseModal() 구현
+  // 5. handleAddressDetailChange(): 상세 주소 입력 핸들러
+  // 6. 전체 상태 반환
+};
+
+반환 데이터 구조:
+{
+  zipcode: string
+  address: string
+  addressDetail: string
+  isModalOpen: boolean
+  handleOpenModal: () => void
+  handleCloseModal: () => void
+  handleComplete: (data: any) => void
+  handleAddressDetailChange: (e: ChangeEvent<HTMLInputElement>) => void
+}
+
+==============================================
+
+Playwright 테스트 요구사항)
+파일명: index.address.hook.spec.ts
+
+1. 페이지 완전 로드(data-testid="board-address-page") 후 테스트 시작
+2. 주소 검색 버튼 클릭 시
+    - data-testid="postcode-modal"이 표시되는지 검증
+3. 주소 선택 시
+    - data-testid="zipcode-input"에 우편번호 값 입력 확인
+    - data-testid="address-input"에 기본주소 값 입력 확인
+4. 상세주소 입력 시
+    - data-testid="address-detail-input" 입력값이 정상적으로 반영되는지 확인
+5. 모달 닫기 시
+    - data-testid="postcode-modal"이 사라지는지 검증
+6. createBoard 요청 시
+    - boardAddress 필드가 다음 형태로 전달되는지 확인:
+        {
+          zipcode: string | "",
+          address: string | "",
+          addressDetail: string | ""
+        }
+7. 주소 미입력 상태에서도 게시글 등록이 정상적으로 완료되는지 검증
+
+==============================================
+
+CSS 요구사항)
+    - 우편번호 인풋 + [우편번호 검색] 버튼은 한 줄에 배치 (flex row)
+    - 모달은 중앙 정렬, 배경 반투명 처리
+    - 주소 인풋 3개는 세로 방향 정렬
+    - 모달 닫기 버튼 position: absolute, 우측 상단 배치
+    - 반응형 대응: 모바일에서는 세로 전체폭 100%
+
+==============================================
+체크리스트)
+
+| 구분 | 항목 | 완료 여부 |
+|------|------|------------|
+| 커서룰 | @01-common.mdc, @04-func.mdc 적용 여부 | ☐ |
+| 라이브러리 | react-daum-postcode 정상 동작 | ☐ |
+| API | createBoard 요청 시 boardAddress 포함 | ☐ |
+| UI | 우편번호 / 기본주소 / 상세주소 인풋 표시 | ☐ |
+| 모달 | 우편번호 검색 모달 표시 및 닫기 | ☐ |
+| 로직 | handleComplete, handleAddressDetailChange 정상 작동 | ☐ |
+| 방어코드 | null-safe 접근, 입력값 미존재 시 오류 없음 | ☐ |
+| 테스트 | Playwright 성공 시나리오 통과 | ☐ |
+| 테스트 | Playwright 실패 시나리오 통과 | ☐ |
+
+

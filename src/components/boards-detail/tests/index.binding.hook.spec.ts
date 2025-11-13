@@ -182,6 +182,115 @@ test.describe('게시글 상세 조회 기능 테스트', () => {
 
       await expect(page.locator('text=게시글 정보를 불러올 수 없습니다.')).toBeVisible({ timeout: 1800 });
       await expect(page.locator('[data-testid="board-image"]')).toHaveCount(0, { timeout: 1000 });
+      // API 실패 시 Tooltip이 표시되지 않아야 함
+      await expect(page.locator('[data-testid="board-address-icon"]')).toHaveCount(0, { timeout: 500 });
+    } finally {
+      await page.unroute(GRAPHQL_ENDPOINT);
+    }
+  });
+
+  test('주소 정보가 있을 때 Tooltip으로 기본주소가 표시된다', async ({ page }) => {
+    const boardId = 'mock-board-id-with-address';
+    const mockAddress = '서울특별시 강남구 테헤란로 123';
+    const mockResponse = {
+      data: {
+        fetchBoard: {
+          _id: boardId,
+          writer: '주소 테스트 작성자',
+          title: '주소 테스트 제목',
+          contents: '주소 테스트 내용입니다.',
+          youtubeUrl: null,
+          likeCount: 0,
+          dislikeCount: 0,
+          images: [],
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          deletedAt: null,
+          boardAddress: {
+            address: mockAddress,
+            addressDetail: '상세주소',
+            zipcode: '12345'
+          },
+          user: {
+            _id: 'user-id',
+            email: 'test@example.com',
+            name: '주소 테스트 작성자'
+          }
+        }
+      }
+    };
+
+    await mockFetchBoard(page, async (route) => {
+      await fulfillJson(route, mockResponse);
+    });
+
+    try {
+      await page.goto(`/boards/${boardId}`);
+      await page.waitForSelector('[data-testid="board-detail-page"]', { timeout: 2000 });
+
+      // 주소 아이콘이 존재하는지 확인
+      const addressIcon = page.locator('[data-testid="board-address-icon"]');
+      await expect(addressIcon).toBeVisible({ timeout: 1800 });
+
+      // hover 시 Tooltip이 표시되는지 확인
+      await addressIcon.hover();
+      await page.waitForTimeout(300); // Tooltip 표시 대기
+
+      // Tooltip 내 텍스트가 boardAddress.address 값과 일치하는지 검증
+      const tooltip = page.locator('[role="tooltip"]');
+      await expect(tooltip).toBeVisible({ timeout: 500 });
+      await expect(tooltip).toHaveText(mockAddress, { timeout: 500 });
+    } finally {
+      await page.unroute(GRAPHQL_ENDPOINT);
+    }
+  });
+
+  test('주소 정보가 없을 때 Tooltip에 "주소 정보 없음" 문구가 표시된다', async ({ page }) => {
+    const boardId = 'mock-board-id-without-address';
+    const mockResponse = {
+      data: {
+        fetchBoard: {
+          _id: boardId,
+          writer: '주소 없음 작성자',
+          title: '주소 없음 제목',
+          contents: '주소 없음 내용',
+          youtubeUrl: null,
+          likeCount: 0,
+          dislikeCount: 0,
+          images: [],
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          deletedAt: null,
+          boardAddress: null,
+          user: {
+            _id: 'user-id',
+            email: 'test@example.com',
+            name: '주소 없음 작성자'
+          }
+        }
+      }
+    };
+
+    await mockFetchBoard(page, async (route) => {
+      await fulfillJson(route, mockResponse);
+    });
+
+    try {
+      await page.goto(`/boards/${boardId}`);
+      await page.waitForSelector('[data-testid="board-detail-page"]', { timeout: 2000 });
+
+      // 주소 아이콘이 존재하는지 확인
+      const addressIcon = page.locator('[data-testid="board-address-icon"]');
+      await expect(addressIcon).toBeVisible({ timeout: 1800 });
+
+      // hover 시 Tooltip이 표시되는지 확인
+      await addressIcon.hover();
+      await page.waitForTimeout(300); // Tooltip 표시 대기
+
+      // Tooltip에 "주소 정보 없음" 문구가 표시되는지 확인
+      const tooltip = page.locator('[role="tooltip"]');
+      await expect(tooltip).toBeVisible({ timeout: 500 });
+      await expect(tooltip).toHaveText('주소 정보 없음', { timeout: 500 });
     } finally {
       await page.unroute(GRAPHQL_ENDPOINT);
     }

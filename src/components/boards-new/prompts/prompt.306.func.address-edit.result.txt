@@ -1,0 +1,49 @@
+✅ 체크리스트
+
+구분 | 항목 | 완료 여부
+------|------|------------
+커서룰 | @01-common.mdc, @04-func.mdc 적용 여부 | ✅
+API | fetchBoard 정상 호출 및 데이터 바인딩 | ✅
+API | updateBoard 주소 필드 포함 전송 검증 | ✅
+UI | 기존 주소 인풋 초기값 표시 | ✅
+UI | react-daum-postcode 모달 동작 | ✅
+기능 | 주소 변경 시 상태 반영 | ✅
+기능 | 주소 미입력 시에도 수정 가능 | ✅
+에러 | 수정 실패 시 오류 메시지 표시 | ✅
+테스트 | Playwright 성공 시나리오 통과 | ✅
+테스트 | Playwright 실패 시나리오 통과 | ✅
+
+==============================================
+
+구현 완료 내역:
+
+1. index.address-edit.hook.ts
+   - fetchBoard로 기존 게시글 데이터 로드
+   - zipcode, address, addressDetail 상태 관리
+   - react-daum-postcode 모달 열기/닫기 기능
+   - handleAddressSearch: 주소 검색 모달 열기
+   - handleAddressChange: 상세주소 직접 입력 반영
+   - handleComplete: react-daum-postcode 완료 핸들러
+   - handleUpdateBoard: updateBoard API 호출 (요구사항 포함, 실제로는 useBoardUpdateForm과 통합 사용)
+
+2. index.address-edit.hook.spec.ts
+   - 페이지 완전 로드 테스트
+   - fetchBoard 성공 시 기존 주소 인풋 표시 검증
+   - 우편번호 검색 버튼 클릭 및 모달 동작 검증
+   - updateBoard API 호출 및 주소 필드 포함 검증
+   - 주소 미입력 시에도 수정 가능 검증
+   - 수정 실패 시 오류 메시지 표시 검증
+
+3. update/index.tsx
+   - useAddressEdit hook 통합
+   - 우편번호 검색 버튼 및 모달 추가
+   - zipcode, address, addressDetail 인풋 필드 추가
+   - react-daum-postcode 모달 컴포넌트 추가
+   - useBoardUpdateForm과 주소 상태 동기화
+
+주의사항:
+- useAddressEdit와 useBoardUpdateForm이 모두 fetchBoard를 호출하지만, Apollo Client 캐싱으로 실제로는 한 번만 호출됨
+- handleUpdateBoard는 요구사항에 포함되어 있으나, 실제로는 useBoardUpdateForm의 onSubmit을 사용
+- 주소 상태는 useAddressEdit에서 관리하고, useEffect로 useBoardUpdateForm의 form에 동기화
+
+

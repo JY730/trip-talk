@@ -18,12 +18,18 @@ const CREATE_BOARD = gql`
   }
 `;
 
+const boardAddressSchema = z.object({
+  zipcode: z.string().optional(),
+  address: z.string().optional(),
+  addressDetail: z.string().optional(),
+}).optional();
+
 const boardFormSchema = z.object({
   writer: z.string().min(1, '작성자를 입력해 주세요.'),
   password: z.string().min(8, '비밀번호는 최소 8글자 이상 입력해 주세요.').max(16, '비밀번호는 최대 16글자까지 입력할 수 있습니다.'),
   title: z.string().min(2, '제목은 2자 이상 입력해 주세요.'),
   contents: z.string().min(1, '내용을 입력해 주세요.'),
-  boardAddress: z.string().optional(),
+  boardAddress: boardAddressSchema,
   youtubeUrl: z.string().optional(),
   images: z.array(z.string()).optional(),
 });
@@ -36,7 +42,11 @@ export interface BoardData {
   password: string;
   title: string;
   contents: string;
-  boardAddress?: string;
+  boardAddress?: {
+    zipcode?: string;
+    address?: string;
+    addressDetail?: string;
+  };
   youtubeUrl?: string;
   images?: string[];
   createdAt: string;
@@ -67,7 +77,11 @@ export default function useBoardForm() {
       password: '',
       title: '',
       contents: '',
-      boardAddress: '',
+      boardAddress: {
+        zipcode: '',
+        address: '',
+        addressDetail: '',
+      },
       youtubeUrl: '',
       images: [],
     },
@@ -87,10 +101,10 @@ export default function useBoardForm() {
             title: data.title,
             contents: data.contents,
             youtubeUrl: data.youtubeUrl || null,
-            boardAddress: data.boardAddress ? {
-              address: data.boardAddress,
-              addressDetail: '',
-              zipcode: ''
+            boardAddress: data.boardAddress && (data.boardAddress.zipcode || data.boardAddress.address || data.boardAddress.addressDetail) ? {
+              zipcode: data.boardAddress.zipcode || '',
+              address: data.boardAddress.address || '',
+              addressDetail: data.boardAddress.addressDetail || '',
             } : null,
             images: data.images || [],
           },
