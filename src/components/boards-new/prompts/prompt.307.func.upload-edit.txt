@@ -1,0 +1,190 @@
+==============================================
+요구사항 프롬프트: 게시글 수정 시 기존 이미지 조회 및 수정 기능 추가
+==============================================
+
+작업목표:
+기존의 이미지 업로드 기능(useImageUpload) 로직을 기반으로,
+게시글 수정 페이지에서 기존 이미지를 조회, 교체, 삭제할 수 있는 기능을 추가한다.
+아래의 조건과 구현 기준을 모두 충족해야 한다.
+
+==============================================
+조건-커서룰)
+- @01-common.mdc
+- @04-func.mdc
+
+==============================================
+조건-피그마)
+- 활용할 MCP: CursorTalkToFigmaMCP (채널명: 07e3pyn5)
+- 참고할 이미지 미리보기 노드ID: 285:32449
+
+조건-파일경로)
+- 참고 TSX 파일경로: src/components/boards-new/index.tsx
+- 참고 CSS 파일경로: src/components/boards-new/styles.module.css
+- 구현될 HOOK 파일경로: src/components/boards-new/hooks/index.upload-edit.hook.ts
+- 구현될 TEST 파일경로: src/components/boards-edit/tests/index.upload-edit.hook.spec.ts
+- 참고 API 문서경로: https://main-practice.codebootcamp.co.kr/graphql
+
+==============================================
+핵심요구사항)
+기존 게시글 수정 페이지에 다음 기능을 추가할 것.
+기능 구현은 TDD 기반으로 진행하며, Playwright 테스트 통과 시까지 반복 개발한다.
+
+1) 테스트 환경 조건
+- 테스트 제외 라이브러리:
+  - jest
+  - @testing-library/react
+- timeout 조건:
+  - network 통신 포함: 2000ms 미만
+  - network 통신 제외: 500ms 미만 또는 미설정
+- 페이지 로드 조건:
+  - data-testid를 활용하여 로드 대기
+  - networkidle 방식 사용 금지
+
+==============================================
+API 명세
+
+1. 게시글 조회 API
+query fetchBoard($boardId: ID!) {
+  fetchBoard(boardId: $boardId) {
+    _id
+    writer
+    title
+    contents
+    images
+  }
+}
+
+2. 이미지 업로드 API
+mutation uploadFile($file: Upload!) {
+  uploadFile(file: $file) {
+    url
+  }
+}
+
+3. 게시글 수정 API
+mutation updateBoard($boardId: ID!, $updateBoardInput: UpdateBoardInput!) {
+  updateBoard(boardId: $boardId, updateBoardInput: $updateBoardInput) {
+    _id
+    writer
+    title
+    contents
+    images
+  }
+}
+
+==============================================
+유저 시나리오
+
+1) 기존 이미지 조회
+- 사용자가 게시글 수정 페이지에 접속하면 fetchBoard API 호출
+- 응답받은 images 배열을 uploadedUrls[] 상태에 저장
+- 각 이미지에 대해 미리보기 표시(data-testid="preview-image-N")
+- 이미지가 없는 경우 빈 슬롯(data-testid="upload-slot-N") 표시
+
+2) 이미지 변경
+- 기존 미리보기 이미지 클릭 시, 파일 선택창 열기
+- 새 파일 선택 시 uploadFile API 호출
+- 성공 시 해당 index의 URL을 새 이미지 URL로 교체
+- 실패 시 alert("이미지 업로드에 실패했습니다.") 출력
+- 5MB 초과 시 업로드 중단 + alert("이미지 용량은 최대 5MB까지 가능합니다.")
+
+3) 이미지 삭제
+- 미리보기 hover 시 삭제버튼(data-testid="delete-image-N") 표시
+- 클릭 시 해당 index 이미지 삭제 및 uploadedUrls 배열에서 제거
+
+4) 게시글 수정 완료
+- [게시글 수정하기] 버튼 클릭 시 updateBoard API 호출
+- images 필드에 uploadedUrls 배열 전송
+- 이미지가 없을 경우 images: []로 전송
+
+==============================================
+HOOK 구현 요구사항
+
+파일명: index.upload-edit.hook.ts
+
+기존 useImageUpload 로직을 확장하여 다음 기능 포함
+
+export const useEditImageUpload = (boardId: string) => {
+  // 1. uploadedUrls[] 상태 (기존 및 새 이미지 포함)
+  // 2. 초기화 함수 fetchExistingImages()
+  //    - fetchBoard 호출로 기존 이미지 불러오기
+  //    - 응답의 images 배열을 uploadedUrls 상태로 설정
+  // 3. 이미지 업로드 함수 handleImageUpload(index)
+  //    - 파일 용량 제한 (<=5MB)
+  //    - uploadFile API 호출
+  //    - 성공 시 uploadedUrls[index] 갱신
+  // 4. 이미지 삭제 함수 handleImageDelete(index)
+  //    - 해당 index의 이미지 URL 제거
+  // 5. 게시글 수정 함수 handleBoardUpdate(updateBoardInput)
+  //    - updateBoard API 호출
+  //    - images 필드에 uploadedUrls 포함
+  // 6. 전체 상태 및 함수 반환
+}
+
+반환 데이터 구조:
+{
+  uploadedUrls: string[]
+  fetchExistingImages: () => Promise<void>
+  handleImageUpload: (index: number, file: File) => Promise<void>
+  handleImageDelete: (index: number) => void
+  handleBoardUpdate: (updateBoardInput: any) => Promise<void>
+}
+
+==============================================
+Playwright 테스트 요구사항
+
+파일명: index.upload-edit.hook.spec.ts
+
+1. 페이지 로드
+   - data-testid="board-edit-page" 로드 완료 시 테스트 시작
+2. 기존 이미지 조회
+   - fetchBoard 호출 후 미리보기 이미지 렌더링 확인
+   - uploadedUrls.length > 0 검증
+3. 이미지 변경
+   - 파일 선택 후 uploadFile 호출 성공 시 preview-image-N 변경 확인
+4. 이미지 용량 초과
+   - alert("이미지 용량은 최대 5MB까지 가능합니다.") 문구 노출 확인
+5. 업로드 실패 시
+   - alert("이미지 업로드에 실패했습니다.") 문구 확인
+6. 이미지 삭제
+   - hover 시 delete-image-N 표시
+   - 삭제 후 미리보기 제거 및 uploadedUrls 갯수 감소 확인
+7. 게시글 수정 완료
+   - updateBoard 호출 성공 시 images 필드 반영 여부 검증
+
+==============================================
+CSS 요구사항
+
+- 기존 boards-new/styles.module.css 참고
+- 미리보기, 삭제 버튼, 빈 슬롯 모두 동일한 구조 유지
+- 추가 요구:
+  - 기존 이미지가 로드될 때 부드럽게 fade-in 애니메이션
+  - 삭제 시 fade-out 효과
+  - 반응형에서 세로 정렬 유지
+
+==============================================
+설계 의도
+
+- 기존 useImageUpload 훅을 수정하지 않고, 게시글 수정 전용 훅을 분리(useEditImageUpload) 하여 구현.
+  이유: 수정 로직은 fetchBoard 및 updateBoard API 의존성이 있어 등록 로직과 결합 시 복잡도가 증가함.
+  따라서 분리된 훅으로 관리하고, 공통 로직(업로드, 삭제 등)은 필요 시 공통 util 함수로 추출.
+
+==============================================
+✅ 체크리스트
+| 구분 | 항목 | 완료 여부 |
+|------|------|------------|
+| 커서룰 | @01-common.mdc, @04-func.mdc 적용 여부 | ☐ |
+| API | fetchBoard 기존 이미지 불러오기 성공 | ☐ |
+| API | uploadFile 요청 정상 동작 | ☐ |
+| API | updateBoard 요청 시 이미지 배열 반영 확인 | ☐ |
+| UI | 기존 이미지 미리보기 / 빈 슬롯 표시 | ☐ |
+| UI | hover 시 삭제 버튼 표시 및 클릭 동작 | ☐ |
+| 로딩 | 초기 fetch 시 로딩 상태 표시 | ☐ |
+| 에러 | 업로드 실패 / 용량 초과 시 alert 처리 | ☐ |
+| 테스트 | Playwright 성공 시나리오 통과 | ☐ |
+| 테스트 | Playwright 실패 시나리오 통과 | ☐ |
+
+==============================================
+이 프롬프트는 Cursor에서 실행 시,
+게시글 수정 페이지의 기존 이미지 조회 및 교체/삭제 기능을
+TDD 기반으로 완성할 수 있도록 지시하는 개발 명세서로 사용한다.

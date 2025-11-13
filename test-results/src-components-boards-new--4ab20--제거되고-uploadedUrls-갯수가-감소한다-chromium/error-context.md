@@ -1,0 +1,61 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - main [ref=e4]:
+    - generic [ref=e7]:
+      - generic [ref=e8]:
+        - heading "게시글 수정" [level=1] [ref=e9]
+        - generic [ref=e10]: 수정중
+      - generic [ref=e12]:
+        - generic [ref=e14]:
+          - generic [ref=e16]: 작성자
+          - textbox "작성자를 불러오는 중입니다." [disabled] [ref=e19]: 테스트 작성자
+        - generic [ref=e21]:
+          - generic [ref=e23]: 비밀번호
+          - textbox "비밀번호는 수정할 수 없습니다." [disabled] [ref=e26]
+      - generic [ref=e31]:
+        - generic [ref=e32]:
+          - generic [ref=e33]: 제목
+          - generic [ref=e34]: "*"
+        - textbox "제목을 입력해 주세요." [ref=e37]: 테스트 제목
+      - generic [ref=e42]:
+        - generic [ref=e43]:
+          - generic [ref=e44]: 내용
+          - generic [ref=e45]: "*"
+        - textbox "내용을 입력해 주세요." [ref=e46]: 테스트 내용
+      - generic [ref=e50]:
+        - generic [ref=e51]:
+          - generic [ref=e53]:
+            - generic [ref=e55]: 주소
+            - textbox "01234" [ref=e58]
+          - button "우편번호 검색" [ref=e60] [cursor=pointer]:
+            - generic [ref=e61]: 우편번호 검색
+        - textbox "주소를 입력해 주세요." [ref=e66]
+        - textbox "상세 주소를 입력해 주세요." [ref=e71]
+      - generic [ref=e76]:
+        - generic [ref=e78]: 유튜브 링크
+        - textbox "링크를 입력해 주세요." [ref=e81]
+      - generic [ref=e85]:
+        - generic [ref=e87]: 사진 첨부
+        - generic [ref=e88]:
+          - button "이미지 로드 실패 이미지를 불러올 수 없습니다 이미지 삭제" [ref=e89] [cursor=pointer]:
+            - generic [ref=e90]:
+              - img "이미지 로드 실패" [ref=e91]
+              - generic [ref=e92]: 이미지를 불러올 수 없습니다
+            - button "이미지 삭제" [active] [ref=e93]:
+              - img "이미지 삭제" [ref=e94]
+          - button "이미지 추가 클릭해서 사진 업로드" [ref=e95] [cursor=pointer]:
+            - img "이미지 추가" [ref=e96]
+            - generic [ref=e97]: 클릭해서 사진 업로드
+          - button "이미지 추가 클릭해서 사진 업로드" [ref=e98] [cursor=pointer]:
+            - img "이미지 추가" [ref=e99]
+            - generic [ref=e100]: 클릭해서 사진 업로드
+        - generic [ref=e101]: "1"
+      - generic [ref=e104]:
+        - button "취소" [ref=e105] [cursor=pointer]:
+          - generic [ref=e106]: 취소
+        - button "수정하기" [disabled] [ref=e107]:
+          - generic [ref=e108]: 수정하기
+  - alert [ref=e110]
+```

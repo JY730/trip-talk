@@ -119,7 +119,7 @@ export const BoardsNew = React.forwardRef<HTMLFormElement, BoardsNewProps>(
         ref={ref}
         onSubmit={onSubmit}
         className={styles.container}
-        data-testid="board-address-page"
+        data-testid="board-upload-page"
         {...props}
       >
       {/* Detail Title */}

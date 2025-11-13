@@ -1,0 +1,175 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e5]:
+          - link "TripTalk Logo" [ref=e6] [cursor=pointer]:
+            - /url: /boards
+            - img "TripTalk Logo" [ref=e7]
+          - navigation [ref=e8]:
+            - link "트립토크" [ref=e9] [cursor=pointer]:
+              - /url: /boards
+            - link "숙박권 구매" [ref=e10] [cursor=pointer]:
+              - /url: /products
+            - link "마이 페이지" [ref=e11] [cursor=pointer]:
+              - /url: /mypage
+        - link "로그인" [ref=e12] [cursor=pointer]:
+          - /url: /auth/login
+          - button "로그인" [ref=e13]:
+            - generic [ref=e14]: 로그인
+    - generic [ref=e19]:
+      - generic [ref=e21]:
+        - img "Banner 1"
+      - generic [ref=e23]:
+        - img "Banner 2"
+      - generic [ref=e25]:
+        - img "Banner 3"
+    - main [ref=e31]:
+      - generic [ref=e33]:
+        - region "오늘 핫한 트립토크" [ref=e34]:
+          - heading "오늘 핫한 트립토크" [level=2] [ref=e36]
+          - list [ref=e37]:
+            - listitem [ref=e38]:
+              - button "초롱이가 없으니까 교실이 조용해 대표 이미지 초롱이가 없으니까 교실이 조용해 맹구 프로필 이미지 맹구 좋아요 200 2025.11.13" [ref=e39] [cursor=pointer]:
+                - img "초롱이가 없으니까 교실이 조용해 대표 이미지" [ref=e41]
+                - generic [ref=e42]:
+                  - heading "초롱이가 없으니까 교실이 조용해" [level=3] [ref=e43]
+                  - generic [ref=e44]:
+                    - img "맹구 프로필 이미지" [ref=e46]
+                    - generic [ref=e47]: 맹구
+                  - generic [ref=e48]:
+                    - generic [ref=e49]:
+                      - img "좋아요" [ref=e50]
+                      - generic [ref=e51]: "200"
+                    - time [ref=e52]: 2025.11.13
+            - listitem [ref=e53]:
+              - button "안녕하세요 대표 이미지 안녕하세요 훈이 프로필 이미지 훈이 좋아요 122 2025.10.28" [ref=e54] [cursor=pointer]:
+                - img "안녕하세요 대표 이미지" [ref=e56]
+                - generic [ref=e57]:
+                  - heading "안녕하세요" [level=3] [ref=e58]
+                  - generic [ref=e59]:
+                    - img "훈이 프로필 이미지" [ref=e61]
+                    - generic [ref=e62]: 훈이
+                  - generic [ref=e63]:
+                    - generic [ref=e64]:
+                      - img "좋아요" [ref=e65]
+                      - generic [ref=e66]: "122"
+                    - time [ref=e67]: 2025.10.28
+            - listitem [ref=e68]:
+              - button "진짜 맹구 대표 이미지 진짜 맹구 진짜맹구 프로필 이미지 진짜맹구 좋아요 81 2025.10.31" [ref=e69] [cursor=pointer]:
+                - img "진짜 맹구 대표 이미지" [ref=e71]
+                - generic [ref=e72]:
+                  - heading "진짜 맹구" [level=3] [ref=e73]
+                  - generic [ref=e74]:
+                    - img "진짜맹구 프로필 이미지" [ref=e76]
+                    - generic [ref=e77]: 진짜맹구
+                  - generic [ref=e78]:
+                    - generic [ref=e79]:
+                      - img "좋아요" [ref=e80]
+                      - generic [ref=e81]: "81"
+                    - time [ref=e82]: 2025.10.31
+            - listitem [ref=e83]:
+              - button "철수의 일기 대표 이미지 철수의 일기 철수다 프로필 이미지 철수다 좋아요 79 2025.10.28" [ref=e84] [cursor=pointer]:
+                - img "철수의 일기 대표 이미지" [ref=e86]
+                - generic [ref=e87]:
+                  - heading "철수의 일기" [level=3] [ref=e88]
+                  - generic [ref=e89]:
+                    - img "철수다 프로필 이미지" [ref=e91]
+                    - generic [ref=e92]: 철수다
+                  - generic [ref=e93]:
+                    - generic [ref=e94]:
+                      - img "좋아요" [ref=e95]
+                      - generic [ref=e96]: "79"
+                    - time [ref=e97]: 2025.10.28
+        - heading "트립토크 게시판" [level=1] [ref=e99]
+        - generic [ref=e100]:
+          - generic [ref=e101]:
+            - generic [ref=e103]:
+              - img "search" [ref=e105]
+              - textbox "제목을 검색해 주세요." [ref=e106]
+            - generic [ref=e108]:
+              - textbox "YYYY-MM-DD" [ref=e110]
+              - generic "to" [ref=e112]:
+                - img "swap-right" [ref=e113]:
+                  - img [ref=e114]
+              - textbox "YYYY-MM-DD" [ref=e117]
+              - generic:
+                - img "calendar icon"
+            - button "검색" [ref=e119] [cursor=pointer]:
+              - generic [ref=e120]: 검색
+          - button "등록 트립토크 등록" [ref=e122] [cursor=pointer]:
+            - img "등록" [ref=e124]
+            - generic [ref=e125]: 트립토크 등록
+        - generic [ref=e126]:
+          - generic [ref=e128]:
+            - generic [ref=e129]: 번호
+            - generic [ref=e130]: 제목
+            - generic [ref=e131]: 작성자
+            - generic [ref=e132]: 날짜
+          - generic [ref=e133]:
+            - generic [ref=e134] [cursor=pointer]:
+              - generic [ref=e135]: "174"
+              - button "플레이wright-제목-1763037752602" [ref=e136]
+              - generic [ref=e137]: 플레이wright-작성자-1763037752602
+              - generic [ref=e138]: 2025.11.13
+            - generic [ref=e139] [cursor=pointer]:
+              - generic [ref=e140]: "173"
+              - button "플레이wright-삭제테스트-1763037737021" [ref=e141]
+              - generic [ref=e142]: 플레이wright-작성자-1763037737021
+              - generic [ref=e143]: 2025.11.13
+            - generic [ref=e144] [cursor=pointer]:
+              - generic [ref=e145]: "172"
+              - button "플레이wright-제목-1763037041081" [ref=e146]
+              - generic [ref=e147]: 플레이wright-작성자-1763037041081
+              - generic [ref=e148]: 2025.11.13
+            - generic [ref=e149] [cursor=pointer]:
+              - generic [ref=e150]: "171"
+              - button "플레이wright-제목-1763037037424" [ref=e151]
+              - generic [ref=e152]: 플레이wright-작성자-1763037037424
+              - generic [ref=e153]: 2025.11.13
+            - generic [ref=e154] [cursor=pointer]:
+              - generic [ref=e155]: "170"
+              - button "플레이wright-제목-1763037031987" [ref=e156]
+              - generic [ref=e157]: 플레이wright-작성자-1763037031987
+              - generic [ref=e158]: 2025.11.13
+            - generic [ref=e159] [cursor=pointer]:
+              - generic [ref=e160]: "169"
+              - button "플레이wright-제목-1763037025429" [ref=e161]
+              - generic [ref=e162]: 플레이wright-작성자-1763037025429
+              - generic [ref=e163]: 2025.11.13
+            - generic [ref=e164] [cursor=pointer]:
+              - generic [ref=e165]: "168"
+              - button "플레이wright-제목-1763036601666" [ref=e166]
+              - generic [ref=e167]: 플레이wright-작성자-1763036601666
+              - generic [ref=e168]: 2025.11.13
+            - generic [ref=e169] [cursor=pointer]:
+              - generic [ref=e170]: "167"
+              - button "플레이wright-제목-1763036596574-수정" [ref=e171]
+              - generic [ref=e172]: 플레이wright-작성자-1763036596574
+              - generic [ref=e173]: 2025.11.13
+            - generic [ref=e174] [cursor=pointer]:
+              - generic [ref=e175]: "166"
+              - button "플레이wright-제목-1763036590985" [ref=e176]
+              - generic [ref=e177]: 플레이wright-작성자-1763036590985
+              - generic [ref=e178]: 2025.11.13
+            - generic [ref=e179] [cursor=pointer]:
+              - generic [ref=e180]: "165"
+              - button "테스트 제목" [ref=e181]
+              - generic [ref=e182]: 테스트 작성자
+              - generic [ref=e183]: 2025.11.13
+          - generic [ref=e185]:
+            - button "이전 페이지" [disabled] [ref=e186]:
+              - img [ref=e187]
+            - generic [ref=e189]:
+              - button "1 페이지" [ref=e190]: "1"
+              - button "2 페이지" [ref=e191] [cursor=pointer]: "2"
+              - button "3 페이지" [ref=e192] [cursor=pointer]: "3"
+              - button "4 페이지" [ref=e193] [cursor=pointer]: "4"
+              - button "5 페이지" [ref=e194] [cursor=pointer]: "5"
+            - button "다음 페이지" [ref=e195] [cursor=pointer]:
+              - img [ref=e196]
+  - alert [ref=e198]
+```

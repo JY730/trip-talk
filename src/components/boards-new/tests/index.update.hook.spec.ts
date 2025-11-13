@@ -30,10 +30,15 @@ const createBoard = async (page: Page): Promise<CreatedBoard> => {
 
   await page.click('button:has-text("확인")');
 
+  // 상세 페이지로 이동할 때까지 대기
+  await page.waitForURL(/\/boards\/[^/]+$/, { timeout: 3000 });
   await expect(page).toHaveURL(/\/boards\/[^/]+$/, { timeout: 1900 });
 
   const boardUrl = page.url();
   const boardId = boardUrl.split('/').pop() ?? '';
+
+  // 상세 페이지가 완전히 로드될 때까지 대기
+  await page.waitForSelector('[data-testid="board-title"]', { timeout: 5000 });
 
   return {
     boardId,
@@ -48,6 +53,8 @@ test.describe('게시글 수정 폼 기능 테스트', () => {
   test('상세 페이지에서 수정하기 버튼 클릭 시 수정 페이지로 이동해야 함', async ({ page }) => {
     const { boardId, title } = await createBoard(page);
 
+    // 상세 페이지가 완전히 로드될 때까지 대기
+    await page.waitForSelector('[data-testid="board-title"]', { timeout: 2000 });
     await expect(page.locator('[data-testid="board-title"]')).toHaveText(title);
 
     await page.waitForSelector('[data-testid="board-edit-button"]', { timeout: 2000 });
@@ -60,9 +67,15 @@ test.describe('게시글 수정 폼 기능 테스트', () => {
   test('수정 페이지 진입 시 기존 데이터 바인딩 및 입력 제한 확인', async ({ page }) => {
     const { boardId, title, contents, writer } = await createBoard(page);
 
+    // 상세 페이지가 완전히 로드될 때까지 대기
+    await page.waitForSelector('[data-testid="board-title"]', { timeout: 2000 });
+    await page.waitForSelector('[data-testid="board-edit-button"]', { timeout: 2000 });
+    
     await page.click('[data-testid="board-edit-button"]');
     await page.waitForSelector('[data-testid="board-update-form"]', { timeout: 2000 });
 
+    // URL 확인 전에 페이지가 완전히 로드될 때까지 대기
+    await page.waitForTimeout(500);
     await expect(page).toHaveURL(new RegExp(`/boards/${boardId}/edit$`), { timeout: 2000 });
 
     await expect(page.locator('input[data-testid="board-update-title"]')).toHaveValue(title);
@@ -78,6 +91,10 @@ test.describe('게시글 수정 폼 기능 테스트', () => {
   test('제목과 내용을 수정하면 updateBoard 요청이 전송되고 성공 모달 노출', async ({ page }) => {
     const { boardId, password, title } = await createBoard(page);
 
+    // 상세 페이지가 완전히 로드될 때까지 대기
+    await page.waitForSelector('[data-testid="board-title"]', { timeout: 2000 });
+    await page.waitForSelector('[data-testid="board-edit-button"]', { timeout: 2000 });
+    
     await page.click('[data-testid="board-edit-button"]');
     await page.waitForSelector('[data-testid="board-update-form"]', { timeout: 2000 });
 
@@ -115,7 +132,12 @@ test.describe('게시글 수정 폼 기능 테스트', () => {
 
     await page.click('button:has-text("확인")');
 
+    // 상세 페이지로 이동할 때까지 대기
+    await page.waitForURL(new RegExp(`/boards/${boardId}$`), { timeout: 3000 });
     await expect(page).toHaveURL(new RegExp(`/boards/${boardId}$`), { timeout: 1900 });
+    
+    // 상세 페이지가 완전히 로드될 때까지 대기
+    await page.waitForSelector('[data-testid="board-title"]', { timeout: 2000 });
     await expect(page.locator('[data-testid="board-title"]')).toHaveText(newTitle);
     await expect(page.locator('[data-testid="board-contents"]')).toContainText(newContents);
   });
@@ -123,6 +145,10 @@ test.describe('게시글 수정 폼 기능 테스트', () => {
   test('잘못된 비밀번호 입력 시 alert 및 실패 모달이 표시되어야 함', async ({ page }) => {
     const { boardId } = await createBoard(page);
 
+    // 상세 페이지가 완전히 로드될 때까지 대기
+    await page.waitForSelector('[data-testid="board-title"]', { timeout: 2000 });
+    await page.waitForSelector('[data-testid="board-edit-button"]', { timeout: 2000 });
+    
     await page.click('[data-testid="board-edit-button"]');
     await page.waitForSelector('[data-testid="board-update-form"]', { timeout: 2000 });
 

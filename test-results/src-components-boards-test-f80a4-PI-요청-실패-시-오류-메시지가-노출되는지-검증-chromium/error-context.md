@@ -1,0 +1,72 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - banner [ref=e3]:
+      - generic [ref=e4]:
+        - generic [ref=e5]:
+          - link "TripTalk Logo" [ref=e6] [cursor=pointer]:
+            - /url: /boards
+            - img "TripTalk Logo" [ref=e7]
+          - navigation [ref=e8]:
+            - link "트립토크" [ref=e9] [cursor=pointer]:
+              - /url: /boards
+            - link "숙박권 구매" [ref=e10] [cursor=pointer]:
+              - /url: /products
+            - link "마이 페이지" [ref=e11] [cursor=pointer]:
+              - /url: /mypage
+        - link "로그인" [ref=e12] [cursor=pointer]:
+          - /url: /auth/login
+          - button "로그인" [ref=e13]:
+            - generic [ref=e14]: 로그인
+    - generic [ref=e19]:
+      - generic [ref=e21]:
+        - img "Banner 1"
+      - generic [ref=e23]:
+        - img "Banner 2"
+      - generic [ref=e25]:
+        - img "Banner 3"
+    - main [ref=e31]:
+      - generic [ref=e33]:
+        - region "오늘 핫한 트립토크" [ref=e34]:
+          - heading "오늘 핫한 트립토크" [level=2] [ref=e36]
+          - alert [ref=e37]:
+            - paragraph [ref=e38]: 베스트 게시글을 불러오는 중 오류가 발생했습니다. 다시 시도해주세요.
+            - button "다시 시도" [ref=e39] [cursor=pointer]
+        - heading "트립토크 게시판" [level=1] [ref=e41]
+        - generic [ref=e42]:
+          - generic [ref=e43]:
+            - generic [ref=e45]:
+              - img "search" [ref=e47]
+              - textbox "제목을 검색해 주세요." [ref=e48]
+            - generic [ref=e50]:
+              - textbox "YYYY-MM-DD" [ref=e52]
+              - generic "to" [ref=e54]:
+                - img "swap-right" [ref=e55]:
+                  - img [ref=e56]
+              - textbox "YYYY-MM-DD" [ref=e59]
+              - generic:
+                - img "calendar icon"
+            - button "검색" [ref=e61] [cursor=pointer]:
+              - generic [ref=e62]: 검색
+          - button "등록 트립토크 등록" [ref=e64] [cursor=pointer]:
+            - img "등록" [ref=e66]
+            - generic [ref=e67]: 트립토크 등록
+        - generic [ref=e68]:
+          - generic [ref=e70]:
+            - generic [ref=e71]: 번호
+            - generic [ref=e72]: 제목
+            - generic [ref=e73]: 작성자
+            - generic [ref=e74]: 날짜
+          - generic [ref=e76]:
+            - generic [ref=e77]: 데이터를 불러오는 중 오류가 발생했습니다. 다시 시도해주세요.
+            - button "다시 시도" [ref=e78] [cursor=pointer]:
+              - generic [ref=e79]: 다시 시도
+          - generic [ref=e81]:
+            - button "이전 페이지" [disabled] [ref=e82]:
+              - img [ref=e83]
+            - button "다음 페이지" [ref=e85] [cursor=pointer]:
+              - img [ref=e86]
+  - alert [ref=e88]
+```

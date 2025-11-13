@@ -36,7 +36,7 @@ test.describe('게시글 수정 시 주소 편집 기능 테스트', () => {
     await withGraphqlRoute(page, async (route, request) => {
       const body = parseGraphqlRequest(request);
 
-      if (body?.operationName === 'FetchBoard') {
+      if (body?.operationName === 'FetchBoard' || body?.operationName === 'FetchBoardForEdit') {
         await route.fulfill({
           status: 200,
           contentType: 'application/json',
@@ -68,7 +68,7 @@ test.describe('게시글 수정 시 주소 편집 기능 테스트', () => {
   test('페이지 완전 로드 후 테스트 시작', async ({ page }) => {
     await gotoEditPage(page);
     
-    const editPage = page.locator('[data-testid="board-edit-page"]');
+    const editPage = page.locator('form[data-testid="board-edit-page"]');
     await expect(editPage).toBeVisible({ timeout: 2000 });
   });
 
@@ -184,7 +184,7 @@ test.describe('게시글 수정 시 주소 편집 기능 테스트', () => {
         return;
       }
 
-      if (body?.operationName === 'FetchBoard') {
+      if (body?.operationName === 'FetchBoard' || body?.operationName === 'FetchBoardForEdit') {
         await route.fulfill({
           status: 200,
           contentType: 'application/json',
@@ -286,7 +286,7 @@ test.describe('게시글 수정 시 주소 편집 기능 테스트', () => {
         return;
       }
 
-      if (body?.operationName === 'FetchBoard') {
+      if (body?.operationName === 'FetchBoard' || body?.operationName === 'FetchBoardForEdit') {
         await route.fulfill({
           status: 200,
           contentType: 'application/json',
@@ -346,7 +346,7 @@ test.describe('게시글 수정 시 주소 편집 기능 테스트', () => {
         return;
       }
 
-      if (body?.operationName === 'FetchBoard') {
+      if (body?.operationName === 'FetchBoard' || body?.operationName === 'FetchBoardForEdit') {
         await route.fulfill({
           status: 200,
           contentType: 'application/json',
@@ -385,5 +385,6 @@ test.describe('게시글 수정 시 주소 편집 기능 테스트', () => {
     }
   });
 });
+
 
 

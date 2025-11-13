@@ -9,7 +9,7 @@ import { test, expect, type Page, type Route } from '@playwright/test';
 
 const gotoAddressPage = async (page: Page) => {
   await page.goto('/boards/new');
-  await page.waitForSelector('[data-testid="board-address-page"]', { timeout: 2000 });
+  await page.waitForSelector('[data-testid="board-upload-page"]', { timeout: 2000 });
 };
 
 const fillBoardForm = async (page: Page, overrides: Partial<Record<'writer' | 'password' | 'title' | 'contents', string>> = {}) => {
